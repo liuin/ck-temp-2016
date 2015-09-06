@@ -16,7 +16,9 @@
   <![endif]-->
   <title>website name</title>
   <style type="text/css">
-    .pop {background:red;position:absolute;top:50%;left:50%; display:none;}
+    
+    .pop {background:red;position:absolute;top:50%;left:50%;  -webkit-transition:1s; transition:1s;    transform: scale(0); }
+    .pop.in {transform: scale(1);}
   </style>
 </head>
 <body class="yh">
@@ -45,9 +47,6 @@
   <script type="text/javascript">
   <!--
     require(['domReady!','../lib/pop/avalon.pop'], function(a,b) {
-
-
-
       var vmfile =  avalon.define({
           $id: "demo",
           show: function  (id) {

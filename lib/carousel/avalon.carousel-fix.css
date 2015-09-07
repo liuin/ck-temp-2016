@@ -29,28 +29,24 @@
       *display: inline;
       overflow: hidden;
       text-align: center;
-      background-color: #fff; }
+      background-color: #000; }
       .oni-carousel .oni-carousel-panel .oni-carousel-item .oni-img-origin {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 100%;
-        height: 100%;
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        position: static\0;
-        transform: translate(0, 0) \0;
-        *top: 0;
-        *left: 0; }
+        width: auto;
+        height: auto;
+        margin-left:-750px;
+        margin-top:-200px;
+        
+        z-index:10;
+        }
       .oni-carousel .oni-carousel-panel .oni-carousel-item .oni-img-placeholder {
         _display: none;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -30px 0 0 -30px; }
+        margin: -30px 0 0 -30px; z-index:1; }
       .oni-carousel .oni-carousel-panel .oni-carousel-item .oni-carousel-link {
         display: block;
         position: absolute;

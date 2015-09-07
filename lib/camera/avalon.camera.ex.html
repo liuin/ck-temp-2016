@@ -5,20 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link type="text/css" rel="stylesheet" href="../style/avalon.doc.css">
-    <script src="../avalon.js"></script>
-    <script src="../highlight/shCore.js"></script>
+    <script src="../../js/avalon.js"></script>
     <script>
-        avalon.config({
-            paths: {
-                jquery: "./mocha/jquery.js"
-            },
-            shim: {
-                jquery: {
-                    exports: "jQuery"
-                }
-            }
-        })
-        require(["camera/avalon.camera"], function () {
+
+        require(["../lib/camera/avalon.camera"], function () {
             avalon.define("test", function (vm) {
                 vm.$opt = {
                     pictures: [

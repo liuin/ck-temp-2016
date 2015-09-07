@@ -4,11 +4,10 @@
         <title>mmRequest组件</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <script src="../avalon.js"></script>
-        <script src="../highlight/shCore.js"></script>
+        <script src="../../js/avalon.js"></script>
         <script>
 
-            require(["mmRequest/mmRequest"], function() {
+            require(["../lib/mmRequest/mmRequest"], function() {
                 avalon.define("test", function(vm) {
                     vm.loadJSON = function() {
                         avalon.getJSON("ajax.php", {
@@ -36,7 +35,7 @@
                     vm.time = ""
                     vm.jsonData = []
                 })
-                avalon.scan()
+                avalon.scan();
             })
         </script>
     </head>

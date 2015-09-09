@@ -20,7 +20,7 @@
 .row{
     zoom:1
 }
-noscript {
+.noscript {
     text-align:center;
     display:block;
     background:red;

@@ -4,9 +4,7 @@
     <title>camera组件</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link type="text/css" rel="stylesheet" href="../style/avalon.doc.css">
-    <script src="../avalon.js"></script>
-    <script src="../highlight/shCore.js"></script>
+    <script src="../../js/avalon.js"></script>
     <script>
         avalon.config({
             paths: {
@@ -18,7 +16,7 @@
                 }
             }
         })
-        require(["camera/avalon.camera"], function () {
+        require(["../lib/camera/avalon.camera"], function () {
             avalon.define("demo", function (vm) {
                 vm.$opt1 = {
                     pictures: [

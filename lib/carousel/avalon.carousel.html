@@ -7,27 +7,44 @@
     <div class="oni-carousel-panel"
          ms-css-width="pictureWidth * pictures.length"
          ms-css-left="panelOffsetX"
-         ms-css-position="panelPosition"
+         ms-css-position="panelPosition" 
             >
         <div class="oni-carousel-item"
              ms-repeat="pictures"
              ms-css-width="pictureWidth"
              ms-css-position="itemPosition"
-             ms-css-opacity="getOpacity($index)"
+             ms-if="ieVer8 === true"  
                 >
             <img class="oni-img-placeholder"
                  ms-if="lazyload"
                  ms-src="lazyloadImg" />
-            <img class="oni-img-origin"
-                 ms-src="{{el.src}}"
-                 ms-on-load="imgOnload(this, $index)"
-                 ms-attr-alt="{{el.alt}}" />
             <a class="oni-carousel-link"
                target="_blank"
                ms-if="typeof links[$index] !== 'undefined' && links[$index] !== ''"
                ms-attr-title="{{links[$index].title}}"
-               ms-href="{{links[$index].href}}">
-            </a>
+               ms-href="{{links[$index].href}}"><img class="oni-img-origin"
+                 ms-src="{{el.src}}"
+                 ms-on-load="imgOnload(this, $index)"
+                 ms-attr-alt="{{el.alt}}"  ms-css-opacity="getOpacity($index)"  /></a>
+        </div>
+
+        <div class="oni-carousel-item"
+             ms-repeat="pictures"
+             ms-css-width="pictureWidth"
+             ms-css-position="itemPosition"
+             ms-if="ieVer8 === false"  ms-css-opacity="getOpacity($index)"
+                >
+            <img class="oni-img-placeholder"
+                 ms-if="lazyload"
+                 ms-src="lazyloadImg" />
+            <a class="oni-carousel-link"
+               target="_blank"
+               ms-if="typeof links[$index] !== 'undefined' && links[$index] !== ''"
+               ms-attr-title="{{links[$index].title}}"
+               ms-href="{{links[$index].href}}"><img class="oni-img-origin"
+                 ms-src="{{el.src}}"
+                 ms-on-load="imgOnload(this, $index)"
+                 ms-attr-alt="{{el.alt}}"    /></a>
         </div>
     </div>
     <div class="oni-carousel-selection-wrap"

@@ -1,0 +1,7 @@
+<div ms-class="sdpic-img">
+  <img ms-attr-src="bigimg" ms-css-opacity="fadeIn" alt="" />
+  <img ms-attr-src="cloneimg" ms-css-opacity="fadeOut" ms-if="effect" alt="" /></div>
+<div class="sdpic-thunber" ms-repeat="smallpic" ms-class="current:(current == $index)">
+  <a ms-data-src="el.bigsrc"  href="javascript:void(0);" ms-click="changebig($index)" ><img ms-src="el.src" alt=""></a>
+</div>
+<img ms-if="loading" src="img/spinner_tra.gif" alt="">

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+  <![endif]-->
+  <title>website name</title>
+  <style type="text/css">
+    .block-talk {position:absolute; right:0; bottom:0; z-index: 10; background:#fff;}
+    .block-talk .list-wrap {display:none;}
+
+    .showbiz .list-wrap{display:block;}
+    .list-content-showct {display:block;}
+    .popblock {position:absolute;left:0;top:0; z-index: 20;}
+    .cover {position:fixed;top:0;right:0; left:0;; bottom:0;background:#999;}
+  </style>
+</head>
+<body class="yh">
+  <noscript>
+    <div class="noscript"><strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。</div>
+  </noscript>
+  <div class="container">
+    <div class="block-talk" ms-controller="ltian" ms-class="showbiz:showlist">
+      <a href="#" class="hd-link" ms-click="showPer()" ms-visible="!showlist">商家聊天</a>
+      <div class="list-wrap">        
+        <div class="list-content none" ms-class="list-content-showct:showct">
+          <div class="title-hd" ms-click="sfweb()" >飞到搜房那<i></i></div> 
+          <div class="biz-img" ms-visible="showbizGourd" ms-on-mousemove="popBiz($event)" ms-visible="showbizGourd" ms-on-mouseleave="popOut($event)" >
+            <img src="http://i3.s2.dpfile.com/pc/mc/f9a8b6c4d9819a9bdb524c1d8824728d(246c184)/thumb.jpg" data-title="hbbiz" data-name="fsaf" alt="" class="item" width="100" height="100">
+            <img src="http://i3.s2.dpfile.com/pc/mc/f9a8b6c4d9819a9bdb524c1d8824728d(246c184)/thumb.jpg" alt="" class="item" width="100" height="100">
+            <img src="http://i3.s2.dpfile.com/pc/mc/f9a8b6c4d9819a9bdb524c1d8824728d(246c184)/thumb.jpg" alt="" class="item" width="100" height="100">
+            <img src="http://i3.s2.dpfile.com/pc/mc/f9a8b6c4d9819a9bdb524c1d8824728d(246c184)/thumb.jpg" alt="" class="item" width="100" height="100">
+          </div>
+          <div class="content">
+            <div class="icon"></div>
+            <textarea id="" rows="" cols=""></textarea>
+            <div class="sub-bk">
+              <button type="submit">提交</button>
+            </div>
+          </div>
+        </div>
+        <div class="showtitle">
+          <a class="hd-link" ms-click="closepk()" ms-visible="showlist">商家聊天s</a>
+          <ul class="list-person" ms-click="bizTalk($event)">
+            <li data-num="1">商家组1</li>
+            <li data-num="2">商家组2</li>
+            <li data-num="3">商家组2</li>
+            <li data-num="4">商家组2</li>
+            <li data-num="5">商家组2</li>
+            <li data-num="6">商家组2</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cover" id="cover"></div>
+
+  
+  <div class="popblock" id="popblock" ms-controller="popblock" ms-css-top="top" ms-css-left="left">
+    <h2>{{title}}</h2>
+    <p>姓名:{{name}}</p>
+    <p>商家:{{bizdata}}</p>
+  </div>
+  <script type="text/javascript" src="js/avalon.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+  <script type="text/javascript">
+  <!--
+    require(['domReady!'], function(a) {
+      var getPop = document.getElementById('popblock');
+      var cover = document.getElementById('cover');
+      var vmfile =  avalon.define({
+        $id: "ltian",
+        showlist:true,
+        showct:true,
+        showbizGourd : true,
+        sfweb:function  () {
+          vmfile.showbizGourd = !vmfile.showbizGourd;
+        },
+        closepk:function  () {
+          vmfile.showlist = false;
+          vmfile.showct = false;
+        },
+        bizTalk:function  (e) {
+          var getId = avalon(e.target).data('num');
+          vmfile.showct = true;
+        },
+        popBiz:function  (e) {
+          if (e.target.tagName == 'IMG') {
+            var getObj = avalon(e.target);          
+            
+            popblock.top = e.clientY+5;
+            popblock.left = e.clientX+5;
+            popblock.title = getObj.data('title');
+            popblock.name = getObj.data('name');
+          
+          }else {
+            avalon(getPop).css('left','0');
+            valon(getPop).css('top','0');            
+          }
+
+        },
+        popOut:function  (e) {
+          avalon(getPop).css('left','0');
+          avalon(getPop).css('top','0');       
+        },
+        showPer: function  () {
+          vmfile.showlist = true;          
+        }
+      })
+
+      var popblock =  avalon.define({
+          $id: "popblock",
+          top:0,
+          left:0,
+          title:'',
+          name:'',
+          bizdata:''
+        })
+      avalon(cover).bind('click',function  () {
+        vmfile.showct = false;
+        avalon(cover).css('display','none')
+      })
+
+        vmfile.$watch("showct", function(){
+          if (vmfile.showct == true) {
+            avalon(cover).css('display','block');
+          }else {
+            avalon(cover).css('display','none');
+          }
+        })
+
+      avalon.scan();
+    })
+  //-->
+  </script>
+</body>
+</html>

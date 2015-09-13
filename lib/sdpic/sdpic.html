@@ -1,7 +1,9 @@
 <div ms-class="sdpic-img">
   <img ms-attr-src="bigimg" ms-css-opacity="fadeIn" alt="" />
-  <img ms-attr-src="cloneimg" ms-css-opacity="fadeOut" ms-if="effect" alt="" /></div>
-<div class="sdpic-thunber" ms-repeat="smallpic" ms-class="current:(current == $index)">
-  <a ms-data-src="el.bigsrc"  href="javascript:void(0);" ms-click="changebig($index)" ><img ms-src="el.src" alt=""></a>
+  <img ms-attr-src="cloneimg" ms-css-opacity="fadeOut" ms-if="effect" alt="" />
+    
+  <img ms-if="loading" class="loading" src="images/spinner_tra.gif" alt="" />  
+  </div>
+<div class="sdpic-thunber" >
+  <a ms-data-src="el.bigsrc" ms-repeat="smallpic" ms-class="current:(current == $index)" ms-class-1="last-thunber:($index == 3)" href="javascript:void(0);" ms-click="changebig($index)" ><img ms-src="el.src" alt=""></a>
 </div>
-<img ms-if="loading" src="images/spinner_tra.gif" alt="">

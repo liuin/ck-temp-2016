@@ -1,2 +1,7 @@
-.sdpic-img {position:relative; height:100px;}
-.sdpic-img  img {position:absolute;left:0;top:0;}
+.sdpic-img {position:relative; height: 286px;margin-bottom: 8px;}
+.sdpic-img  img {position:absolute;left:0;top:0; width:424px; height: 286px;}
+.sdpic-img  img.loading {width:auto; height: auto; top:50%; left:50%;margin-top: -30px; margin-left: -30px;;} 
+
+.sdpic-thunber a{float:left;margin-right: 4px;}
+.sdpic-thunber a img {display:block;}
+.sdpic-thunber a.last-thunber {margin-right:0;}

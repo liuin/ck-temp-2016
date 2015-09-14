@@ -4,11 +4,11 @@
         <title>lazyload组件</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <script src="../avalon.js"></script>
+        <script src="../../js/avalon.js"></script>
         <script src="../highlight/shCore.js"></script>
         <link type="text/css" rel="stylesheet" href="../style/avalon.doc.css"/>
         <script>
-            require(["lazyload/avalon.lazyload"], function() {
+            require(["../lib/lazyload/avalon.lazyload"], function() {
                 vmodel = avalon.define("demo", function(vm) {
                     vm.lazyload = {
                         effect: "fadeIn"
@@ -19,6 +19,7 @@
         </script>
     </head>
     <body>
+        <div style="height:1000px;"></div>  
         <div class="wrapper"  ms-controller="demo">
             <h1>lazyload懒加载组件-自定义effect(加载效果)和各自delay(加载延迟)</h1>
             <fieldset>

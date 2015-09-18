@@ -1,7 +1,13 @@
 .sdpic-img {position:relative; height: 286px;margin-bottom: 8px;}
+.sdpic-img span.spter {width:212px; height: 200px; background:#000;display:inline-block;zoom:1;position: absolute;}
 .sdpic-img  img {position:absolute;left:0;top:0; width:424px; height: 286px;}
-.sdpic-img  img.loading {width:auto; height: auto; top:50%; left:50%;margin-top: -30px; margin-left: -30px;;} 
+.sdpic-img  .imgloading{width:60px; height: 60px; top:50%; left:50%;margin-top: -30px; margin-left: -30px;position:absolute; background:url("../../images/spinner_tra.gif") 0 0 no-repeat;}
 
-.sdpic-thunber a{float:left;margin-right: 4px;}
-.sdpic-thunber a img {display:block;}
+.sdpic-thunber a{float:left;margin-right: 4px; }
+.sdpic-thunber a img {display:block;width: 103px;height: 67px; opacity:0.5; filter: alpha(opacity=50);}
 .sdpic-thunber a.last-thunber {margin-right:0;}
+.sdpic-thunber a.current img{opacity:1; filter: alpha(opacity=100);}
+
+.zoom-img {background: url("../../images/spinner_tra.gif") center center no-repeat #fff;width: 400px;height: 400px;left: 445px;position: absolute;z-index: 10; overflow:hidden;}
+
+.zoom-img img{position:absolute;left:0;top:0; width: 1200px; height: auto;}

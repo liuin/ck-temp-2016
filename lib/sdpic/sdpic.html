@@ -1,9 +1,13 @@
-<div ms-class="sdpic-img">
-  <img ms-attr-src="bigimg" ms-css-opacity="fadeIn" alt="" />
+<div ms-class="sdpic-img" ms-mousemove="showZoom($event)" ms-mouseleave="hideZoom()">
+  <img ms-attr-src="bigimg" ms-css-opacity="fadeIn" alt=""   />
   <img ms-attr-src="cloneimg" ms-css-opacity="fadeOut" ms-if="effect" alt="" />
-    
-  <img ms-if="loading" class="loading" src="images/spinner_tra.gif" alt="" />  
+  <span class="spter" ms-css-opacity="0.5"  ms-visible="spter" ms-css-width="spterWidth" ms-css-height="spterHeight" ms-css-left="spterLeft" ms-css-top="spterTop" ></span> 
+
+  <div ms-if="loading" class="imgloading"></div>  
+  <div class="zoom-img" ms-visible="imgZoom">
+    <img ms-src="zoomsrc" ms-css-left="zoomImgLeft" ms-css-top="zoomImgTop" id="imgZoom"  alt=""  />
+  </div>
   </div>
 <div class="sdpic-thunber" >
-  <a ms-data-src="el.bigsrc" ms-repeat="smallpic" ms-class="current:(current == $index)" ms-class-1="last-thunber:($index == 3)" href="javascript:void(0);" ms-click="changebig($index)" ><img ms-src="el.src" alt=""></a>
+  <a ms-data-src="el.bigsrc" ms-repeat="smallpic" ms-class="current:(current == $index)" ms-class-1="last-thunber:($index == 3)" href="javascript:void(0);" ms-click="changebig($index)" ><img ms-src="el.src"   alt=""></a>
 </div>

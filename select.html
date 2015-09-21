@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="js/avalon.1.5.2.js"></script>
   <!--[if lt IE 9]>
     <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -20,28 +21,29 @@
   <noscript>
     <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
   </noscript>
-  <div class="container" ms-controller="demo">
-    <select name="" ms-widget="selectck, pp1,$opt" id=""></select>
+  <div class="container" ms-controller="demo" >
+    <!-- <select name="" ms-widget="selectck, pp1,$opt" id=""></select> -->
 
-    <select name="" ms-widget="selectck, pp2,$opt2" id=""></select>
+    <!-- <select name="" ms-widget="selectck, pp2,$opt2" id=""></select> -->
+    <ms:ckselect config="$opt" ms-attr-$id="vmselect1"></ms:ckselect>
+    <ms:ckselect config="$opt2" ms-attr-$id="vmselect2"></ms:ckselect>
   </div>
-  <script type="text/javascript" src="js/avalon.js"></script>
-  <script type="text/javascript" src="js/script.js"></script>
+  
   <script type="text/javascript">
   <!--
     require(['domReady!','../lib/select-ckui/select-ui'], function(a) {
-
+        
           var vm =  avalon.define({
               $id: "demo",
               $opt:{
-                defVal:'0',
+                defVal:'3',
                 option:[
                   {val:'0',text:'select0'},
                   {val:'1',text:'select1'},
                   {val:'2',text:'select2'},
                   {val:'3',text:'select3'}                
                 ],
-                defText:'select0'
+                name:'select1',
               },
               $opt2:{
                 defVal:'2',
@@ -50,11 +52,15 @@
                   {val:'1',text:'select1'},
                   {val:'2',text:'select2'},
                   {val:'3',text:'select3'}                
-                ],
-                defText:'select2'
+                ]
               }
             })
+            
+            vm.$opt.defVal = 2;
+            vm.$opt2.defVal = 10;
+            
           avalon.scan();
+          
         })
   //-->
   </script>

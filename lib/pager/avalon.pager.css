@@ -29,12 +29,13 @@
     *display: inline;
     vertical-align: middle; }
   .oni-pager .oni-pager-prev, .oni-pager .oni-pager-next, .oni-pager .oni-pager-item {
-    display: -moz-inline-stack;
-    display: inline-block;
+    
     vertical-align: middle;
     *vertical-align: auto;
     zoom: 1;
     *display: inline;
+    display: -moz-inline-stack;
+    display: inline-block;
     background-color: white;
     color: #333;
     height: 24px;

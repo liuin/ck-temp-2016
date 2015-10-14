@@ -122,12 +122,14 @@ $(document).ready(function() {
       headWidth += $(this).width() + 70
     })
     $('.tag-head-inner,.tag-swpier').width(headWidth);
-
+    
+    /*
     var myScroll = new IScroll('#tag-head', { 
       scrollX: true, 
       freeScroll: false,
       bounce:false
     });
+    */
 
     $('.tag-wrap-inner').width( 640 * ($('.tag-wrap-inner > .tag-section').length));
      return false;

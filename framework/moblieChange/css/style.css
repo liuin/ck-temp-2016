@@ -1,19 +1,22 @@
 /*-- glober --*/
-body,html {background: #ccc; height: 100%;font-size: 24px;}
+body,html {background: #ccc; height: 100%;font-size: 13px;}
+body {overflow:hidden;}
 a {text-decoration: none;}
-.container {width:640px; margin: 0 auto;background: #fff;  position: relative;z-index: 15; -webkit-transition:0.5s; transition:0.5s;}
+.container {width:100%; margin: 0 auto;background: #fff;  position: relative;z-index: 15; -webkit-transition:0.5s; transition:0.5s;}
 .btn1 { display: inline-block;border: 1px solid #000;margin-right: 20px;color: #000;border-radius: 50%;width: 80px;height: 80px;font-size: 54px;text-align: center;color: #f00; cursor: pointer;}
 .btn1.moblie {color: #000;}
 .btn1.wx{color: #2C8833; border: 1px solid #2C8833;}
 
 /*-- header --*/
-.navbar {font-size: 28px; text-align: center;background-color: brown;padding: 15px 30px; color: #fff;   }
+.navbar {font-size: 15px; text-align: center;background-color: brown;padding: 0 10px; color: #fff;   box-sizing:border-box; height:40px; line-height: 40px;}
 .navbar .center i{margin-left: 10px;}
 .navbar a {color:#fff;}
 
-.tag-head{ background-color: #eee;line-height: 60px;padding-left: 0px;padding-right: 0px; position: relative;border-bottom: 1px solid #eee; height: 60px;overflow: hidden;}
-.tag-head-inner {width: 1000px; padding-left: 30px; overflow: hidden;padding-right: 50px;}
-.tag-head a{ font-size: 26px;color: #000;display: inline-block;margin-right: 50px; float: left;}
+
+.tag-head{ background-color: #eee;line-height: 40px;padding-left: 0px;padding-right: 0px; position: relative;border-bottom: 1px solid #eee; height: 40px;overflow: hidden;}
+.tag-head-inner {overflow: hidden; overflow-x: scroll; padding: 0 10px; white-space:nowrap; }
+.tag-head-inner::-webkit-scrollbar {display: none;}
+.tag-head a{ font-size: 13px;color: #000;display: inline-block; display:inline-block; padding-right: 15px; padding-left: 15px;}
 .tag-head a.active {color: red;}
 .tag-head a.plus {background: #fff; color:#f00;padding-left: 15px;padding-right: 15px;position: absolute;right:0;top: 0;margin-right: 0;}
 

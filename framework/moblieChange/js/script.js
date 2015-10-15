@@ -26,13 +26,14 @@ $(document).ready(function() {
   var getpanhd = $(window).height()- $('.panel-login').outerHeight() - $('.panel-bottom').outerHeight();
   $('.panel-list-block').height(getpanhd);
 
+/*
   var panelListBlock = new IScroll('#panel-list-block', { 
     scrollX: true, 
     freeScroll: false,
     bounce:false,
     scrollbars:true
   });
-
+*/
   $('.open-panel').on('tap',function  (e) {
     
     $('body').addClass('open-panel');
@@ -90,50 +91,37 @@ $(document).ready(function() {
     }          
   }
 
-  //首页变量
-  var tagPageArr = [0];
-  var tagSection = [];
-  var ininfPage = 10;
-  var refreshPro = false;
-  var refreshY = 0;
-  var currentPos = {
-    x:0,
-    y:0,
-    dir:false
-  }
 
+  //首页变量
+    var tagPageArr = [0];
+    var tagSection = [];
+    var ininfPage = 10;
+    var refreshPro = false;
+    var refreshY = 0;
+    var currentPos = {
+      x:0,
+      y:0,
+      dir:false
+    }
+  //首页变量
   function homeLoad () {
     //tagPage
-     tagPageArr = [0];
-     tagSection = [];
-     ininfPage = 10;
-     refreshPro = false;
-     refreshY = 0;
+    tagPageArr = [0];
+    tagSection = [];
+    ininfPage = 10;
+    refreshPro = false;
+    refreshY = 0;
     currentPos = {
       x:0,
       y:0,
       dir:false,
-      long:30
+      long:10
     }
 
-    //滚动条目录
-    var headWidth = 0;
-    $('.tag-head-inner > a').each(function () {
-      headWidth += $(this).width() + 70
-    })
-    $('.tag-head-inner,.tag-swpier').width(headWidth);
+    $('.tag-wrap-inner').width( $(window).width() * ($('.tag-wrap-inner > .tag-section').length));
     
-    /*
-    var myScroll = new IScroll('#tag-head', { 
-      scrollX: true, 
-      freeScroll: false,
-      bounce:false
-    });
-    */
-
-    $('.tag-wrap-inner').width( 640 * ($('.tag-wrap-inner > .tag-section').length));
-     return false;
-    $('.tag-wrap-inner,.tag-section').height($(window).height() - 132);
+    $('.tag-section').height($(window).height()-80);
+    $('.tag-section').width($(window).width());
     
     var tagScroll = new IScroll('#tag-wrap', {
       scrollX: true,
@@ -146,23 +134,6 @@ $(document).ready(function() {
       mouseWheelSpeed:100
     });
 
-        
-   
-    $('.tag-section').each(function (i) { 
-      tagSection[i] = new IScroll('.tag-section:nth-child('+ (i+1)+')', {
-        scrollX: false,
-        scrollY: true,
-        preventDefault:true,
-        scrollbars:true,
-        bounce:true,
-        probeType:2,
-        mouseWheel: false,
-        invertWheelDirection:true
-      })
-    })
-
-    tagSection[0].refresh();
-    
     tagScroll.on('scrollEnd',function  (page) {
       var currentPageIndex = tagScroll.currentPage.pageX; 
       var currentPage = $('.tag-head-inner > a').eq(currentPageIndex);
@@ -174,92 +145,6 @@ $(document).ready(function() {
       }
     })
 
-    tagScroll.on('scroll',function  (page) {
-        if (currentPos.dir == 'y') {          
-          tagScroll.x = currentPos.x;
-          currentPos.y = this.y;
-          return false;
-        }        
-    })
-    
-    for (var i = 0;  i<tagSection.length ; i++) {
-
-     
-
-      tagSection[i].on('scrollStart',function  () {
-        currentPos.x = tagScroll.x;
-        currentPos.y = this.y;      
-        currentPos.dir = false;
-        
-      })
-      tagSection[i].on('scroll',function  () {        
-
-        var curentPage = '';
-        
-        
-        if (tagPageArr.length < 2) {
-          curentPage = tagPageArr[0];
-        }else {
-          curentPage = tagPageArr[1];
-        }
-        var obj = $('.tag-section').eq(curentPage).find('.refresh-tag');
-        if (this.y > 80) {          
-          obj.html('松开刷新');
-        }else {
-          obj.html('下拉刷新');
-        }
-        
-        refreshPro = this.y;
-        if (currentPos.dir == 'x') {
-          this.y = currentPos.y;
-          currentPos.x = tagScroll.x;
-          return false;
-        }
-        if (currentPos.dir == 'y') {          
-          tagScroll.x = currentPos.x;
-          currentPos.y = this.y;          
-          return false;
-        }        
-
-        
-        var lbx = Math.abs(Math.abs(currentPos.x) - Math.abs(tagScroll.x));
-        var lby = Math.abs(Math.abs(currentPos.y) - Math.abs(this.y));
-        if ((lbx > lby) && (lbx > currentPos.long) ) {
-          currentPos.dir = 'x';
-          this.y = currentPos.y;
-        }else {
-          if ((lbx < lby) && (lby > currentPos.long)) {                     
-            currentPos.dir = 'y';
-            tagScroll.x = currentPos.x;
-          }
-        }
-        
-
-      })
-
-      tagSection[i].on('scrollEnd',function  () { 
-        var curentPage = '';
-        if (tagPageArr.length < 2) {
-          curentPage = tagPageArr[0];
-        }else {
-          curentPage = tagPageArr[1];
-        }
-        if (Math.abs(this.y - this.maxScrollY) < 200) {
-          //滚动加载
-          ininfeData($('.tag-section').eq(curentPage).data('ajaxurl'),$('.tag-section').eq(curentPage).find('.tag-section-inner'));          
-        }
-        //下拉刷新        
-        if (refreshPro > 80) {
-          refreshTag($('.tag-section').eq(curentPage).data('ajaxurl'),$('.tag-section').eq(curentPage).find('.tag-section-inner'))
-        }
-
-        
-        
-      })
-    }      
-     
-
-  
     $('.tag-head-inner a').on('tap',function  (e) {
       if ($(this).hasClass('active')) {
         return false;
@@ -300,47 +185,24 @@ $(document).ready(function() {
       if (!(obj.data('isload') == true)) {
         obj.find('.tag-section-inner .tag-section-info').empty().hide().html(data).fadeIn();
         obj.data('isload',true).find('.load-tag').hide();
-        for (var i = 0;  i<tagSection.length ; i++) {
-          tagSection[i].refresh();
-        }
+        
       }
     }
 
-    $('[data-linkto]').on('tap',function  () {
-      var getUrl = $(this).data('linkto');
-      mainView.router.load({
-        url : getUrl,
-        animatePages:true
-      });
-    }).on('touchstart',function  () {
-      $(this).addClass('tsec-bk1-active');
-    }).on('touchend',function  () {
-      $(this).removeClass('tsec-bk1-active');      
-    })
-
-    $(window).load(function  () {
-        
-      tagSection[0].refresh();
-    })
     $('.pages .page[data-page="index"]').data('build',true);
   }
+
   homeLoad();
 
   //下拉刷新
   function refreshTag(url,obj) {
-    var $this = obj;
-    
+    var $this = obj;    
     loadAjax(url,obj,function  () {
       //before
       $this.next('.load-tag').show();
     },function  (obj,data) {
       var $data = $(data);
-      $data.prependTo($this).hide().fadeIn('slow');
-      
-      for (var i = 0;  i<tagSection.length ; i++) {
-        tagSection[i].refresh();
-      }
-      
+      $data.prependTo($this).hide().fadeIn('slow');  
       $this.next('.load-tag').hide();
     });
   }

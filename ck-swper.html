@@ -15,14 +15,59 @@
     <script src="js/respond.min.js"></script>
   <![endif]-->
   <title>website name</title>
+  <style type="text/css">
+  #scrollpic {width:651px; height: 407px;}
+  #scrollpic li{
+    float:left;
+    width:651px;
+    list-style-type:none;
+    height: 407px;
+  }
+  #scrollpic img {
+    width:100%;
+    height:100%;
+  }
+  #scrollpic .scroll-warp {
+    width:300px;
+  }
+  </style>
+
 </head>
 <body class="yh">
   <noscript>
     <div class="noscript"><strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。</div>
   </noscript>
   <div class="container">
+    <ul id="scrollpic">
+      <li class="current">
+        <img src="images/app-img1.jpg" alt="" />
+      </li>
+      <li>
+        <img src="images/app-img2.jpg" alt="" />
+      </li>
+      <li>
+        <img src="images/app-img3.jpg" alt="" />
+      </li>
+      <li>
+        <img src="images/app-img4.jpg" alt="" />
+      </li>
+    </ul>
   </div>
   <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bs-trans.js"></script>
+  <script type="text/javascript" src="js/ck-swper.js"></script>
+  <script type="text/javascript">
+  <!--
+    $("#scrollpic").scollpic({
+     itemTag : "li",
+     itemWidth : 651,
+     itemHeight : 407,
+     bigImg : 'off',
+     scollBack : function  (img , obj) {
+       //执行完回调事件处理
+     }
+    });    
+  //-->
+  </script>
 </body>
 </html>
-

@@ -26,16 +26,8 @@ $(document).ready(function() {
   var getpanhd = $(window).height()- $('.panel-login').outerHeight() - $('.panel-bottom').outerHeight();
   $('.panel-list-block').height(getpanhd);
 
-/*
-  var panelListBlock = new IScroll('#panel-list-block', { 
-    scrollX: true, 
-    freeScroll: false,
-    bounce:false,
-    scrollbars:true
-  });
-*/
-  $('.open-panel').on('tap',function  (e) {
-    
+
+  $('.open-panel').on('tap',function  (e) {    
     $('body').addClass('open-panel');
     setTimeout(
       function(){
@@ -55,11 +47,11 @@ $(document).ready(function() {
         })
       }, 500)
   })
-  
+
+
   //点击事件
   $(document).on('tap', 'a', handleClicks);
   function handleClicks(e) {
-
     /*jshint validthis:true */
     var clicked = $(this);
      
@@ -126,7 +118,7 @@ $(document).ready(function() {
     var tagScroll = new IScroll('#tag-wrap', {
       scrollX: true,
       scrollY: false,
-      preventDefault:false,
+      preventDefault:true,
       momentum: false,
       snap: true,
       bounce:false,

@@ -83,20 +83,10 @@ $(document).ready(function() {
     }          
   }
 
-
-  //首页变量
-    var tagPageArr = [0];
-    var tagSection = [];
-    var ininfPage = 10;
-    var refreshPro = false;
-    var refreshY = 0;
-    var currentPos = {
-      x:0,
-      y:0,
-      dir:false
-    }
   //首页变量
   function homeLoad () {
+    /*
+    
     //tagPage
     tagPageArr = [0];
     tagSection = [];
@@ -115,10 +105,13 @@ $(document).ready(function() {
     $('.tag-section').height($(window).height()-80);
     $('.tag-section').width($(window).width());
     
+
+    return false;
+
     var tagScroll = new IScroll('#tag-wrap', {
       scrollX: true,
       scrollY: false,
-      preventDefault:true,
+      preventDefault:false,
       momentum: false,
       snap: true,
       bounce:false,
@@ -182,6 +175,8 @@ $(document).ready(function() {
     }
 
     $('.pages .page[data-page="index"]').data('build',true);
+
+    */
   }
 
   homeLoad();

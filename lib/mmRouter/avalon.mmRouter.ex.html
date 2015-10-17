@@ -40,7 +40,7 @@
             </div>
         </div>
         <script>
-        require(["../ui/mmRouter/mmRouter"], function () {
+        require(["../lib/mmRouter/mmRouter"], function () {
             var model = avalon.define('box', function(vm) {
                 vm.tab = {currpage:'tab1',content:'tab1', page:[{name:'tab1', title:'选项卡一',url:'#!/tab1'}]};
                 vm.tab_close = function (tname) {

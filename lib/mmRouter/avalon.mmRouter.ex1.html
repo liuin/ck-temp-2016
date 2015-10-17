@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <link type="text/css" rel="stylesheet" href="../style/avalon.doc.css">
-        <script src="../avalon.js"></script>
+        <script src="../../js/avalon.js"></script>
         <script src="../highlight/shCore.js"></script>
         <style>
             .header{
@@ -62,7 +62,7 @@
         </style>
         <script >
             avalon.config({debug: false})
-            require(["ready!", "mmRouter/mmState"], function() {
+            require(["ready!", "../lib/mmRouter/mmState"], function() {
 
                 //一个顶层VM
                 avalon.define({

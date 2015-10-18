@@ -53,7 +53,7 @@ body.open-panel .panel-overlay {display:block;}
 .tag-wrap {width:100%; height: auto;     position: relative; overflow: hidden;}
 .tag-wrap-inner {width:1200px; overflow: auto;}
 .tag-wrap .iScrollHorizontalScrollbar  {display: none;}
-.tag-section {float: left;width: 320px;height: 600px;position: relative;overflow: hidden;}
+.tag-section {float: left;width: 320px;height: 600px;position: relative;overflow: auto;}
 
 .tag-swpier { position:absolute;height: 40px; top: 0; margin-left: 30px;}
 

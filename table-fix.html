@@ -17,8 +17,9 @@
   <title>website name</title>
   <style type="text/css">
     .table td,.table th{padding: 10px 5px;}
-    .table th {background: #000; color: #fff;position:relative;}
+    .table th {padding: 0; }
     .fix-tr {}
+    .fix-top {position:relative;background: #000;height: 100%; color: #fff; padding: 10px 5px;}
   </style>
 </head>
 <body class="yh">
@@ -27,44 +28,134 @@
   </noscript>
   <div class="container">
     <div style="height:500px;"></div>
-    <div class="tableMs" ms-controller="tableMs" id="tableMs"></div>
+    <table class="table">
+  <col width="120px" />
+  <col width="120px" />
+  <col width="120px" />
+  <col  />
+  <tr tablefixheade >
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+  <tr>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+    <td>opva</td>
+  </tr>
+</table>
     <div style="height:500px;"></div>
   </div>
-  <script type="text/javascript" src="js/avalon.js"></script>
+  <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
   <script type="text/javascript">
   <!--
-    require(['domReady!','../lib/mmRequest/mmRequest'], function(a) {
-      var vmfile =  avalon.define({
-        $id: "tableMs",
-        fixTableHead:false,
-        fxtop:0
-      })
-      var opv = document.getElementById('tableMs');
-      avalon.ajax({
-          url: "lib/tablefix/tablefix.html",
-          dataType: "text",
-          success: function(res) {
-            var obj = avalon.parseHTML(res);
-            opv.appendChild(obj.firstChild);
-            avalon.scan(opv,vmfile);
-          }
-      })
 
-      vmfile.fixTableHead = true;
-      
-      var vinopen =  avalon(opv).offset().top;
-      
-      avalon(window).bind('scroll',function  () {
-        var long = avalon(window).scrollTop() - vinopen;
-        if (long > 0) {
-          vmfile.fxtop = long;
-        }else {
-          vmfile.fxtop = 0;
-        }
-      })
-      avalon.scan();
-    })
+/*-- 
+  anchor:cuki13
+  use:
+  tablefixheade
+  scrtuct:
+  <tr tablefixheade >
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1</div></th>
+  </tr>
+ --*/
+
+
++(function() {
+  'use strict';
+  var selectString = '[tablefixheade]';
+
+  function tableFixHeade (obj) {
+    this.obj = obj;
+    this.offestTop = this.obj.offset().top;
+    
+    this.fixedHd();
+    
+  }
+
+  tableFixHeade.prototype.fixedHd = function  () {
+    var $this = this;
+ 
+    $(window).scroll(function(){
+      var mved = $this.offestTop - $(this).scrollTop();
+      if (mved < 0 ) {
+        $this.obj.find('.fix-top').css('top', -mved);
+      }else {
+        $this.obj.find('.fix-top').css('top', 0);
+        
+      }
+    })  
+  }
+
+  $(document).ready(function() {
+    $(selectString).each(function () {
+      new tableFixHeade($(this)); 
+    })      
+  })
+
+
+
+})(jQuery);
+
+
+
+
+
+   
   //-->
   </script>
 </body>

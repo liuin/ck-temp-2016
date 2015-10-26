@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>uploader demo 基础配置项</title>
-	<script src="../avalon.js"></script>
+	<script src="../../js/avalon.js"></script>
 	<link rel="stylesheet" href="../style/avalon.doc.css"/>
 	<link rel="stylesheet" href="avalon.fileuploader.ex.css"/>
 </head>
@@ -13,7 +13,7 @@
     <div ms-widget="fileuploader,demoUploader,$uploaderOptions"></div>
 
 	<script>
-		require(["./fileuploader/avalon.fileuploader","domReady!"], function($$){
+		require(["../lib/fileuploader/avalon.fileuploader","domReady!"], function($$){
 			var model = $$.define("demo", function(vm){
 				vm.$uploaderOptions = {
 		            addButtonText: "添加文件",

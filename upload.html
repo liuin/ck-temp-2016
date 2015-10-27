@@ -22,15 +22,65 @@
   </noscript>
   <div class="container">
     <form action="#">
-      <img src="" alt="" />
-      <input type="file" name="" placeholder="提交文件" id="">
+      <div class="imgbk" id="imgbk">
+        
+      </div>
+      <input type="file" name="" id="file" ckUpload placeholder="提交文件" id="">
       <button type="button">上传</button>
     </form>
   </div>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript">
   <!--
+    /*-- 
+      anchor:cuki13
+      use: upload
+     --*/
     
+    +(function($) {
+      'use strict';
+      var selectString = '[ckUpload]';
+    
+      function UpLoad(obj) {
+        this.obj = obj;
+        this.fileData = '';
+        this.apImg = $('#imgbk');
+        
+        var $this = this;
+        obj.change(function  (e) {
+          var getfile = e.target.files[0];
+          console.log(getfile);
+          $this.fileData = getfile;
+          $this.changeToBase();
+        })
+      }
+
+      UpLoad.prototype.changeToBase = function  () {        
+        var $this = this;
+        var fileReader = new FileReader();
+        fileReader.onload = function  () {
+          console.log(this.result);
+          var img = '<img src="'+this.result+'" alt="" />';
+          img = $(img);
+          console.log($this.apImg);
+          img.appendTo($this.apImg);
+        }
+      
+        setTimeout(
+          function(){
+            fileReader.readAsDataURL($this.fileData);            
+          }, 100)
+      }
+
+
+    
+    
+      $(selectString).each(function () {
+         new UpLoad($(this));
+      })
+    
+    
+    })(jQuery);
   //-->
   </script>
 

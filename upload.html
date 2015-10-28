@@ -49,18 +49,35 @@
         this.fileData = '';
         this.apImg = $('#imgbk');
         this.baseUrl = '';
-        this.toSizeWidth = 20;
-        this.toSizeHeight = 20;
+        this.toSizeWidth = 100;
+        this.toSizeHeight = 100;
         
         var $this = this;
         obj.change(function  (e) {
+          if (document.selection) {
+            $this.ieImg();
+
+            return 
+          }
           var getfile = e.target.files[0];
           $this.fileData = getfile;
           $this.changeToBase();
         })
       }
 
-      UpLoad.prototype.changeToBase = function  () {        
+      UpLoad.prototype.ieImg = function  () {
+        this.obj[0].select();
+        var src = document.selection.createRange().text;  
+        this.baseUrl = src;
+        var imgIe = $('<div style="width:100px;height:100px;"></div>');
+        this.apImg.append(imgIe);
+        imgIe[0].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)';
+        imgIe[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = src;
+      }
+
+      UpLoad.prototype.changeToBase = function  () {    
+        
+        
         var $this = this;
         var fileReader = new FileReader();
         fileReader.onload = function  () {
@@ -109,9 +126,7 @@
           var url = canvasEl.toDataURL("image/png"); 
           console.log(url);
           var img1 = '<img src="' + url + '" alt="" />';
-          console.log(img1);
           img1 = $(img1);
-          console.log(img1);
           //$this.apImg.attr('src',url);
           $this.apImg.append(img1);
           //释放内存。

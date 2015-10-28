@@ -15,6 +15,9 @@
     <script src="js/respond.min.js"></script>
   <![endif]-->
   <title>website name</title>
+  <style type="text/css">
+    .imgbk img{background:#000;}
+  </style>
 </head>
 <body class="yh">
   <noscript>
@@ -45,11 +48,13 @@
         this.obj = obj;
         this.fileData = '';
         this.apImg = $('#imgbk');
+        this.baseUrl = '';
+        this.toSizeWidth = 20;
+        this.toSizeHeight = 20;
         
         var $this = this;
         obj.change(function  (e) {
           var getfile = e.target.files[0];
-          console.log(getfile);
           $this.fileData = getfile;
           $this.changeToBase();
         })
@@ -59,24 +64,66 @@
         var $this = this;
         var fileReader = new FileReader();
         fileReader.onload = function  () {
-          console.log(this.result);
-          var img = '<img src="'+this.result+'" alt="" />';
-          img = $(img);
-          console.log($this.apImg);
-          img.appendTo($this.apImg);
-        }
-      
+          $this.baseUrl = this.result;
+
+          $this.size($this.toSizeWidth,$this.toSizeHeight,this.result);
+        }     
         setTimeout(
           function(){
-            fileReader.readAsDataURL($this.fileData);            
+            fileReader.readAsDataURL($this.fileData);
           }, 100)
       }
 
+      //设置图片尺寸
+      UpLoad.prototype.size = function  (previewWidth,previewHeight,baseUrl) {
+        var $this = this;
+        var img = new Image();
+        img.src = baseUrl;
+        img.onload = function  () {
+          var canvasEl = document.createElement("canvas"),
+          ctx = canvasEl.getContext('2d'),
+          imgWidth = img.width,
+          imgHeight = img.height,
+          imageAspectRatio = imgWidth / imgHeight,    // 输入图片的宽高比
+          canvasAspectRatio = previewWidth / previewHeight, // 预览的宽高比
+          drawX = 0,
+          drawY = 0,
+          drawHeight = previewHeight,    // 绘制入Canvas中的预览图高度
+          drawWidth = previewWidth;      // 绘制入Canvas中的预览图宽度
 
-    
-    
+          canvasEl.width = previewWidth;
+          canvasEl.height = previewHeight;
+
+          // 等比压缩图片至Canvas。此处计算宽高比，并得出压缩图像在Canvas上的位置。
+          // drawY对于过宽的图像调整为纵向居中，drawX对于过长的图像调整为横向居中。
+          if (imageAspectRatio > canvasAspectRatio) {
+              drawHeight = imgHeight * previewWidth / imgWidth;
+              drawY = (previewHeight - drawHeight) / 2;
+          } else if (imageAspectRatio < canvasAspectRatio) {
+              drawWidth = imgWidth * previewHeight / imgHeight;
+              drawX = (previewWidth - drawWidth) / 2;
+          }
+
+          ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+          
+          var url = canvasEl.toDataURL("image/png"); 
+          console.log(url);
+          var img1 = '<img src="' + url + '" alt="" />';
+          console.log(img1);
+          img1 = $(img1);
+          console.log(img1);
+          //$this.apImg.attr('src',url);
+          $this.apImg.append(img1);
+          //释放内存。
+          ctx.clearRect(0, 0, previewWidth, previewHeight);
+          img.onload = img.onerror = null;
+          img = null; 
+          
+        }               
+      }
+     
       $(selectString).each(function () {
-         new UpLoad($(this));
+         var upLoad1 = new UpLoad($(this));
       })
     
     

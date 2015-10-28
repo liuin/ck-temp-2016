@@ -207,4 +207,3 @@ address {
 .d-box {display:box;display: -webkit-box;display: -ms-flexbox;display: -moz-box; width:100%;}
 .b-flex {box-flex:1;-moz-box-flex:1;-webkit-box-flex:1; display:block;}
 
-[ms-controller] {visibility:hidden;}

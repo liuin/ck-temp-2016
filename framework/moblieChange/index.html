@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="renderer" content="webkit">
   <meta name="description" content="">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <script type="text/javascript" src="js/template.js"></script>
@@ -15,6 +15,8 @@
   <script type="text/javascript" src="js/temp7.cusetom.js"></script>
   <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
   <script type="text/javascript" src="js/ck-scroll.js"></script>
+  <script type="text/javascript" src="js/ck-lazyLoad.js"></script>
+  <script type="text/javascript" src="js/load-append.js"></script>
   <title>今日头条</title>
 </head>
 <body class="yh">
@@ -119,7 +121,7 @@
             <div class="page-content">
                 <div class="tag-head" id="tag-head">
                   <div class="tag-head-inner">
-                    <a class="active" href="#">类别</a>
+                    <a data-totlepage="3" data-cktarget data-ckurl="ajax/home-tag-ajax.html" href="#">类别</a>
                     <a href="#">类别</a>
                     <a href="#">类别</a>                    
                     <a href="#">类别</a>                    
@@ -134,71 +136,32 @@
                   </div>
                 <div class="tag-wrap" ckscroll id="tag-wrap">
                   <div class="tag-wrap-inner">
-                    <div class="tag-section"  data-isload="true" data-ajaxurl="ajax/home-tag-ajax.html" >           
+                    <div class="tag-section"  data-isload="true" data-ajaxurl="ajax/home-tag-ajax.html">
                         <div class="tag-section-inner">
                           <div class="refresh-tag">下拉刷新</div>
                           <div class="tag-section-info">
-                            <div class="tsec-bk1" data-linkto="indoor-page.html">
-                              <h3>头条标题头条标题 头条标题 头条标题 头条标题头条标题</h3>
-                              <div class="img">
-                                <img src="images/duorou0930.jpg" alt="" width="100%"   />
-                              </div>
-                              <div class="info">
-                                来源360 31评论 2小时前
-                              </div>
-                            </div>
-                            <div class="tsec-bk1" data-linkto="indoor-page.html">
-                              <h3>头条标题头条标题 头条标题 头条标题 头条标题头条标题</h3>
-                              <div class="img">
-                                <img src="images/duorou0930.jpg" alt="" width="100%"   />
-                              </div>
-                              <div class="info">
-                                来源360 31评论 2小时前
-                              </div>
-                            </div>
-                                                   <div class="tsec-bk1">
-                              <h3>头条标题头条标题 头条标题 头条标题 头条标题头条标题</h3>
-                              <div class="img">
-                                <img src="images/duorou0930.jpg" alt="" width="100%"   />
-                              </div>
-                              <div class="info">
-                                来源360 31评论 2小时前
-                              </div>
-                            </div>
-                          </div>
-                          
-                        </div> 
-                        
-                        <div class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom none"></div>
+                            
+                          </div>                          
+                          <div class="bottom-load none" ckLoadAppend  data-topage="3" data-curpoage="1"><i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i></div>
+                        </div>                         
+                        <div class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></div>
                       </div>
-                    <div class="tag-section" data-ajaxurl="ajax/home-tag-ajax.html">
+                    <div class="tag-section none" data-ajaxurl="ajax/home-tag-ajax.html">
                       <div class="tag-section-inner">
                         <div class="refresh-tag">下拉刷新</div>
                         <div class="tag-section-info"></div>
                       </div>
                       <i class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
                     </div>
-                    <div class="tag-section" data-ajaxurl="ajax/home-tag-ajax.html">
+                    <div class="tag-section none" data-ajaxurl="ajax/home-tag-ajax.html">
                       <div class="tag-section-inner">
                         <div class="refresh-tag">下拉刷新</div>
                         <div class="tag-section-info"></div>
                       </div>
                       <div class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></div>
                     </div>
-                    <div class="tag-section" data-ajaxurl="ajax/home-tag-ajax.html">
-                      <div class="tag-section-inner">
-                        <div class="refresh-tag">下拉刷新</div>
-                        <div class="tag-section-info"></div>
-                      </div>
-                      <div class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></div>
-                    </div>
-                    <div class="tag-section" data-ajaxurl="ajax/home-tag-ajax.html">
-                      <div class="tag-section-inner">
-                         <div class="refresh-tag">下拉刷新</div>
-                         <div class="tag-section-info"></div>
-                      </div>
-                      <div class="load-tag fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></div>
-                    </div>
+                    
+                    
                   </div>
                 </div>
               </div>

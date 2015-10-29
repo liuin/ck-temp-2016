@@ -31,7 +31,7 @@ a {text-decoration: none;}
 .panel-list-block li{height: 40px;line-height: 40px;font-size: 15px;padding-left: 20px;padding-right: 20px;border-bottom: 1px solid #ddd;}
 .panel-list-block li a {color:#333;}
 .panel-bottom { position: absolute;bottom: 0;left: 0;right: 0;height: 40px;background-color: brown;font-size: 12px;text-align: center;}
-.panel-bottom a{ display: inline-block;text-align: center;width: 87px;color: #fff;line-height: 1.1;padding-top: 6px;}
+.panel-bottom a{ display: inline-block;text-align: center;width: 87px;color: #fff;line-height: 1.1;padding-top: 6px;height: 34px;}
 .panel-bottom a i{display:block;font-size: 16px;}
 .panel-overlay {position:fixed;left: 0;right: 0;bottom: 0;top: 0;display:none;}
 
@@ -43,9 +43,15 @@ body.open-panel .panel-left {transform: translate(0%); -webkit-transform: transl
 
 body.open-panel .panel-overlay {display:block;}
 
+.bottom-load {text-align:center;}
+.bottom-load i{display:inline-block; color: firebrick;}
+
 
 /*-- content-home --*/
 .tsec-bk1 { border-bottom: 1px solid #eee; padding: 10px; }
+.tsec-bk1 .img {width:100%;}
+.tsec-bk1 .img .img-ins{padding-bottom: 60%; position:relative;}
+.tsec-bk1 .img .img-ins img {position:absolute;}
 .tsec-bk1:active,.tsec-bk1:focus,.tsec-bk1-active {background:#eee;}
 .tsec-bk1 h3 { font-size: 14px;color: #000;font-weight: normal;text-align: left;padding-bottom: 10px;}
 .tsec-bk1 .info {color: #999;padding-top: 5px;} 

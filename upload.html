@@ -54,30 +54,31 @@
         
         var $this = this;
         obj.change(function  (e) {
-          if (document.selection) {
+          if (e.target.files == undefined && document.selection) {
             $this.ieImg();
-
             return 
           }
+            
           var getfile = e.target.files[0];
-          $this.fileData = getfile;
-          $this.changeToBase();
+          if (getfile) {
+            $this.fileData = getfile;
+            $this.changeToBase();            
+          }
         })
       }
 
       UpLoad.prototype.ieImg = function  () {
         this.obj[0].select();
-        var src = document.selection.createRange().text;  
-        this.baseUrl = src;
-        var imgIe = $('<div style="width:100px;height:100px;"></div>');
+        window.parent.document.body.focus();
+        var path = document.selection.createRange().text;
+        this.baseUrl = path;
+        var imgIe = $('<div style="width:200px;height:200px;"></div>');
         this.apImg.append(imgIe);
         imgIe[0].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)';
-        imgIe[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = src;
+        imgIe[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = path;
       }
 
-      UpLoad.prototype.changeToBase = function  () {    
-        
-        
+      UpLoad.prototype.changeToBase = function  () {                    
         var $this = this;
         var fileReader = new FileReader();
         fileReader.onload = function  () {

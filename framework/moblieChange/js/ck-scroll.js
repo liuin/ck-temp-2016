@@ -110,6 +110,7 @@
     },true)
     */
     this.obj.on('touchstart pointerdown',function  (e) {
+      e.stopPropagation();
       $this.start(e);      
     })
 
@@ -158,6 +159,7 @@
       return
     }    
        
+    this.moved = true;
 
     if (this.axow == 'x') {
       e.preventDefault();      

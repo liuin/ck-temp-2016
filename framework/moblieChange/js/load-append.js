@@ -15,7 +15,9 @@
     var $this = this;
     
     $(selectString).each(function () {
-      
+      if ($(this).is(':hidden')) {
+        return false;
+      }
       var imgItem = $(this),
           eleTop = imgItem.offset().top,
           eleHeight = imgItem.outerHeight(),
@@ -25,8 +27,9 @@
           winTop = document.body.scrollTop;
       }
             
+      
       //加载正确的图片,条件是屏幕范围内并且要防止重复设置
-      if (eleTop < winTop + winHeight && eleTop + eleHeight > winTop && imgItem.data('lazyload') == undefined) {                  
+      if (eleTop < winTop + winHeight && eleTop + eleHeight > winTop && imgItem.data('lazyload') == undefined) {        
         $(this).trigger('loadBottom');
       }      
     })

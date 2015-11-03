@@ -83,13 +83,16 @@ $(document).ready(function() {
     }          
   }
 
+
   //首页变量
   function homeLoad () {
     $('.tag-section').height($(window).height()-80);
     $('.tag-section').width($(window).width());
     
     $('#tag-wrap').on('loadBottom','.bottom-load',function  () {
-      
+      var getInd = $(this).parents('.tag-section').index();
+      var $cktarget = $('[data-cktarget]').eq(getInd).data('cktarget');
+      $cktarget.ajaxLoad();
     })
 
 
@@ -101,8 +104,6 @@ $(document).ready(function() {
 
       e.stopPropagation();
 
-      //tagScroll.goToPage(getInd, 0, 0);
-
       if (tagPageArr[0] == getInd) {
         $('#tag-wrap .tag-section').eq(getInd).hide().fadeIn();
         tagPageArr.reverse();
@@ -113,86 +114,11 @@ $(document).ready(function() {
       $(this).addClass('active').siblings().removeClass('active');      
     })
 
-
     return false;
-    /*
-    
-    //tagPage
-    tagPageArr = [0];
-    tagSection = [];
-    ininfPage = 10;
-    refreshPro = false;
-    refreshY = 0;
-    currentPos = {
-      x:0,
-      y:0,
-      dir:false,
-      long:10
-    }
-
-    $('.tag-wrap-inner').width( $(window).width() * ($('.tag-wrap-inner > .tag-section').length));
-    
-    
-    $('.tag-section').width($(window).width());
-    
-
-    return false;
-
-    var tagScroll = new IScroll('#tag-wrap', {
-      scrollX: true,
-      scrollY: false,
-      preventDefault:false,
-      momentum: false,
-      snap: true,
-      bounce:false,
-      scrollbars:false,
-      mouseWheelSpeed:100
-    });
-
-    tagScroll.on('scrollEnd',function  (page) {
-      var currentPageIndex = tagScroll.currentPage.pageX; 
-      var currentPage = $('.tag-head-inner > a').eq(currentPageIndex);
-      if(!(currentPage.hasClass('active'))){                
-        currentPage.addClass('active').siblings().removeClass('active');
-        var pageObj = $('#tag-wrap .tag-section').eq(currentPageIndex);
-        var ajaxUrl = pageObj.data('ajaxurl');
-        loadAjax(ajaxUrl,pageObj,ajaxBeforeCallback,ajaxAfterSuccess);
-      }
-    })
-
-
-
-    function ajaxBeforeCallback(obj) {
-      if (!(obj.data('isload') == true)) {              
-        if (tagPageArr.length <2) {
-          tagPageArr.push(obj.index());
-        }else {
-          $('#tag-wrap .tag-section').eq(tagPageArr[0]).find('.tag-section-inner .tag-section-info').empty();
-          $('#tag-wrap .tag-section').eq(tagPageArr[0]).data('isload',false);
-          obj.find('.load-tag').show();
-          tagPageArr.shift();
-          tagPageArr.push(obj.index());
-        }
-      }else {
-        tagPageArr.reverse();
-      }
-    }
-
-    function ajaxAfterSuccess(obj,data) {
-      if (!(obj.data('isload') == true)) {
-        obj.find('.tag-section-inner .tag-section-info').empty().hide().html(data).fadeIn();
-        obj.data('isload',true).find('.load-tag').hide();
-        
-      }
-    }
-
-    $('.pages .page[data-page="index"]').data('build',true);
-
-    */
   }
 
   homeLoad();
-
+/*
   //下拉刷新
   function refreshTag(url,obj) {
     var $this = obj;    
@@ -244,8 +170,8 @@ $(document).ready(function() {
           }
         }
     });
-  }
-
+  }r
+*/
 
 })
 
@@ -267,11 +193,18 @@ $(document).ready(function() {
     this.index = obj.index();
     this.targetObj = $(obj.data('cktarget'));
     this.ajaxPro = false;
-    this.loadObj = $('#load-tag');
+    this.loadObj = this.targetObj.parents('.tag-section').find('.load-tag');
     this.ajaxUrl = obj.data('ckurl');
     this.curPage = 0;
+    this.parenObj = $(obj.data('parentClass'));
     this.totlePage = obj.data('totlepage');
     this.end = false;
+    this.isRefresh = true;
+    this.refreshMove = 0;
+    this.refreshRange = 50;
+    this.refreshObj = this.targetObj.parents('.tag-section').find('.refresh-tag');
+    this.scrollAppend = true;
+    this.refreshPro = false;
 
     var $this = this;
 
@@ -293,14 +226,165 @@ $(document).ready(function() {
      }
      return false;
     })
+
+    //滚动加载
+    if (this.scrollAppend) {
+      $this.scrollAp();
+    }
+
+    if (this.isRefresh) {
+      this.upRefresh();
+    }
+
+
   }
+
+  Cktarget.prototype.scrollAp = function  () {    
+
+  }
+
+
+
+  Cktarget.prototype.upRefresh = function  () {    
+    var $this = this,
+    $targetObj = $this.targetObj,
+    pageTop = 0,
+    isTop = false;
+
+    $targetObj.on('touchstart MSPointerDown pointerdown',function  (e) {
+      tgStart (e);
+    })
+/*
+    $targetObj.on('touchmove MSPointerMove pointermove',function  (e) {
+      tgMove(e);
+    })
+*/
+
+
+    function tgStart (e) {
+      if ($targetObj.parents('.tag-section').scrollTop() == 0) {       
+        isTop = true;
+        pageTop = window.event.touches[0].pageY;        
+        $targetObj.bind('touchmove',function  (e) {
+          tgMove(e);
+        });        
+        $targetObj.bind('touchend',function  (e) {          
+          tgEnd(e);
+        });        
+      }    
+    }
+    
+    function tgMove (e) {
+      if (isTop == true) {
+
+        
+        var move = window.event.touches[0].pageY - pageTop;
+        if (move < 3) {
+           isTop = false;                   
+           resetEvent ()
+        }else {
+          e.preventDefault();
+          e.stopPropagation();        
+          var style = {
+            'transform' : 'translate(0px,' + move + 'px)',
+            'transition' : '0s'
+          };
+          $this.refreshMove = move;
+          if (move > $this.refreshRange) {
+            $this.refreshObj.html('松开刷新').addClass('open');
+          }else {
+            $this.refreshObj.html('下拉刷新').removeClass('open');            
+          }
+          $targetObj.css(style);          
+        }
+
+      }else {
+        resetEvent ()       
+      }   
+    }   
+
+    function tgEnd (e) {
+      isTop = false;
+      resetEvent();
+
+      $this.refreshEnd();
+    }
+
+    function resetEvent () {
+      var style = {
+        'transform' : 'translate(0px,' + 0 + 'px)',
+        'transition' : '.3s'
+      };
+      $targetObj.css(style);
+      //$targetObj.unbind('touchmove MSPointerMove pointermove');
+      //$targetObj.unbind('touchend MSPointerUp pointerup');      
+      $targetObj.unbind();        
+
+      $targetObj.on('touchstart MSPointerDown pointerdown',function  (e) {
+        tgStart (e);
+      })
+    }
+
+  }
+
+  Cktarget.prototype.refreshEnd = function  () {
+    var $this = this;
+    if (($this.refreshMove > $this.refreshRange) && ($this.refreshPro == false)) {
+      $this.refreshAppend();
+    }    
+  }
+
+  Cktarget.prototype.refreshAppend = function  () {
+    var $this = this,
+    $targetObj = $this.targetObj,
+    getUrl = $this.obj.data('refresh');
+
+    $.ajax({
+      type: "GET",
+      url: getUrl,
+      dataType: 'html',
+      success: function(data){
+        setTimeout(
+          function(){
+            $this.refreshPro = false;
+            $this.refreshObj.html('下拉刷新');
+            $this.refreshObj.removeClass('refresh-load');            
+            
+            var $data = $(data).show();
+
+            $targetObj.prepend($data);
+
+            var style = {
+              'transform' : 'translate(0px,' + 0 + 'px)',
+              'transition' : '.3s'
+            };
+            $targetObj.css(style);
+
+          }, 3000)
+      },
+      error:function  () {
+        alert('很抱歉加载错误,请刷新页面');
+      },
+      beforeSend:function  () {
+        $this.refreshPro = true;
+        $this.refreshObj.addClass('refresh-load');
+        $this.refreshObj.html('下拉加载中...');
+        var style = {
+          'transform' : 'translate(0px,' + $this.refreshRange + 'px)',
+          'transition' : '.3s'
+        };
+        $targetObj.css(style);
+      }
+    });
+  }
+
+
 
   Cktarget.prototype.ajaxLoad = function  () {     
 
     var $this = this;
     
-    if ($this.end) {
-     
+    if ($this.end) {     
       return false
     }
     var url = $this.ajaxUrl + '?p =' + $this.curPage;
@@ -314,12 +398,11 @@ $(document).ready(function() {
         success: function(data){
           if ($this.curPage == 0) {
             $this.targetObj.empty();
-          }              
-          
-          $this.targetObj.append(data);
-          
+          }                        
+          $this.targetObj.append(data);          
 
           if ($this.curPage == $this.totlePage) {
+            
             $this.end = true;
           }else {
             $this.curPage++;
@@ -328,10 +411,7 @@ $(document).ready(function() {
           $this.showIn(); 
           $this.afterAjax();
           $this.loadObj.fadeOut();
-
-          $this.ajaxPro = false;
-
-          
+          $this.ajaxPro = false;          
         },
         error:function  () {
         },
@@ -344,21 +424,30 @@ $(document).ready(function() {
   }
 
   Cktarget.prototype.afterAjax = function  () {
-    
-  } 
+    if (this.end == true) {
+      this.targetObj.next('.bottom-load').hide();      
+    }else {
+      this.targetObj.next('.bottom-load').show();      
+    }
+
+    this.targetObj.trigger('afterAppend');
+  }
 
   Cktarget.prototype.showIn = function  () {
     if (this.targetObj.hasClass(this.addClass)) {
       return false;
     }
-    this.targetObj.addClass(this.addClass).fadeIn().siblings().removeClass(this.addClass).hide();
+    this.parenObj.addClass(this.addClass).fadeIn().siblings().removeClass(this.addClass).hide();
   }
 
   $(document).ready(function() {
     $(selectString).each(function () {
-      $(this).data('cktarget',new Cktarget($(this)))          
+      $(this).data('cktarget',new Cktarget($(this)));
     })
 
     $(selectString).eq(0).trigger('click');
+    $('.tag-section-info1').on('afterAppend',function  () {        
+    })
+
   })
 })(jQuery);

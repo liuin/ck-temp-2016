@@ -34,7 +34,7 @@
   <col width="120px" />
   <col  />
   <tr tablefixheade >
-    <th><div class="fix-top">col1</div></th>
+    <th><div class="fix-top">col1<br />col1<br />col</div></th>
     <th><div class="fix-top">col1</div></th>
     <th><div class="fix-top">col1</div></th>
     <th><div class="fix-top">col1</div></th>
@@ -115,41 +115,57 @@
  --*/
 
 
-+(function() {
-  'use strict';
-  var selectString = '[tablefixheade]';
+ +(function() {
+ 'use strict';
+   var selectString = '[tablefixheade]';
 
-  function tableFixHeade (obj) {
-    this.obj = obj;
-    this.offestTop = this.obj.offset().top;
-    
-    this.fixedHd();
-    
-  }
+   function tableFixHeade (obj) {
+     this.obj = obj;
+     this.offestTop = this.obj.offset().top;      
+     this.fixedHd();      
+     this.posoffset = 45;
+   }
 
-  tableFixHeade.prototype.fixedHd = function  () {
-    var $this = this;
- 
-    $(window).scroll(function(){
-      var mved = $this.offestTop - $(this).scrollTop();
-      if (mved < 0 ) {
-        $this.obj.find('.fix-top').css('top', -mved);
-      }else {
-        $this.obj.find('.fix-top').css('top', 0);
-        
-      }
-    })  
-  }
+   tableFixHeade.prototype.fixedHd = function  () {
+     var $this = this;
+     
+     var prHeight = $this.obj.find('.fix-top').parent().height()-15;
+     $this.obj.find('.fix-top').each(function () {        
+       var prWidth = $(this).parent().outerWidth();
+       $(this).height(prHeight);
+       $(this).width(prWidth-4);
+     })
+     
+     
+     $(window).scroll(function(){
+       $this.offestTop = $this.obj.offset().top;
+       var mved = $this.offestTop - $(this).scrollTop() - $this.posoffset;
+       if (mved < 0 ) {
+         
+         $this.obj.find('.fix-top').css('top', -mved);
+       }else {
+         $this.obj.find('.fix-top').css('top', 0);          
+       }
+      
+     })
 
-  $(document).ready(function() {
-    $(selectString).each(function () {
-      new tableFixHeade($(this)); 
-    })      
-  })
+     if (ie7) {
+       setTimeout(
+         function(){
+           $(window).trigger('scroll');
+         }, 100)   
+     }
+   }
+
+   $(window).load(function() {
+     $(selectString).each(function () {
+       new tableFixHeade($(this)); 
+     })      
+   })
 
 
 
-})(jQuery);
+ })(jQuery);
 
 
 

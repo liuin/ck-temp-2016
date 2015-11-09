@@ -90,6 +90,8 @@
     this.swpierTomove = 50;
     this.swpierdDlr = 'no';
     this.axow = 'n';
+    this.isMove = false;
+    this.isSubMove = false;
 
     this.init();
   }
@@ -139,8 +141,10 @@
     this.pointX    = point.pageX;
     this.pointY    = point.pageY;
     this.moved = true;
+    this.moveY = false;
     this.distX = 0;
     this.distY = 0;
+    
     this.startTime = borws.getTime();
 
     this.obj.trigger('scrollStart');
@@ -155,14 +159,19 @@
   }
 
   ckScroll.prototype.move = function  (e) {
+    if (this.isSubMove == true) {
+      return
+    }
     if (this.moved == false) {
       return
     }    
-       
     this.moved = true;
 
+    this.isMove = true;
+
+
     if (this.axow == 'x') {
-      e.preventDefault();      
+      e.preventDefault();
     }
     e = e.originalEvent;    
     var point = e.touches ? e.touches[0] : e,
@@ -180,7 +189,6 @@
       this.distY += deltaY;
       absDistX = Math.abs(this.distX);
       absDistY = Math.abs(this.distY);  
-
       
       // 必须移动10px才生效
       
@@ -198,6 +206,10 @@
 
         newX = (newX > 0)? 0 : newX;
 
+         // if (deltaX == 0) {
+         //   this.moveY = true;
+         // }
+
         this.translate(newX, newY);   
         this.obj.trigger('scroll');
         this.obj.trigger('scroll');
@@ -208,7 +220,7 @@
 
       
       
-/*
+    /*
       newX = this.x + deltaX;
       newY = this.y + deltaY;
 
@@ -223,6 +235,8 @@
     var $this = this;
     e = e.originalEvent;
     this.moved = false;
+    this.moveY = false;
+    this.isMove = false;
     this.endTime = borws.getTime();
 
     var point = e.changedTouches ? e.changedTouches[0] : e,

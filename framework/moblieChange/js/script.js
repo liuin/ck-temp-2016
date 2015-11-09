@@ -111,68 +111,13 @@ $(document).ready(function() {
         var getPage = $('#tag-wrap .tag-section').eq(getInd);
         loadAjax(getPage.data('ajaxurl'),getPage,ajaxBeforeCallback,ajaxAfterSuccess);
       }
-      $(this).addClass('active').siblings().removeClass('active');      
+      $(this).addClass('active').siblings().removeClass('active');
     })
 
     return false;
   }
 
   homeLoad();
-/*
-  //下拉刷新
-  function refreshTag(url,obj) {
-    var $this = obj;    
-    loadAjax(url,obj,function  () {
-      //before
-      $this.next('.load-tag').show();
-    },function  (obj,data) {
-      var $data = $(data);
-      $data.prependTo($this).hide().fadeIn('slow');  
-      $this.next('.load-tag').hide();
-    });
-  }
-
-  //滚动加载函数
-  function ininfeData(url,obj) {
-    var $this = obj;
-    loadAjax(url,obj,function  (obj) {
-      //before
-     
-      $this.next('.load-tag').show();
-    },function  (obj,data) {
-      //after
-      $this.find('.tag-section-info').append(data);
-
-      for (var i = 0;  i<tagSection.length ; i++) {
-        tagSection[i].refresh();
-      }
-      
-      $this.next('.load-tag').hide();
-    })
-  }
-
-  function loadAjax(url,obj,beforeCallback,afterSuccess) {
-    $.ajax({
-        type: "GET",
-        url: url,
-        dataType: 'text',
-        success: function(data){
-          if (afterSuccess) {
-            afterSuccess(obj,data);
-          }
-        },
-        error:function  () {
-          alert('加载错误，请刷新页面');
-        },
-        beforeSend:function  () {
-          if (beforeCallback) {
-            beforeCallback(obj);
-          }
-        }
-    });
-  }r
-*/
-
 })
 
 
@@ -201,10 +146,11 @@ $(document).ready(function() {
     this.end = false;
     this.isRefresh = true;
     this.refreshMove = 0;
-    this.refreshRange = 50;
+    this.refreshRange = 30;
     this.refreshObj = this.targetObj.parents('.tag-section').find('.refresh-tag');
     this.scrollAppend = true;
     this.refreshPro = false;
+    this.parentScroll = $('[ckscroll]').data('ckScroll');
 
     var $this = this;
 
@@ -217,8 +163,7 @@ $(document).ready(function() {
        $this.curPage = 0;
        $this.end = false;
        $('.tag-part-more').find('a').removeClass('end');
-       if ($this.ajaxUrl != '' && (!$this.end)) {
-        
+       if ($this.ajaxUrl != '' && (!$this.end)) {        
         $this.ajaxLoad();
        }else {
          $this.showIn();           
@@ -244,7 +189,6 @@ $(document).ready(function() {
   }
 
 
-
   Cktarget.prototype.upRefresh = function  () {    
     var $this = this,
     $targetObj = $this.targetObj,
@@ -260,51 +204,68 @@ $(document).ready(function() {
     })
 */
 
-
     function tgStart (e) {
-      if ($targetObj.parents('.tag-section').scrollTop() == 0) {       
+      
+      
+      if ($targetObj.parents('.tag-section').scrollTop() == 0 ) {
+        if ($this.parentScroll.isMove == true) {
+          return
+        }
         isTop = true;
         pageTop = window.event.touches[0].pageY;        
         $targetObj.bind('touchmove',function  (e) {
           tgMove(e);
         });        
-        $targetObj.bind('touchend',function  (e) {          
+        $targetObj.bind('touchend',function  (e) {
           tgEnd(e);
-        });        
-      }    
+        });
+      }else {
+        isTop = false;
+      }
     }
     
-    function tgMove (e) {
-      if (isTop == true) {
-
-        
-        var move = window.event.touches[0].pageY - pageTop;
+    function tgMove (e) {    
+      if ($this.parentScroll.isMove == true) {
+        return
+      }
+      if (isTop == true) {        
+        //e.preventDefault();
+        //e.stopPropagation();         
+        var move = window.event.touches[0].pageY - pageTop;      
         if (move < 3) {
-           isTop = false;                   
-           resetEvent ()
+           //isTop = false;
+           //resetEvent ()
         }else {
-          e.preventDefault();
-          e.stopPropagation();        
-          var style = {
-            'transform' : 'translate(0px,' + move + 'px)',
-            'transition' : '0s'
-          };
-          $this.refreshMove = move;
-          if (move > $this.refreshRange) {
-            $this.refreshObj.html('松开刷新').addClass('open');
-          }else {
-            $this.refreshObj.html('下拉刷新').removeClass('open');            
-          }
-          $targetObj.css(style);          
+            isTop = true;
+            move = (move/Math.sqrt(move)) * 3.5;
+            $this.parentScroll.isSubMove = true;
+            e.preventDefault();
+            e.stopPropagation();        
+            var style = {
+              'transform' : 'translate(0px,' + move + 'px)',
+              'transition' : '0s'
+            };
+            $this.refreshMove = move;
+            
+            if (move > $this.refreshRange) {
+              $this.refreshObj.html('松开刷新').addClass('open');
+            }else {
+              $this.refreshObj.html('下拉刷新').removeClass('open');            
+            }         
+            $targetObj.css(style);     
+         
         }
-
-      }else {
+      }else {        
         resetEvent ()       
       }   
     }   
 
+
+
     function tgEnd (e) {
       isTop = false;
+      $this.parentScroll.isSubMove = false;
+
       resetEvent();
 
       $this.refreshEnd();
@@ -316,15 +277,19 @@ $(document).ready(function() {
         'transition' : '.3s'
       };
       $targetObj.css(style);
+
       //$targetObj.unbind('touchmove MSPointerMove pointermove');
       //$targetObj.unbind('touchend MSPointerUp pointerup');      
       $targetObj.unbind();        
 
-      $targetObj.on('touchstart MSPointerDown pointerdown',function  (e) {
-        tgStart (e);
+      $targetObj.on('touchstart MSPointerDown pointerdown',function  (e) {    
+        if ($this.refreshPro == true) {
+          
+        }else {
+          tgStart(e);       
+        }
       })
     }
-
   }
 
   Cktarget.prototype.refreshEnd = function  () {
@@ -332,6 +297,17 @@ $(document).ready(function() {
     if (($this.refreshMove > $this.refreshRange) && ($this.refreshPro == false)) {
       $this.refreshAppend();
     }    
+  }
+
+  Cktarget.prototype.refreshBack = function  () {
+    var $this = this,
+      $targetObj = $this.targetObj;
+
+    $targetObj.on('touchstart MSPointerDown pointerdown',function  (e) {                         
+       if ($this.refreshPro == true) {           
+       }else {                  
+       }      
+     })
   }
 
   Cktarget.prototype.refreshAppend = function  () {
@@ -359,6 +335,10 @@ $(document).ready(function() {
               'transition' : '.3s'
             };
             $targetObj.css(style);
+          
+            //$this.refreshBack();
+
+           
 
           }, 3000)
       },
@@ -429,6 +409,7 @@ $(document).ready(function() {
     }else {
       this.targetObj.next('.bottom-load').show();      
     }
+    this.targetObj.prev('.refresh-tag').show();
 
     this.targetObj.trigger('afterAppend');
   }

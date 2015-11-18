@@ -14,8 +14,6 @@
   clear: both;
 }
 
-
-
 .noscript {
     text-align:center;
     display:block;
@@ -121,3 +119,4 @@ input[type="search"] {
           box-sizing: content-box;
   -webkit-appearance: textfield;
 }
+

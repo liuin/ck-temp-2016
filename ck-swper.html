@@ -16,7 +16,7 @@
   <![endif]-->
   <title>website name</title>
   <style type="text/css">
-  #scrollpic {width:651px; height: 407px;}
+  #scrollpic {width:651px; height: 407px;    overflow:hidden;}
   #scrollpic li{
     float:left;
     width:651px;
@@ -30,6 +30,10 @@
   #scrollpic .scroll-warp {
     width:300px;
   }
+  .scroll-warp {overflow:hidden;position:relative;}
+
+  .banner-nav a.current {color:red;}
+
   </style>
 
 </head>
@@ -52,21 +56,51 @@
         <img src="images/app-img4.jpg" alt="" />
       </li>
     </ul>
+<div style="height:100px;"></div>
+
+    <ul id="scrollpic1">
+          <li class="current">
+            <img src="images/app-img1.jpg" alt="" />
+          </li>
+          <li>
+            <img src="images/app-img2.jpg" alt="" />
+          </li>
+          <li>
+            <img src="images/app-img3.jpg" alt="" />
+          </li>
+          <li>
+            <img src="images/app-img4.jpg" alt="" />
+          </li>
+        </ul>
   </div>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/bs-trans.js"></script>
   <script type="text/javascript" src="js/ck-swper.js"></script>
   <script type="text/javascript">
   <!--
-    $("#scrollpic").scollpic({
-     itemTag : "li",
-     itemWidth : 651,
-     itemHeight : 407,
-     bigImg : 'off',
-     scollBack : function  (img , obj) {
-       //执行完回调事件处理
-     }
-    });    
+    $(document).ready(function() {
+      $("#scrollpic").scollpic({
+       itemTag : "li",
+       itemWidth : 651,
+       itemHeight : 407,
+       bigImg : 'off',
+       type:'slide',
+       scollBack : function  (img , obj) {
+         //执行完回调事件处理
+       }
+      });        
+      $("#scrollpic1").scollpic({
+       itemTag : "li",
+       itemWidth : 651,
+       itemHeight : 407,
+       bigImg : 'off',
+       type:'fade',
+       scollBack : function  (img , obj) {
+         //执行完回调事件处理
+       }
+      });        
+    })
+    
   //-->
   </script>
 </body>

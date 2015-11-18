@@ -92,6 +92,10 @@
     this.axow = 'n';
     this.isMove = false;
     this.isSubMove = false;
+    this.count = this.obj.find('.tag-section').length;
+    this.currentCount = 0;
+    
+    this.obj.find('.tag-wrap-inner').width(this.swpierLong*this.count);
 
     this.init();
   }
@@ -144,6 +148,7 @@
     this.moveY = false;
     this.distX = 0;
     this.distY = 0;
+
     
     this.startTime = borws.getTime();
 
@@ -201,6 +206,13 @@
      if (absDistX > absDistY) {
         this.axow = 'x';
         e.preventDefault();
+        
+        if (this.currentCount > (this.count - 2)) {
+          if (deltaX < 0) {
+            deltaX = 0;
+          }
+        }
+
         newX = this.x + deltaX;
         newY = this.y + deltaY;
 
@@ -211,8 +223,7 @@
          // }
 
         this.translate(newX, newY);   
-        this.obj.trigger('scroll');
-        this.obj.trigger('scroll');
+        this.obj.trigger('scroll');        
 
         return 
      }        
@@ -249,10 +260,7 @@
         distanceY = Math.abs(newY - this.startY),
         time = 0,
         easing = '';
-
-    
-    
-    
+        
     momentumX = this.momentumScroll(this.x, this.startX, duration, this.maxScrollX, '0', undefined);
     momentumY = this.momentumScroll(this.y, this.startY, duration, this.maxScrollY, '0', undefined);
 
@@ -263,24 +271,45 @@
 
     //如果是切换
     if (this.isSwpier) {
+      
       (this.x - this.startX > 0)? (this.swpierdDlr = 'left') : (this.swpierdDlr = 'right');
       var trun = this.x % this.swpierLong;  
 
       var count = parseInt(this.x / this.swpierLong);
       if ((Math.abs(trun) > this.swpierTomove) && (this.swpierdDlr == 'right')) {        
+        this.currentCount = Math.abs(count)+1;
+        if (this.currentCount > this.count) {
+          return
+        }        
+        
+
         this.translate(-(Math.abs(count)+1)*this.swpierLong, newY, 300);
-      }else if(((this.swpierLong - Math.abs(trun)) > this.swpierTomove) && (this.swpierdDlr == 'left')){
+        this.obj.trigger('scrollEnd',this.currentCount);
+
+      }else if(((this.swpierLong - Math.abs(trun)) > this.swpierTomove) && (this.swpierdDlr == 'left')){        
+        this.currentCount = Math.abs(count);
+        if (this.currentCount > this.count) {
+          return
+        }
         this.translate(-(Math.abs(count))*this.swpierLong, newY, 300);
+        this.obj.trigger('scrollEnd',this.currentCount);
       }
       else if(this.swpierdDlr == 'right'){
+        if (this.currentCount > this.count) {
+          return
+        }        
+
         this.translate(count*this.swpierLong, newY, 300);
       }else if(this.swpierdDlr == 'left'){
+        if (this.currentCount > this.count) {
+          this.translate(-(this.count)*this.swpierLong, newY, 300);
+          return
+        }
         this.translate(-(Math.abs(count) + 1)*this.swpierLong, newY, 300);
       }
-    this.obj.unbind('touchmove pointermove');
-    this.obj.unbind('touchend pointerend');
-    this.axow = 'n';
-
+      this.obj.unbind('touchmove pointermove');
+      this.obj.unbind('touchend pointerend');
+      this.axow = 'n';
 
       return false;
     }
@@ -289,10 +318,10 @@
 
     this.translate(newX, newY,time);
 
-
-
     this.obj.trigger('scrollEnd');    
   }
+
+
   //滚动效果
   ckScroll.prototype.momentumScroll = function (current, start, time, lowerMargin, wrapperSize, deceleration) {
       var distance = current - start,

@@ -26,8 +26,7 @@ $(document).ready(function() {
   var getpanhd = $(window).height()- $('.panel-login').outerHeight() - $('.panel-bottom').outerHeight();
   $('.panel-list-block').height(getpanhd);
 
-
-  $('.open-panel').on('tap',function  (e) {    
+  $('.open-panel').on('tap',function  (e) {
     $('body').addClass('open-panel');
     setTimeout(
       function(){
@@ -112,6 +111,12 @@ $(document).ready(function() {
         loadAjax(getPage.data('ajaxurl'),getPage,ajaxBeforeCallback,ajaxAfterSuccess);
       }
       $(this).addClass('active').siblings().removeClass('active');
+    })
+
+
+    $('#tag-wrap').on('scrollEnd',function  () {
+      console.log(arguments);
+      
     })
 
     return false;

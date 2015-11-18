@@ -1,2 +1,1 @@
-
-.row [class*="span"] {background:#DFD5FD; }
+.row [class*="col-md-"] {background:#DFD5FD; }

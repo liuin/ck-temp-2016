@@ -49,7 +49,7 @@
        loop : false,
        wrapClass :'scrollpic-wrap',
        parenWidth : 'auto',
-       playSpeed : 6000,
+       playSpeed : 3000,
        autoPlay : true,
        type:'fade',
        fadeTime:1000
@@ -84,8 +84,9 @@
 
 
      $this.wrap('<div class="scroll-warp" style=" position:relative; height:' + opts.itemHeight + 'px; width:' + opts.parenWidth + 'px;"></div>');
- 
+  
      $arrowPrev.click(function  () {
+      
       if (opts.type == "fade") {
          if ($nav.find('a.current').prev().length > 0) {
           $nav.find('a.current').prev().trigger('click');
@@ -94,31 +95,31 @@
          }
         return
       }
-       scoll('left',$this);
+       //scoll('left',$this);
      });
  
      $arrowNext.click(function  () {
-      if (opts.type == "fade") {
-        if ($nav.find('a.current').next().length > 0) {
-         $nav.find('a.current').next().trigger('click');
-        }else {
-          $nav.find('a').first().trigger('click');          
-        }
-       return
-     }
-
-       scoll('right',$this);
+      
+        moveloop();
+        
      });
 
-     if (opts.type == 'fade') {
+     function moveloop () {      
+  
+       if ($nav.find('a.current').next().length > 0) {
+        $nav.find('a.current').next().trigger('click');
+       }else {
+         $nav.find('a').first().trigger('click');          
+       }       
+     }
+
       var liStyle={
         'position' : 'absolute',
         'left' : 0,
         'top':0
       }
       $this.find('li').css(liStyle).not('.current').hide();
-     }
- 
+     
      //页码
      var navItemCount = $this.find(opts.itemTag).length / opts.itemCount;
      function  nav() {
@@ -136,12 +137,19 @@
        if ($(this).hasClass("current")) {
          return false;
        }else {
+        var cur = $nav.find('a.current').index();
         $(this).addClass("current").siblings().removeClass("current");
          var ind = $(this).index();
-         if (opts.type="fade") {
+         if (opts.type == "fade") {
           var ind = $(this).index();
           scrollFade($this,ind);
           return ;
+         }
+         
+         if (opts.type == 'slide') {
+           
+           scrollSlide($this,ind,cur);
+           return
          }
         
          
@@ -167,11 +175,14 @@
      $this.find(opts.itemTag).each(function  () {     
        itemTotal+=$(this).outerWidth();
      });
-     if (opts.type="fade") {
+
+     /*
+     if (opts.type == "fade") {
      }else {
        $this.css({'position':'relative','width':itemTotal});    
        
      }
+     */
  
      //moblie tounch手机事件
      var currntp = 0;
@@ -245,16 +256,17 @@
      })
  
      //循环
-     var onHover = false;
-     $this.parent().parent().parent().hover(function  () {
-       onHover = true;
+     $this.data('onhover',false);
+     $this.parent().parent().hover(function  () {
+       $this.data('onhover',true);      
      },function  () {
-       onHover = false;
+       $this.data('onhover',false)
      })
  
      function loopMain() {
        if (opts.autoPlay == true) {
-         if (onHover == false) {
+          $this.data('onhover');
+         if ($this.data('onhover') == false) {           
            $arrowNext.trigger('click');
          }
        }
@@ -309,7 +321,7 @@
        }
      }
  
-     function  loopRestEnd() {
+     function loopRestEnd() {
        if (opts.loop == true) {
          $this.css("transition","0"); 
          scrollObj($this, -(itemTotal - (opts.itemCount*opts.itemWidth)*2),'nav', function  () {
@@ -323,6 +335,7 @@
  
      //滚动模式
      function  scrollObj(obj, value, navlong, callback) {
+       return false;
        if (navlong) {
           leftVal = 0;
        }
@@ -376,6 +389,46 @@
        obj.find('li').not(ind).fadeOut(opts.fadeTime);
        obj.find('li').eq(ind).fadeIn(opts.fadeTime).addClass('current').siblings().removeClass('current');
      }
+      
+     //slider效果
+     function scrollSlide(obj,ind,cur) {
+       
+       var lrt = (ind - cur);
+       
+       if (lrt > 0) {
+         var style = {
+           'left': opts.itemWidth
+         }
+         obj.find('li').eq(ind).css(style).show();
+         obj.find('li').eq(ind).animate({
+           'left':0
+         },function  () {
+          $(this).addClass('current').siblings().removeClass('current');
+         })
+         obj.find('li').eq(cur).animate({
+          'left': -opts.itemWidth
+         },function  () {
+          $(this).removeClass('current').hide().css('left','0');
+         })
+       }else {
+         var style = {
+           'left': -opts.itemWidth
+         }
+         obj.find('li').eq(ind).css(style).show();
+         obj.find('li').eq(ind).animate({
+           'left':0
+         },function  () {
+          $(this).addClass('current').siblings().removeClass('current');
+         })
+         obj.find('li').eq(cur).animate({
+          'left': opts.itemWidth
+         },function  () {
+          $(this).removeClass('current').hide().css('left','0');
+         })         
+        
+
+       }
+     } 
  
      //滚动函数
      function scoll(dir,obj,moveWidth,ind) {

@@ -428,17 +428,12 @@
     this.x = x;
     this.y = y;
   }
-
-
-
-  $(document).ready(function() {
+  
+  $(document).on('ckScroll',function  () {
     $(selectString).each(function () {
        //callsome
        $(selectString).data('ckScroll',new ckScroll($(this)));
-    })      
+    })
   })
-  
-
-
 
 })(jQuery);

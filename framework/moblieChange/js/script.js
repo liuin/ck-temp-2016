@@ -4,16 +4,14 @@ $(document).ready(function() {
   var mainView = myApp.addView('.container-view', {});
   
   //加载回调函数页面
-  myApp.onPageInit('index', function (page) {
+  myApp.onPageInit('index', function (page) {    
     if ($('.pages .page[data-page="index"]').data('build') != true) {
       homeLoad();
     }
     $('.pages .page[data-page="index"]').data('build',true);
   });
 
-  myApp.onPageInit('page3', function (page) {
-    
-  });
+  myApp.onPageInit('page3', function (page) {});
   
   //预加载某页
   var ajurl = 'indoor-page.html';
@@ -21,6 +19,13 @@ $(document).ready(function() {
     //url : ajurl,
     //animatePages:true
   });
+
+  function gotoUrl(gurl) {
+    mainView.router.load({
+      url : gurl,
+      animatePages:true
+    });    
+  }
 
   //左边目录
   var getpanhd = $(window).height()- $('.panel-login').outerHeight() - $('.panel-bottom').outerHeight();
@@ -53,7 +58,7 @@ $(document).ready(function() {
   function handleClicks(e) {
     /*jshint validthis:true */
     var clicked = $(this);
-     
+    
     var url = clicked.attr('href');
     
     var isLink = clicked[0].nodeName.toLowerCase() === 'a';        
@@ -66,33 +71,46 @@ $(document).ready(function() {
             }
             return;
         }
-    }    
+    }
     if (isLink) {
       e.preventDefault();
-    }   
+    }
+    
     var options = {
       url : url,
       animatePages:true
     }
 
     if (clicked.hasClass('back')){
-      mainView.router.back(options)
+      mainView.router.back(options);
     }else{
       mainView.router.load(options);
-    }          
+    }
+
+        
+    
   }
 
 
   //首页变量
   function homeLoad () {
+    $(document).trigger('ckScroll');
+    $(document).trigger('fixCktarget');
+
+    var prevPage = 'first';
+    var curPage = 0;
+
     $('.tag-section').height($(window).height()-80);
-    $('.tag-section').width($(window).width());
+    $('.tag-section').width($(window).width());    
+
     
     $('#tag-wrap').on('loadBottom','.bottom-load',function  () {
-      var getInd = $(this).parents('.tag-section').index();
+      var getInd = $(this).parents('.tag-section').index();      
       var $cktarget = $('[data-cktarget]').eq(getInd).data('cktarget');
       $cktarget.ajaxLoad();
     })
+
+    
 
 
     $('.tag-head-inner a').on('tap',function  (e) {
@@ -103,20 +121,51 @@ $(document).ready(function() {
 
       e.stopPropagation();
 
-      if (tagPageArr[0] == getInd) {
-        $('#tag-wrap .tag-section').eq(getInd).hide().fadeIn();
-        tagPageArr.reverse();
-      }else {
-        var getPage = $('#tag-wrap .tag-section').eq(getInd);
-        loadAjax(getPage.data('ajaxurl'),getPage,ajaxBeforeCallback,ajaxAfterSuccess);
-      }
-      $(this).addClass('active').siblings().removeClass('active');
+    })
+
+
+    $('#tag-wrap').on('click','a',function  (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var urllink = $(this).attr('href');
+      gotoUrl(urllink);
+
     })
 
 
     $('#tag-wrap').on('scrollEnd',function  () {
-      console.log(arguments);
+      var getInd = arguments[1];
       
+      $('.tag-section .bottom-load').hide();
+      $('.tag-section').eq(getInd).find('.bottom-load').show();
+
+      if (getInd == prevPage) {
+        prevPage = curPage;
+        curPage = getInd;        
+        $('.tag-head-inner a').eq(getInd).addClass('active').siblings().removeClass('active');
+        return
+      }
+
+      if (prevPage == 'first') {
+        $('[data-cktarget]').eq(getInd).trigger('click');
+        prevPage = curPage;
+        curPage = getInd;        
+
+      }else{
+        if (getInd != prevPage) {
+          $('[data-cktarget]').eq(getInd).trigger('click');
+          prevPage = curPage;
+          curPage = getInd;          
+          $('.tag-section').each(function (n) {
+            if (n != prevPage && n != curPage) {
+              $(this).find('.tag-section-info').empty();
+              $(this).find('.load-tag').show();
+            }
+          })
+        }else {
+          $('.tag-head-inner a').eq(getInd).addClass('active').siblings().removeClass('active');
+        }
+      }
     })
 
     return false;
@@ -161,9 +210,14 @@ $(document).ready(function() {
 
     //点击事件
     this.obj.on('click',function  (e) {
+
      if ($this.obj.hasClass($this.addClass) || $this.ajaxPro) {
       return false;
-     }else {         
+     }else {      
+       //var $cktarget = $('[data-cktarget]').eq(getInd).data('cktarget');
+       var getInd = $this.obj.index();      
+       //var $cktarget = $('[data-cktarget]').eq(getInd).data('cktarget');
+       $this.parentScroll.translate(-getInd*$('#tag-wrap').width(),0,300);
        $this.obj.addClass($this.addClass).siblings().removeClass($this.addClass);
        $this.curPage = 0;
        $this.end = false;
@@ -174,6 +228,7 @@ $(document).ready(function() {
          $this.showIn();           
        }
      }
+
      return false;
     })
 
@@ -257,11 +312,10 @@ $(document).ready(function() {
             }else {
               $this.refreshObj.html('下拉刷新').removeClass('open');            
             }         
-            $targetObj.css(style);     
-         
+            $targetObj.css(style);         
         }
       }else {        
-        resetEvent ()       
+        resetEvent()       
       }   
     }   
 
@@ -270,7 +324,7 @@ $(document).ready(function() {
     function tgEnd (e) {
       isTop = false;
       $this.parentScroll.isSubMove = false;
-
+      
       resetEvent();
 
       $this.refreshEnd();
@@ -329,7 +383,7 @@ $(document).ready(function() {
           function(){
             $this.refreshPro = false;
             $this.refreshObj.html('下拉刷新');
-            $this.refreshObj.removeClass('refresh-load');            
+            $this.refreshObj.removeClass('refresh-load');
             
             var $data = $(data).show();
 
@@ -340,12 +394,12 @@ $(document).ready(function() {
               'transition' : '.3s'
             };
             $targetObj.css(style);
+
+            $this.refreshMove = 0;
           
             //$this.refreshBack();
 
-           
-
-          }, 3000)
+          }, 1000)
       },
       error:function  () {
         alert('很抱歉加载错误,请刷新页面');
@@ -386,8 +440,7 @@ $(document).ready(function() {
           }                        
           $this.targetObj.append(data);          
 
-          if ($this.curPage == $this.totlePage) {
-            
+          if ($this.curPage == ($this.totlePage - 1)) {            
             $this.end = true;
           }else {
             $this.curPage++;
@@ -426,14 +479,17 @@ $(document).ready(function() {
     this.parenObj.addClass(this.addClass).fadeIn().siblings().removeClass(this.addClass).hide();
   }
 
-  $(document).ready(function() {
+
+
+  function addClassFx() {
     $(selectString).each(function () {
       $(this).data('cktarget',new Cktarget($(this)));
     })
-
     $(selectString).eq(0).trigger('click');
-    $('.tag-section-info1').on('afterAppend',function  () {        
-    })
+  }
 
+  $(document).on('fixCktarget',function  () {
+    addClassFx();
   })
+
 })(jQuery);

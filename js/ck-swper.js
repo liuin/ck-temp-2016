@@ -50,12 +50,15 @@
        wrapClass :'scrollpic-wrap',
        parenWidth : 'auto',
        playSpeed : 3000,
+       lazyload:false,
        autoPlay : true,
        type:'fade',
        fadeTime:1000
      };
  
      var opts = $.extend({},defualts,options);
+     var animatePro = false;
+     var itemLength = $this.find(opts.itemTag).length;
  
     
  
@@ -85,16 +88,12 @@
 
      $this.wrap('<div class="scroll-warp" style=" position:relative; height:' + opts.itemHeight + 'px; width:' + opts.parenWidth + 'px;"></div>');
   
-     $arrowPrev.click(function  () {
-      
-      if (opts.type == "fade") {
-         if ($nav.find('a.current').prev().length > 0) {
-          $nav.find('a.current').prev().trigger('click');
-         }else {
-           $nav.find('a').last().trigger('click');
-         }
-        return
-      }
+     $arrowPrev.click(function  () {           
+       if ($nav.find('a.current').prev().length > 0) {
+        $nav.find('a.current').prev().trigger('click');
+       }else {
+         $nav.find('a').last().trigger('click');
+       }
        //scoll('left',$this);
      });
  
@@ -134,9 +133,16 @@
  
      $nav.appendTo($this.parent().parent());
      $nav.find("a").click(function  () {
+        
        if ($(this).hasClass("current")) {
          return false;
        }else {
+
+       if (animatePro == true) {
+         return;
+       }
+       animatePro = true;
+
         var cur = $nav.find('a.current').index();
         $(this).addClass("current").siblings().removeClass("current");
          var ind = $(this).index();
@@ -387,48 +393,108 @@
      //fade效果
      function scrollFade(obj,ind) {      
        obj.find('li').not(ind).fadeOut(opts.fadeTime);
-       obj.find('li').eq(ind).fadeIn(opts.fadeTime).addClass('current').siblings().removeClass('current');
+       obj.find('li').eq(ind).fadeIn(opts.fadeTime,function  () {
+        animatePro == false;
+       }).addClass('current').siblings().removeClass('current');
      }
       
      //slider效果
-     function scrollSlide(obj,ind,cur) {
-       
-       var lrt = (ind - cur);
-       
-       if (lrt > 0) {
-         var style = {
-           'left': opts.itemWidth
-         }
-         obj.find('li').eq(ind).css(style).show();
-         obj.find('li').eq(ind).animate({
-           'left':0
-         },function  () {
-          $(this).addClass('current').siblings().removeClass('current');
-         })
-         obj.find('li').eq(cur).animate({
-          'left': -opts.itemWidth
-         },function  () {
-          $(this).removeClass('current').hide().css('left','0');
-         })
-       }else {
-         var style = {
-           'left': -opts.itemWidth
-         }
-         obj.find('li').eq(ind).css(style).show();
-         obj.find('li').eq(ind).animate({
-           'left':0
-         },function  () {
-          $(this).addClass('current').siblings().removeClass('current');
-         })
-         obj.find('li').eq(cur).animate({
-          'left': opts.itemWidth
-         },function  () {
-          $(this).removeClass('current').hide().css('left','0');
-         })         
-        
+     function scrollSlide(obj,ind,cur) {    
 
+       if ((cur==0 && (ind == itemLength-1))) {
+        goLeft(obj,ind,cur);
+        return 
        }
-     } 
+       if (((cur == itemLength-1) && ind == 0)) {
+        goRight(obj,ind,cur);
+        return 
+       }       
+       var lrt = (ind - cur);       
+       if (lrt > 0 ) {
+         goRight(obj,ind,cur);
+       }else {
+         goLeft(obj,ind,cur);        
+       }
+     }
+
+     function goRight (obj,ind,cur) {
+       var style = {
+         'left': opts.itemWidth
+       }
+       obj.find('li').eq(ind).css(style).show();
+       obj.find('li').eq(ind).animate({
+         'left':0
+       },function  () {
+        $(this).addClass('current').siblings().removeClass('current');
+        checkLazy(ind);
+        animatePro = false;
+       })
+       obj.find('li').eq(cur).animate({
+        'left': -opts.itemWidth
+       },function  () {
+        $(this).removeClass('current').hide().css('left','0');
+        
+       })      
+     }
+
+     function goLeft (obj,ind,cur) {
+       var style = {
+         'left': -opts.itemWidth
+       }
+       obj.find('li').eq(ind).css(style).show();
+       obj.find('li').eq(ind).animate({
+         'left':0
+       },function  () {
+        checkLazy(ind);
+        $(this).addClass('current').siblings().removeClass('current');
+       })
+       obj.find('li').eq(cur).animate({
+        'left': opts.itemWidth
+       },function  () {
+        $(this).removeClass('current').hide().css('left','0');
+        animatePro = false;
+       })        
+     }
+
+     //监测layz
+     function checkLazy(ind) {
+      if (opts.lazyload == true ) {
+        var nextImg = $this.find('li').eq(ind+1).find('img');        
+        
+        if (nextImg.length > 0) {
+         
+          layzLoadImg(nextImg);
+        }
+
+        var prevImg = $this.find('li').eq(ind-1).find('img');
+        if (prevImg.length > 0) {
+          layzLoadImg(prevImg);
+        }
+      }
+     }
+
+     function layzLoadImg (imgObj) {
+      if (imgObj.data('load') != 'comp') {
+         
+         imgObj.data('load',true);
+         var gSrc = imgObj.data('src');   
+         
+         if (gSrc == undefined) {
+          return 
+         }
+         var img = $('<img src="' + gSrc + '" alt="" />');
+         if (img[0].complete) {
+           imgObj.attr('src',gSrc) ;
+           img.remove();                     
+         }else{
+           img.load(function  () {
+             imgObj.attr('src',gSrc) ;
+             img.remove();
+            
+           })            
+         }
+       }       
+     }
  
      //滚动函数
      function scoll(dir,obj,moveWidth,ind) {

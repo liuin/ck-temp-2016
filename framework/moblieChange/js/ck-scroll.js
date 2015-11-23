@@ -207,16 +207,23 @@
         this.axow = 'x';
         e.preventDefault();
         
+        /*
         if (this.currentCount > (this.count - 2)) {
           if (deltaX < 0) {
             deltaX = 0;
           }
         }
+        */
+       // console.log(this.swpierLong * (this.count-1));
 
         newX = this.x + deltaX;
         newY = this.y + deltaY;
 
         newX = (newX > 0)? 0 : newX;
+
+        if ((-newX) >  this.swpierLong * (this.count-1)) {
+          newX = -(this.swpierLong * (this.count-1));
+        }
 
          // if (deltaX == 0) {
          //   this.moveY = true;

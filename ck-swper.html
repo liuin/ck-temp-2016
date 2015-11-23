@@ -16,6 +16,7 @@
   <![endif]-->
   <title>website name</title>
   <style type="text/css">
+  .scrollpic-wrap {width:660px;}
   #scrollpic {width:651px; height: 407px;    overflow:hidden;}
   #scrollpic li{
     float:left;
@@ -34,6 +35,9 @@
 
   .banner-nav a.current {color:red;}
 
+  .scroll-item-list-prev {position: absolute;top: 192px;left: 10px;width: 20px;height: 20px;background: #000;}
+  .scroll-item-list-next {position: absolute;top: 192px;right: 10px;width: 20px;height: 20px;background: #000;}
+
   </style>
 
 </head>
@@ -50,7 +54,10 @@
         <img src="images/app-img2.jpg" alt="" />
       </li>
       <li>
-        <img src="images/app-img3.jpg" alt="" />
+        <img src="images/spinner_tra.gif" data-src="images/app-img3.jpg" alt="" />
+      </li>
+      <li>
+        <img src="images/spinner_tra.gif" data-src="images/app-img3.jpg" alt="" />
       </li>
       <li>
         <img src="images/app-img4.jpg" alt="" />
@@ -58,7 +65,7 @@
     </ul>
 <div style="height:100px;"></div>
 
-    <ul id="scrollpic1">
+<ul id="scrollpic1">
           <li class="current">
             <img src="images/app-img1.jpg" alt="" />
           </li>
@@ -85,10 +92,13 @@
        itemHeight : 407,
        bigImg : 'off',
        type:'slide',
+       lazyload:true,
        scollBack : function  (img , obj) {
          //执行完回调事件处理
+         console.log(obj);
        }
-      });        
+      });     
+      return
       $("#scrollpic1").scollpic({
        itemTag : "li",
        itemWidth : 651,

@@ -31,20 +31,22 @@
   </header>
   <div class="container">
     <h2 class="">grid</h2>
-    <div class="row ">
-      <div class="col-md-12">col-md-12</div>
-      <div class="col-md-6">
-        <div class="col-md-12">col-md-12</div>
-        <div class="col-md-10">col-md-10</div>
-        <div class="col-md-6">col-md-6</div>
-      </div>
-      <div class="col-md-4">col-md-4</div>
-      <div class="col-md-6">col-md-6</div>
+    <div class="row">
+      <div class="col-12">col-12</div>
+    </div>
+    <div class="row">
+      <div class="col-4">col-4</div>
+      <div class="col-4">col-4</div>
+      <div class="col-4">col-4</div>
     </div>
     <div class="row ">
-      <div class="col-md-6">col-md-6</div>
-      <div class="col-md-6">col-md-6</div>
-      <div class="col-md-6">col-md-6</div>
+      <div class="col-6">col-6</div>
+      <div class="col-6">col-6</div>
+    </div>
+
+    <div class="row ">
+      <div class="col-w300">col-自定义300</div>
+      <div class="col-w400">col-自定义400</div>
     </div>
     
     <h2>标题</h2>
@@ -69,146 +71,58 @@
     <div class="row">
       <strong>rendered as bold text</strong>
     </div>
-    <div class="row">
-      <address>
-        <strong>Twitter, Inc.</strong><br>
-        795 Folsom Ave, Suite 600<br>
-        San Francisco, CA 94107<br>
-        <abbr title="Phone">P:</abbr> (123) 456-7890
-      </address>
-    </div>
-    <div class="row">
-      <ol>
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Consectetur adipiscing elit</li>
-        <li>Integer molestie lorem at massa</li>
-        <li>Facilisis in pretium nisl aliquet</li>
-        <li>Nulla volutpat aliquam velit</li>
-        <li>Faucibus porta lacus fringilla vel</li>
-        <li>Aenean sit amet erat nunc</li>
-        <li>Eget porttitor lorem</li>
-      </ol>
-      <ul class="list list-count">
-        <li><i>1</i>Lorem ipsum dolor sit amet</li>
-        <li><i>2</i>Consectetur adipiscing elit</li>
-        <li><i>3</i>Integer molestie lorem at massa</li>
-        <li><i>4</i>Facilisis in pretium nisl aliquet</li>
-        <li><i>5</i>Nulla volutpat aliquam velit</li>
-        <li><i>6</i>Faucibus porta lacus fringilla vel</li>
-        <li><i>7</i>Aenean sit amet erat nunc</li>
-        <li><i>8</i>Eget porttitor lorem</li>
-     </ul>
-    </div>
-    <h2 class="mb10">表格</h2>
-    <div class="row mb15">
-      <table class="table mb15">
-      <tbody>
-        <tr>
-          
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+    
+    
+    <div style="height: 30px;"></div>
 
-<table class="table table-hd">
-      <thead>
-         <tr>
-          
-          <th>Mark</th>
-          <th>Otto</th>
-          <th>@mdo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table> 
-    </div>
-    <h2 class="mb10">表单</h2>
-    <form class="form form-default mb20">
-      <div class="form-group mb10">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="text" class="form-control yh" id="exampleInputEmail1" placeholder="Email">
+    <h2>form</h2>
+    
+    <form action="#" class="form-style">
+      <div class="ground-form ground-form-car">
+            <label>车　型：</label>
+            <select name="" class="yh" data-form="select" >
+              <option>车   型1</option>
+              <option>车   型2</option>
+            </select>  
+          </div>
+          <div class="ground-form ground-form-biz">
+            <label>经销商：</label>
+            <select name="" class="yh" data-form="select" >
+              <option>经销商1</option>
+              <option>经销商2</option>
+            </select>  
+          </div>      
+      <div class="ground-form ground-form-name">
+        <label>姓　名：</label>
+        <input type="text" name="" class="f-box yh" id=""> 
       </div>
-      <div class="form-group mb10">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control yh" id="exampleInputPassword1" placeholder="Password">
+      <div class="ground-form ground-form-tel">
+        <label>电　话：</label>
+        <input type="text" name="" class="f-box yh" id=""> 
       </div>
-      <div class="form-group mb10">
-        <label for="exampleInputFile">File input</label>
-        <input type="file" id="exampleInputFile">
-        <p class="help-block">Example block-level help text here.</p>
+      
+      <div class="ground-form-sub">
+        <button type="submit" class="btn-sub yh">预约试驾</button>
       </div>
-      <div class="form-group mb10">
-        <label>
-          <input type="checkbox"> Check me out
-        </label>
-      </div>
-      <div class="form-sub">
-        <button type="button" class="btn btn-default yh">Submit</button>
-      </div>
-    </form>
+    </form>    
+
+    <div style="height:80px;"></div>
+
+    <ul class="list-dec">
+      <li><span class="list-dec-count">1</span>需要到选定的合作商家交定金及提车才能享受活动的各种福利；</li>
+      <li><span class="list-dec-count">2</span>团购价格以团购当天协定的价格为准；</li>
+      <li><span class="list-dec-count">3</span>提车时间以客户选择提车商家的提车安排时间为准；</li>
+      <li><span class="list-dec-count">4</span>需要通过线上参团，才可以享受合作商家线下的其他购车福利；</li>
+      <li><span class="list-dec-count">5</span>报名后1-2个工作日没接到商家安排团购电话，请告知在线客服；</li>
+      <li><span class="list-dec-count">6</span>商家确认购车后，礼品会在活动结束后10个工作日内邮递；</li>
+      <li><span class="list-dec-count">7</span>其他不了解的情况，请咨询在线客服，我们将竭诚为您服务。</li>
+    </ul>
+
+    <div style="height: 30px;"></div>
 
 
-    <form class="form form-inline mb20">
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="text" class="form-control yh" id="exampleInputEmail1" placeholder="Email">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control yh" id="exampleInputPassword1" placeholder="Password">
-      </div>
-      <div class="form-sub">
-        <button type="button" class="btn btn-default yh">Submit</button>
-      </div>
-    </form>
 
-    <form class="form-horizontal mb15">
-      <div class="row mb15">
-        <label class="col-xs-2 control-label" for="formGroupInputLarge">Large label</label>
-        <div class="col-xs-10">
-          <input class="form-control yh" type="text" id="formGroupInputLarge" placeholder="Large input">
-        </div>
-      </div>
-      <div class="row mb15">
-        <label class="col-xs-2 control-label" for="formGroupInputSmall">Small label</label>
-        <div class="col-xs-10">
-          <input class="form-control yh" type="text" id="formGroupInputSmall" placeholder="Small input">
-        </div>
-      </div>
-    </form>
+    
   </div>
 
   <footer class="container">    

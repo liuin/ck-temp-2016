@@ -1,1 +1,3 @@
-.row [class*="col-md-"] {background:#DFD5FD; }
+.row [class*="col-"] {background:#D9CFFF; line-height: 30px;}
+.row .col-w300 {width: 300px; }
+.row .col-w400 {width: 300px; margin-left: 10px;}

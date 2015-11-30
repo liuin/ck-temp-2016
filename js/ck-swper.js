@@ -149,6 +149,7 @@
          if (opts.type == "fade") {
           var ind = $(this).index();
           scrollFade($this,ind);
+         
           return ;
          }
          
@@ -394,7 +395,7 @@
      function scrollFade(obj,ind) {      
        obj.find('li').not(ind).fadeOut(opts.fadeTime);
        obj.find('li').eq(ind).fadeIn(opts.fadeTime,function  () {
-        animatePro == false;
+        animatePro = false;
        }).addClass('current').siblings().removeClass('current');
      }
       

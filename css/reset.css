@@ -289,16 +289,7 @@ input[type="search"] {
 }
 
 
-/*-- form-bk --*/
-.form-style {display:block; }
-.ground-form { margin-bottom: 10px; position:relative;}
-.ground-form .f-box{width:328px; height: 26px; line-height: 26px;background: #fff; padding-left: 10px;padding-right: 10px; border: 0; border: 1px solid #a3a3a3;}
-.ground-form i {position: absolute;font-size: 20px;right: -18px;top: 5px; color: }
 
-/*-- list-dec --*/
-.list-dec {line-height: 25px;}
-.list-dec li{position:relative; padding-left:48px; margin-bottom:5px;}
-.list-dec .list-dec-count {position:absolute; background:#000; width:25px; height:25px; margin-bottom:15px; text-align:center;left: 0; top:1px; color: #fff;}
 
 
 

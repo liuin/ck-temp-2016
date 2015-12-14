@@ -199,12 +199,12 @@
      $this.parents("."+opts.wrapClass).bind("touchstart",function  (e) {
         currntp = window.event.touches[0].pageX;
         ifchlick = true;
-        e.preventDefault();
+        //e.preventDefault();
       });
  
      $this.parents("."+opts.wrapClass).bind('touchend', function(e) {
        if (pageX == 0) {
-         return false;
+         return true;
        }
        e.preventDefault();
        ifchlick = false;
@@ -227,7 +227,7 @@
          ifchlick = false;
          pageX = window.event.targetTouches[0].pageX;
        }else {
-         return false;
+         return true;
        }
      });
      

@@ -345,6 +345,8 @@ KindEditor.plugin('image', function(K) {
     this.$box = '';
     this.startX = 0;
     this.startY = 0;
+    this.id = null;
+    this.rect = null;
 
     this.build();
   }
@@ -466,7 +468,7 @@ KindEditor.plugin('image', function(K) {
       var gVal = $(this).html();
       if (gVal == 'A') {
         var getlink = prompt("请输入你的网址","http://");
-        console.log(getlink);
+        
         if (getlink == null) {
           return
         }
@@ -481,7 +483,7 @@ KindEditor.plugin('image', function(K) {
 
     })
 
-
+    $this.tomaplink();
   }
 
   LinkBox.prototype.move = function  (e) {  //移动    
@@ -498,19 +500,6 @@ KindEditor.plugin('image', function(K) {
     }
   }
 
-  LinkBox.prototype.move = function  (e) {  //移动    
-    $this = this;
-    if ($this.state == 'move') {
-      var delteX = e.clientX - $this.startX;
-      var delteY = e.clientY - $this.startY;
-      
-      var style = {
-        'top' : $this.top + delteY,
-        'left' : $this.left + delteX
-      }
-      $this.$box.css(style);
-    }
-  }
 
   LinkBox.prototype.del = function  () {  //删除    
     var $this = this;
@@ -521,8 +510,14 @@ KindEditor.plugin('image', function(K) {
     
   }
 
-  LinkBox.prototype.tomaplink = function  () {
+  LinkBox.prototype.tomaplink = function  () { //加入rect
+    var $this = this;
     
+    $this.rect = $('<area href="sun.htm" shape="rect" coords="'+100+','+100+','+200+','+200+'"></area>');
+    var getMap = $this.$obj.attr('id');
+    console.log(getMap);
+    var getObj = $this.$obj.parents('.ke-content').find('map[name="'+getMap+'"]');
+    $this.rect.appendTo(getObj);
   }
 
 
@@ -540,8 +535,24 @@ KindEditor.plugin('image', function(K) {
     startY = 0,
     posX = 0,
     posY = 0,
+    getId = null,
     drap = $('<div style="position:absolute; border:1px solid red; background:#fff;"></div> '),
     close = $('<span style="position: absolute;width: 35px;height: 35px;line-height: 35px;text-align: center;color: #fff;font-size: 20px;background: #000;right: -36px;top: -4px; cursor: pointer;" class="close">X</span>');
+    if ($this.img.attr('usemap') == undefined) {
+      getId = 'ck-' + new Date().getTime();
+      $this.img.attr('usemap', '#' + getId);
+    }else {
+      getId = $this.img.attr('usemap').substr(1);
+    }
+
+ 
+    if ($this.img.parents('.ke-content').find('map[name=' + getId + ']').length < 1) {
+      var $mapHtml = $('<map name="' + getId + '"></map>');
+      $mapHtml.insertAfter($this.img);
+    }
+    
+    
+
 
     style = {
       'position':'absolute',
@@ -552,7 +563,7 @@ KindEditor.plugin('image', function(K) {
       'height': $this.img.height() - 8
     }
 
-    var gethtml = '<div class="imglink"></div>';
+    var gethtml = '<div class="imglink" id="'+getId+'"></div>';
     gethtml = $(gethtml);
     gethtml.css(style).insertAfter($this.img);
     close.appendTo(gethtml);

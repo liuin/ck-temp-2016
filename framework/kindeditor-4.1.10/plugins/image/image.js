@@ -339,28 +339,27 @@ KindEditor.plugin('image', function(K) {
     this.height = height;
     this.top = top;
     this.left = left;
-    this.href = link || "";
+    this.href = link || "A";
     this.target = '_blank';
     this.state = 'state';
     this.$box = '';
     this.startX = 0;
     this.startY = 0;
     this.id = null;
-    this.rect = null;
-
+    this.rect = false;
     this.build();
   }
   
   LinkBox.prototype.build = function  () {  //建立    
     var $this = this;
-    $this.$box = $('<div><span class="close" style="position: absolute;width: 15px;height: 15px;font-size: 12px;color: #fff;right: -1px;top: -15px;background: #000;text-align: center;line-height: 15px;cursor: pointer;">X</span><span style="position: absolute;width: 10px;height: 10px;right: 0;top: 50%;margin-top: -5px;margin-right: -6px;background: #f60; cursor: w-resize;" class="wd"></span><span style="position:absolute;width:10px; height:10px;right:50%;bottom:0;margin-bottom: -4px; margin-left:-5px;background: #f60; cursor: s-resize;" class="hd"></span><span style="position: absolute; height: 15px;background: blue;color: #fff;text-align: center;line-height: 15px;top: -15px;right: 20px;cursor: pointer;overflow: hidden;text-overflow: ellipsis;" class="link">A</span></div>');
+    $this.$box = $('<div><span class="close" style="position: absolute;width: 15px;height: 15px;font-size: 12px;color: #fff;right: -1px;top: -15px;background: #000;text-align: center;line-height: 15px;cursor: pointer;">X</span><span style="position: absolute;width: 10px;height: 10px;right: 0;top: 50%;margin-top: -5px;margin-right: -6px;background: #f60; cursor: w-resize;" class="wd"></span><span style="position:absolute;width:10px; height:10px;right:50%;bottom:0;margin-bottom: -4px; margin-left:-5px;background: #f60; cursor: s-resize;" class="hd"></span><span style="position: absolute; height: 15px;background: blue;color: #fff;text-align: center;line-height: 15px;top: -15px;right: 20px;cursor: pointer;overflow: hidden;text-overflow: ellipsis;" class="link">' + $this.href + '</span></div>');
     var style = {
       'width':$this.width,
       'height':$this.height,
       'top':$this.top,
       'left':$this.left,
       'border': '1px solid red',
-      'background':'#fff',
+      'background':'rgba(255, 255, 255, 0.7)',
       'position':'absolute',
       'cursor':'move'
     }
@@ -373,28 +372,33 @@ KindEditor.plugin('image', function(K) {
       $this.state = 'move';
       $this.startX = e.clientX;
       $this.startY = e.clientY;
-    })   
-    
-    $this.$box.bind('mousemove',function  (e) {
-      e.stopPropagation();
-      e.preventDefault();      
-      if ($this.state == 'move') {
-        $this.move(e);
-      }
-    })
 
-    $this.$box.bind('mouseup',function  (e) {
-      e.stopPropagation();
-      e.preventDefault(); 
-      if ($this.state == 'move') {
-        var delteX = e.clientX - $this.startX;
-        var delteY = e.clientY - $this.startY;
-        $this.top = $this.top + delteY;
-        $this.left = $this.left + delteX;
-      }
-      $this.state = 'state';
-    })
-    
+
+      
+      $this.$box.parents('.imglink').bind('mousemove',function  (e) {
+        e.stopPropagation();
+        e.preventDefault();      
+        if ($this.state == 'move') {
+          $this.move(e);
+        }
+      })
+
+
+      $this.$box.parents('.imglink').bind('mouseup',function  (e) {
+        e.stopPropagation();
+        e.preventDefault(); 
+        if ($this.state == 'move') {
+          var delteX = e.clientX - $this.startX;
+          var delteY = e.clientY - $this.startY;
+          $this.top = $this.top + delteY;
+          $this.left = $this.left + delteX;
+        }
+        $this.state = 'state';
+        $this.tomaplink();
+        $this.$box.parents('.imglink').unbind('mousemove mouseup');
+      })
+    })   
+
     $this.$box.find('.close').on('click',function  () {
       $this.del();
     })
@@ -407,30 +411,35 @@ KindEditor.plugin('image', function(K) {
       e.preventDefault();
       $this.state = 'wdmove';
       wdX = e.clientX;
-    })
 
-    $this.$box.find('.wd').bind('mousemove',function  (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if ($this.state == 'wdmove') {
-        var delteX = e.clientX - wdX;
-        var style = {
-          'width' : $this.width + delteX
+      $this.$box.parents('.imglink').bind('mousemove',function  (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if ($this.state == 'wdmove') {
+          var delteX = e.clientX - wdX;
+          var style = {
+            'width' : $this.width + delteX
+          }
+          $this.$box.css(style);
         }
-        $this.$box.css(style);
-      }
+      })
+
+
+      $this.$box.parents('.imglink').bind('mouseup',function  (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if ($this.state == 'wdmove') {
+          var delteX = e.clientX - wdX;
+          $this.width = $this.width + delteX;
+        }
+        $this.state = 'state';
+        
+        $this.tomaplink();
+        $this.$box.parents('.imglink').unbind('mousemove mouseup');
+      })
+
     })
 
-    $this.$box.find('.wd').bind('mouseup',function  (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if ($this.state == 'wdmove') {
-        var delteX = e.clientX - wdX;
-        $this.width = $this.width + delteX;
-      }
-
-      $this.state = 'state';
-    })
 
     //拉高
     $this.$box.find('.hd').bind('mousedown',function  (e) {
@@ -438,51 +447,59 @@ KindEditor.plugin('image', function(K) {
       e.preventDefault();
       $this.state = 'hdmove';
       wdY = e.clientY;
-    })
 
-    $this.$box.find('.hd').bind('mousemove',function  (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if ($this.state == 'hdmove') {
-        var delteX = e.clientY - wdY;
-        var style = {
-          'height' : $this.height + delteX
+      $this.$box.parents('.imglink').bind('mousemove',function  (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if ($this.state == 'hdmove') {
+          var delteX = e.clientY - wdY;
+          var style = {
+            'height' : $this.height + delteX
+          }
+          $this.$box.css(style);
         }
-        $this.$box.css(style);
-      }
-    })
+      })
+      
 
-    $this.$box.find('.hd').bind('mouseup',function  (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if ($this.state == 'hdmove') {
-        var delteY = e.clientY - wdY;
-        $this.height = $this.height + delteY;
-      }
+      $this.$box.parents('.imglink').bind('mouseup',function  (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if ($this.state == 'hdmove') {
+          var delteX = e.clientY - wdY;
+          var style = {
+            'height' : $this.height + delteX
+          }
+          $this.$box.css(style);
+          $this.height = $this.height + delteX;
+          $this.tomaplink();
+        }
 
-      $this.state = 'state';
+        $this.$box.parents('.imglink').unbind('mousemove mouseup');
+      })
+
     })
 
     //link
-    $this.$box.find('.link').bind('click',function  () {
+    $this.$box.find('.link').bind('click',function  () {      
       var gVal = $(this).html();
       if (gVal == 'A') {
         var getlink = prompt("请输入你的网址","http://");
-        
         if (getlink == null) {
           return
         }
         $(this).html(getlink);
+        $this.href = getlink;
+        $this.tomaplink();
       }else {
         var getlink = prompt("请输入你的网址",gVal);
         if (getlink == null) {
           return
         }
         $(this).html(getlink);
+        $this.href = getlink;
+        $this.tomaplink();
       }
-
     })
-
     $this.tomaplink();
   }
 
@@ -491,10 +508,27 @@ KindEditor.plugin('image', function(K) {
     if ($this.state == 'move') {
       var delteX = e.clientX - $this.startX;
       var delteY = e.clientY - $this.startY;
+
+      var boxTop = $this.top + delteY;
+      var boxLeft = $this.left + delteX;
+      if (boxTop < 0) {
+        boxTop = 0;
+      }
+      if (boxTop > ($this.$obj.height() - $this.height)) {
+        boxTop = $this.$obj.height() - $this.height;
+      }
+
+      if (boxLeft < 0) {
+        boxLeft = 0;
+      }
+
+      if (boxLeft > ($this.$obj.width() - $this.width)) {
+        boxLeft = $this.$obj.width() - $this.width;
+      }
       
       var style = {
-        'top' : $this.top + delteY,
-        'left' : $this.left + delteX
+        'top' : boxTop,
+        'left' : boxLeft
       }
       $this.$box.css(style);
     }
@@ -504,22 +538,22 @@ KindEditor.plugin('image', function(K) {
   LinkBox.prototype.del = function  () {  //删除    
     var $this = this;
     $this.$box.remove();
-  }
-
-  LinkBox.prototype.change = function  () {  //改变大小    
-    
+    $this.rect.remove();
   }
 
   LinkBox.prototype.tomaplink = function  () { //加入rect
     var $this = this;
-    
-    $this.rect = $('<area href="sun.htm" shape="rect" coords="'+100+','+100+','+200+','+200+'"></area>');
-    var getMap = $this.$obj.attr('id');
-    console.log(getMap);
-    var getObj = $this.$obj.parents('.ke-content').find('map[name="'+getMap+'"]');
-    $this.rect.appendTo(getObj);
+    if (typeof ($this.rect) == 'object') {
+      $this.rect.attr('coords',$this.left + ',' + $this.top + ',' + ($this.left + $this.width) + ',' + ($this.top + $this.height));
+      $this.rect.attr('href', $this.href);
+    }else {
+      $this.rect = $('<area target="' + $this.target + '" href="' + $this.href + '" shape="rect" coords="' + $this.left + ',' + $this.top + ',' + ($this.left + $this.width) + ',' + ($this.top + $this.height) + '"></area>');
+      
+      var getMap = $this.$obj.attr('id');
+      var getObj = $this.$obj.parents('.ke-content').find('map[name="'+getMap+'"]');
+      $this.rect.appendTo(getObj);
+    }
   }
-
 
   //图片驱动
   function  ImageLink(imgObj) {
@@ -544,15 +578,8 @@ KindEditor.plugin('image', function(K) {
     }else {
       getId = $this.img.attr('usemap').substr(1);
     }
-
  
-    if ($this.img.parents('.ke-content').find('map[name=' + getId + ']').length < 1) {
-      var $mapHtml = $('<map name="' + getId + '"></map>');
-      $mapHtml.insertAfter($this.img);
-    }
-    
-    
-
+    var mapBlock = $this.img.parents('.ke-content').find('map[name=' + getId + ']');
 
     style = {
       'position':'absolute',
@@ -563,7 +590,7 @@ KindEditor.plugin('image', function(K) {
       'height': $this.img.height() - 8
     }
 
-    var gethtml = '<div class="imglink" id="'+getId+'"></div>';
+    var gethtml = '<div class="imglink" style="background:rgba(0, 0, 0, 0.18);" id="'+getId+'"></div>';
     gethtml = $(gethtml);
     gethtml.css(style).insertAfter($this.img);
     close.appendTo(gethtml);
@@ -573,6 +600,24 @@ KindEditor.plugin('image', function(K) {
 
     drap.appendTo(gethtml);
 
+
+    //如果原来是有
+    if (mapBlock.length < 1) {
+      var $mapHtml = $('<map name="' + getId + '"></map>');
+      $mapHtml.insertAfter($this.img);
+    }else {
+      mapBlock.find('area').each(function () {
+        var getAera = $(this).attr('coords').split(','),
+        getAeraLeft = parseInt(getAera[0]),
+        getAeraTop = parseInt(getAera[1]),
+        getAeraWidth = parseInt(getAera[2]) - parseInt(getAera[0]),
+        getAeraHeight = parseInt(getAera[3]) - parseInt(getAera[1]),
+        aeraLink = $(this).attr('href');
+        $(this).remove();
+        new LinkBox(getAeraWidth, getAeraHeight, getAeraTop, getAeraLeft, aeraLink, gethtml);
+      })
+    }
+
     gethtml.bind('mousedown',function  (e) {
       startX = e.clientX;
       startY = e.clientY;
@@ -581,60 +626,50 @@ KindEditor.plugin('image', function(K) {
       $this.builld = 'move';   
       e.stopPropagation();
       e.preventDefault();
-    })
-    
-    gethtml.bind('mousemove',function  (e) {
-      if ($this.builld == 'move') {
-        
-        var delteX = e.clientX - startX;
-        var delteY = e.clientY - startY;
-        if ((delteX > 10)||(delteY > 10)) {
-          drap.show();          
-          var style = {
-            'top':startY - pos.top,
-            'left':startX - pos.left,
-            'width':delteX,
-            'height': delteY 
+
+      gethtml.bind('mousemove',function  (e) {
+        if ($this.builld == 'move') {
+          
+          var delteX = e.clientX - startX;
+          var delteY = e.clientY - startY;
+          if ((delteX > 10)||(delteY > 10)) {
+            drap.show();          
+            var style = {
+              'top':startY - pos.top,
+              'left':startX - pos.left,
+              'width':delteX,
+              'height': delteY 
+            }
+            drap.css(style);
           }
-          drap.css(style);
+        }else {
+          drap.hide();
         }
-      }else {
+        e.stopPropagation();
+        e.preventDefault();
+      })
+
+      gethtml.bind('mouseup',function  (e) {
+        if ($this.builld == 'move') {
+          var delteX = e.clientX - startX;
+          var delteY = e.clientY - startY;
+          if ((delteX > 10)||(delteY > 10)) {
+            new LinkBox(delteX, delteY, startY-pos.top, startX-pos.left, '', gethtml);
+          }        
+        }
+
+        $this.builld = 'state';
+        startX = 0;
+        startY = 0;
+        posX = 0;
+        posY = 0;
         drap.hide();
-      }
-      e.stopPropagation();
-      e.preventDefault();
-    })
-
-    gethtml.bind('mouseup',function  (e) {
-      if ($this.builld == 'move') {
-        var delteX = e.clientX - startX;
-        var delteY = e.clientY - startY;
-        if ((delteX > 10)||(delteY > 10)) {
-          new LinkBox(delteX, delteY, startY-pos.top, startX-pos.left, '', gethtml);
-        }        
-      }
-
-      $this.builld = 'state';
-      startX = 0;
-      startY = 0;
-      posX = 0;
-      posY = 0;
-      drap.hide();
-      e.stopPropagation();
-      e.preventDefault();
-    })
-
+        e.stopPropagation();
+        e.preventDefault();
+        gethtml.unbind('mousemove mouseup');
+      })
+    })  
   }
-
-  ImageLink.prototype.drap = function  () {
-
-
-  }
-  
-
-
-
-
 });
 
 

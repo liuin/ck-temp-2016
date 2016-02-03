@@ -49,8 +49,8 @@
         this.fileData = '';
         this.apImg = $('#imgbk');
         this.baseUrl = '';
-        this.toSizeWidth = 500;
-        this.toSizeHeight = 600;
+        this.toSizeWidth = 100;
+        this.toSizeHeight = 100;
         
         var $this = this;
         obj.change(function  (e) {
@@ -125,7 +125,7 @@
           ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
           
           var url = canvasEl.toDataURL("image/png"); 
-          
+          console.log(url);
           var img1 = '<img src="' + url + '" alt="" />';
           img1 = $(img1);
           //$this.apImg.attr('src',url);

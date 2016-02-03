@@ -74,7 +74,7 @@
     $(document).ready(function() {
       var $image = $('#image');
 
-      $('#image').cropper({
+      $image.cropper({
         aspectRatio: 640 / 960,
         crop: function(e) {
           // Output the result data for cropping image.
@@ -89,6 +89,8 @@
         },
         autoCropArea:0.8
       })
+
+
 
       //  切换图片
       var $inputImage = $('#inputImage');
@@ -126,12 +128,14 @@
       
 
        $('#cut').click( function  () {
-        var toBase64 = $('#image').cropper("getCroppedCanvas",{
+        var toCanvas = $image.cropper("getCroppedCanvas",{
           width:320
-        }).toDataURL();
-        var $img = $('<img src="' + toBase64 + '" alt="">');
-        console.log($img);
-        $img.appendTo($('body'));
+        })
+        var $toCanvas = $(toCanvas);
+        
+        var toBase64 = toCanvas.toDataURL();
+        //var $img = $('<img src="' + toBase64 + '" alt="">');
+          $toCanvas.appendTo($('body'));
         })
      
     })

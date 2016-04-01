@@ -12,45 +12,45 @@
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
   <title>website name</title>
-<script src="http://www.w3cplus.com/sites/default/files/blogs/2016/1601/flexible.js"></script>
+<script src="js/flexible.js"></script>
 <script type="text/javascript">
 <!--
-  ;
-(function(win) {
-    var doc = win.document;
-    var docEl = doc.documentElement;
-    var tid;
-
-    function refreshRem() {
-        var width = docEl.getBoundingClientRect().width;
-        if (width > 640) { // 最大宽度
-          //  width = 640;
-        }
-        var rem = width * 100 / 640; // 设计图的尺寸为640， 1rem=100px
-       
-        docEl.style.fontSize = rem + 'px';
-    }
-
-    win.addEventListener('resize', function() {
-        clearTimeout(tid);
-        tid = setTimeout(refreshRem, 300);
-    }, false);
-    win.addEventListener('pageshow', function(e) {
-        if (e.persisted) {
-            clearTimeout(tid);
-            tid = setTimeout(refreshRem, 300);
-        }
-    }, false);
-
-    refreshRem();
-
-})(window);
+//;(function(win) {
+//    var doc = win.document;
+//    var docEl = doc.documentElement;
+//    var tid;
+//
+//    function refreshRem() {
+//        var width = docEl.getBoundingClientRect().width;
+//        if (width > 640) { // 最大宽度
+//          //  width = 640;
+//        }
+//        var rem = width * 100 / 640; // 设计图的尺寸为640， 1rem=100px
+//       
+//        docEl.style.fontSize = rem + 'px';
+//    }
+//
+//    win.addEventListener('resize', function() {
+//        clearTimeout(tid);
+//        tid = setTimeout(refreshRem, 300);
+//    }, false);
+//    win.addEventListener('pageshow', function(e) {
+//        if (e.persisted) {
+//            clearTimeout(tid);
+//            tid = setTimeout(refreshRem, 300);
+//        }
+//    }, false);
+//
+//    refreshRem();
+//
+//})(window);
 //-->
 </script>
 
   <style type="text/css">
     * {margin: 0;padding: 0;}
    .container {width: 2rem; height: 1rem;background:red;  color: #fff;font-size: .24rem;}
+   [data-dpr="2"] .p1 {font-size: 54px;}
   </style>
 </head>
 <body class="yh">
@@ -59,7 +59,7 @@
   </noscript>
   
   <div class="container">
-     textdsf
+     <p class="p1">textdsf</p>
   </div>
   <script type="text/javascript" src="js/asset.js"></script>
   <script type="text/javascript" src="js/script.js"></script>

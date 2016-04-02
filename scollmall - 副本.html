@@ -18,49 +18,19 @@
     * {border:0;margin: 0;padding: 0;list-style-type:none;}  
 
     /*-- list --*/
-    .box {position:relative;overflow:hidden; width: 500px; margin: 0 auto; height: 500px; background:#333; color: #fff;}
+    .box {position:relative;overflow:hidden; width: 500px; margin: 0 auto; height: 500px; background:red; color: #fff;}
 
-    .list {position:absolute;width: 100%;top: 0; line-height: 1.8;}
+    .list {position:absolute;width: 100%;top: 0; line-height: 1.8;  -webkit-transition:1s; transition:1s;}
+    .list li{position:relative; left:100%;top: 0; -webkit-transition:6s,linear; transition:6s,linear; width: 100%; transform: translate(-100%,0); -webkit-transform: translate(-100%,0); }
 
-    .list li{position:relative; left:100%;top: 0;  }
-
-    .list li.in0 {animation: scollma 6s linear; -webkit-animation: scollma 6s linear;}
-
-    .list li.in1 {animation: scollma 7s linear; -webkit-animation: scollma 7s linear;}
-
-    .list li.in2 {animation: scollma 5s linear; -webkit-animation: scollma 5s linear;}
-
-    .list li.in3 {animation: scollma 8s linear; -webkit-animation: scollma 8s linear;}
-
-    .list li.in4 {animation: scollma 9s linear; -webkit-animation: scollma 9s linear;}
+    .list li.in0 {transform: translate(-200%,0); -webkit-transform: translate(-200%,0); transition-duration:5s; transition-duration:5s;}
+    .list li.in1 {transform: translate(0%,0); -webkit-transform: translate(0%,0); transition:7s,linear;-webkit-transition:7s,linear;}
+    .list li.in2 {transform: translate(-200%,0); -webkit-transform: translate(-200%,0); transition-duration:6s; transition-duration:6s;}
+    .list li.in3 {transform: translate(-200%,0); -webkit-transform: translate(-200%,0); transition-duration:8s; transition-duration:8s;}
+    .list li.in4 {transform: translate(-200%,0); -webkit-transform: translate(-200%,0); transition-duration:5s; transition-duration:5s;}
 
 
-    @-webkit-keyframes scollma{
-        0%{
-          transform: translate(0,0); -webkit-transform: translate(0,0); 
-        }
-        100%{
-          transform: translate(-200%,0); -webkit-transform: translate(-200%,0); 
-        }
-    }
 
-    @-moz-keyframes scollma{
-        0%{
-          transform: translate(0,0); -moz-transform: translate(0,0); 
-        }
-        100%{
-          transform: translate(-200%,0); -moz-transform: translate(-200%,0); 
-        }
-    }
-    
-    @keyframes scollma{
-      0%{
-        transform: translate(0,0); -webkit-transform: translate(0,0); 
-      }
-      100%{
-        transform: translate(-200%,0); -webkit-transform: translate(-200%,0); 
-      }
-    }
 
     
   </style>
@@ -70,13 +40,13 @@
     <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
   </noscript>
   <div class="box" id="box">
-    <!--  <ul class="list">
+     <ul class="list">
        <li>我的一段文字我的一段文字</li>
        <li>我的一段文字我的一段文字我的一段文字</li>
        <li>我的一段文字我的一段文字我的一段文字</li>
        <li>我的一段文字我的一段文字我的一段文字</li>
        <li>我的一段文字我的一段文字我的一段文字</li>
-     </ul> -->
+     </ul>
   </div>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
@@ -94,47 +64,42 @@
 
         setInterval(
             function(){
-             adddata ();
+              //adddata ();
             },speed
         )
 
      
       function adddata () {
-       
+        var $arrspe = itemspeed;
         var $listdata = $(listdata);
         obj.append($listdata);
 
         var gettop = Math.random()*50;
         $listdata.css('top', gettop + 'px');
-
-        
  
         setTimeout(
           function(){
-            var $arrspe = new Array();
-             for (var i = 0;  i<itemspeed.length; i++) {
-              $arrspe[i] = itemspeed[i];
-             }
-
-           
            $listdata.find('li').each(function () {
               var getrand = Math.floor($arrspe.length*Math.random());
-               $(this).addClass('in' + $arrspe[getrand]);
-               $arrspe.splice(getrand,1);
-            })
-
-
+               $(this).addClass('in' + getrand);
+            })  
           }, 100)
 
  
 
         setTimeout(
           function(){
-           $listdata.remove();
-          }, 2*speed)
+            $listdata.remove();
+          }, speed+3000)
       }
 
-      adddata();    
+      //adddata();
+
+      $('body').click(function  () {
+        alert('111222');
+                $('#box li').eq(0).addClass('in1');
+
+      })
        
 
     })

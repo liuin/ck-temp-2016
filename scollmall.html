@@ -82,8 +82,42 @@
   <script type="text/javascript" src="js/script.js"></script>
   <script type="text/javascript">
 
+
+/*-- 跑马灯 --*/
+
+
     $(document).ready(function() {
       
+
+ /**
+  * Checks for CSS support.
+  * @private
+  * @param {Array} array - The CSS properties to check for.
+  * @returns {Array} - Contains the supported CSS property name and its index or `false`.
+  */
+ function isStyleSupported(array) {
+   var p, s, fake = document.createElement('div'), list = array;
+   for (p in list) {
+     s = list[p];
+     if (typeof fake.style[s] !== 'undefined') {
+       fake = null;
+       //return [ s, p ];
+       return [ true ];
+     }
+   }
+   return [ false ];
+ }
+ 
+ /**
+  * Checks for CSS transition support.
+  * @private
+  * @todo Realy bad design
+  * @returns {Number}
+  */
+ function isTransition() {
+   return isStyleSupported([ 'animation', 'WebkitAnimation', 'MozAnimation', 'OAnimation' ])[0];
+ }
+
       var timeout1,
       speed=4000,
       obj = $('#box'),
@@ -119,7 +153,20 @@
            
            $listdata.find('li').each(function () {
               var getrand = Math.floor($arrspe.length*Math.random());
-               $(this).addClass('in' + $arrspe[getrand]);
+
+              if (isTransition() == true) {
+                $(this).addClass('in' + $arrspe[getrand]); //如果支持动画                
+              }else {
+                $(this).animate({
+                  'left':'-100%'
+                },getrand*1000+6000)
+              }
+
+
+              
+
+
+
                $arrspe.splice(getrand,1);
             })
 

@@ -18,21 +18,21 @@
     * {border:0;margin: 0;padding: 0;list-style-type:none;}  
 
     /*-- list --*/
-    .box {position:relative;overflow:hidden; width: 500px; margin: 0 auto; height: 500px; background:#333; color: #fff;}
+    .box {position:relative;overflow:hidden; width: 1000px; margin: 0 auto; height: 500px; background:#333; color: #fff;}
 
-    .list {position:absolute;width: 100%;top: 0; line-height: 1.8;}
+    .list {position:absolute;width: 100%;top: 0; line-height: 1.8;display:inline-block;}
 
-    .list li{position:relative; left:100%;top: 0;  }
+    .list li{position:relative; left:100%;top: 0; }
 
-    .list li.in0 {animation: scollma 6s linear; -webkit-animation: scollma 6s linear;}
+    .list li.in0 {animation: scollma 12s linear; -webkit-animation: scollma 12s linear; color: red;}
 
-    .list li.in1 {animation: scollma 7s linear; -webkit-animation: scollma 7s linear;}
+    .list li.in1 {animation: scollma 14s linear; -webkit-animation: scollma 14s linear; color: green;}
 
-    .list li.in2 {animation: scollma 5s linear; -webkit-animation: scollma 5s linear;}
+    .list li.in2 {animation: scollma 10s linear; -webkit-animation: scollma 10s linear; color: blue;}
 
-    .list li.in3 {animation: scollma 8s linear; -webkit-animation: scollma 8s linear;}
+    .list li.in3 {animation: scollma 16s linear; -webkit-animation: scollma 16s linear; color: antiquewhite;}
 
-    .list li.in4 {animation: scollma 9s linear; -webkit-animation: scollma 9s linear;}
+    .list li.in4 {animation: scollma 18s linear; -webkit-animation: scollma 18s linear; color: yellow;}
 
 
     @-webkit-keyframes scollma{
@@ -119,10 +119,10 @@
  }
 
       var timeout1,
-      speed=4000,
+      speed=3000,
       obj = $('#box'),
       itemspeed = [0,1,2,3,4],
-      listdata = '<ul class="list"><li>我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li></ul>';
+      listdata = '<ul class="list"><li>我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><li>我的一段文字我的一段文字我的一段文字</li><br/><li>我的一段文字我的一段文字我的一段文字</li></ul>';
 
       
 
@@ -159,13 +159,9 @@
               }else {
                 $(this).animate({
                   'left':'-100%'
-                },getrand*1000+6000)
+                },getrand*1000+15000,'linear').addClass('in' + $arrspe[getrand])
+
               }
-
-
-              
-
-
 
                $arrspe.splice(getrand,1);
             })
@@ -178,7 +174,7 @@
         setTimeout(
           function(){
            $listdata.remove();
-          }, 2*speed)
+          }, 2*speed+15000)
       }
 
       adddata();    

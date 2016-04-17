@@ -18,12 +18,12 @@
     * {border:0;margin: 0;padding: 0;list-style-type:none;}  
 
     /*-- list --*/
-    .box {position:relative;overflow:hidden; width: 320px; margin: 0 auto; height: 500px; background:#333; color: #fff;}
+    .box {position:relative;overflow:hidden; width: 1000px; margin: 0 auto; height: 500px; background:#333; color: #fff;}
 
 
     .list { top: 0; line-height: 1.8;display:block; height: 500px;position:relative;}
 
-    .list li{position:absolute; left:100%;top:0; width:100%; display:block;white-space:normal;word-wrap:break-word;word-break:break-all}
+    .list li{position:absolute; padding-left: 1000px; top:0; width:100%; display:block;white-space:normal;word-wrap:break-word;word-break:break-all}
 
     .list li.in0 {animation: scollma 12s linear; -webkit-animation: scollma 12s linear; color: red;}
 
@@ -266,7 +266,7 @@ window.requestNextAnimationFrame =
             }
 
             var getrand = Math.floor($this.rowclone.length*Math.random());
-            var speed = Math.floor(2*Math.random()+1);
+            var speed = Math.floor(2*Math.random()+5);
             var toppos = $this.hcol*$this.rowclone[getrand] + Math.floor(20*Math.random());
             
             var itemli = new ItemLi($('<li>我是一段可爱的文字我是一段可爱的文字</li>'),'style-'+$this.rowclone[getrand],speed,toppos);
@@ -283,7 +283,7 @@ window.requestNextAnimationFrame =
 
     setInterval(
         function(){            
-         load();
+         //load();
         },$this.loadSpeed
     )
 
@@ -305,6 +305,8 @@ window.requestNextAnimationFrame =
     this.speed = speed;
     this.startpos = 0;
     this.toppos = toppos;
+    this.lasttime = 0;
+    this.nowtime = new Date;
     
     this.bluid();
     this.move();
@@ -332,15 +334,27 @@ window.requestNextAnimationFrame =
     
 
     function goto(){
-      if (itemmove == true) {            
-        $this.startpos=$this.startpos + $this.speed;
-        if (isTransition() == true) {
-         
-          $this.obj.css('transform','translate(-'+$this.startpos+'px,0)'); //如果支持动画                
+
+      var now = new Date();
+
+      if ($this.lasttime == 0) {        
+        $this.lasttime = new Date();
+        window.requestNextAnimationFrame(goto);
+        return
+      }
+
+      var fps = 10/(now.getTime() - $this.lasttime.getTime());
+      console.log(fps);
+      $this.lasttime = now;
+      
+      //if (itemmove == true) {            
+        $this.startpos=$this.startpos + $this.speed*fps;
+        if (isTransition() == true) {         
+          $this.obj.css('transform','translate(-'+$this.startpos+'px,0)'); //如果支持动画
         }else {
           $this.obj.css('margin-left',-$this.startpos+'px');
         }
-    }
+      //}
       
       if (Math.abs($this.startpos) > 2000) {
         $this.obj.remove();

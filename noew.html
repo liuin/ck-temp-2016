@@ -1,753 +1,241 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<base href="http://192.168.0.124/geely/web/" />
-<title>云口碑-云口碑-吉利官网</title>
-<link href="images/favicon.ico" rel="shortcut icon" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<link rel="stylesheet" href="css/reset.css" />
-<link rel="stylesheet" href="css/idangerous.swiper.css" />
-<link rel="stylesheet" href="css/public.css" />
-<link rel="stylesheet" href="css/index.css" />
+  <script type="text/javascript">
+    function browserRedirect() {
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+      var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+      var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+      var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+      var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+      var bIsAndroid = sUserAgent.match(/android/i) == "android";
+      var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+      var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
 
-<!--[if lt IE 8]>
-<link href="css/ie.css" rel="stylesheet" media="all" type="text/css" />
-<![endif]-->
-<!--[if IE 6]>
-<script type="text/javascript" src="js/DD_belatedPNG_0.0.8a.js"></script>
-<script type="text/javascript">
-//<![CDATA[
-DD_belatedPNG.fix('.class1,.class');
-//]]></script>
-<![endif]-->
+      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        window.location.href = './wap/';
+      } else {
+        //window.location = 'index.html';
+      }
+    }
+
+    browserRedirect();
+  </script>
+  <script type="text/javascript">
+  (function(){
+    'use strict';
+    var Fixmobile = function  () {
+      this.viwep();
+    }
+
+    Fixmobile.width = 640;
+
+    Fixmobile.prototype.viwep = function  (e) {
+      var phoneWidth = parseInt(window.screen.width),
+      phoneScale = phoneWidth/Fixmobile.width,
+      ua = navigator.userAgent,
+      headmate;
+      if (/Android (\d+\.\d+)/.test(ua)){
+        var version = parseFloat(RegExp.$1);
+        // andriod 2.3
+        if(version > 2.3){
+          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', minimum-scale = ' + phoneScale + ', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+        // andriod 2.3以上
+        }else{
+          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', target-densitydpi=device-dpi">');
+        }
+        // 其他系统
+      } else {
+        document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', user-scalable=no, target-densitydpi=device-dpi">');
+      }
+    }
+    var newviewport = new Fixmobile();
+  })();
+  </script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!--[if lt IE 9]>
+  <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <title>website name</title>
 </head>
-<body>
-
-<div id="loading"><div class="img"><img src="images/loading.gif" alt=""></div></div>
-
-<!-- start header -->
-<div class="xq-header">
-  <div class="w1200">
-    <div class="logo fl">
-      <a href="#"><img src="images/logo.png" alt=""></a>
-    </div>
+<body class="yh">
+  <noscript>
+    <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
+  </noscript>
+  <div class="animate-layer">
+     <canvas id="js_theme_christmas_2014_canvas_snow"></canvas>
   </div>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
+<script type="text/javascript">
+/** 
+* extend 雪花效果
+* 
+* @package jquery
+* @author cuki13
+  */
 
-  <div class="link">
-    <div class="w1200">
-      <div class="link-wrapper">
-        <a href="#">官方商城</a>
-        <a href="#">车友社区</a>
-        <a href="#">科技创新</a>
-        <a href="#">在线订车</a>
-        <a href="#" class="testdrive"><span class="ico"></span>预约试驾</a>
-        <a href="#" class="jxs"><span class="ico"></span>经销商查询</a>
-        <a href="#" class="search" title="查询"></a>
-        <a href="#" class="person" title="登录"></a>
-        <a href="#" class="switch" title="英文版"></a>
-      </div>
-    </div>
-  </div>
+(function () {
+    var addEvent = function (t, c, tf) {
+        if (document.addEventListener) {
+            document.addEventListener(t, c, tf);
+        } else if (document.attachEvent) {
+            document.attachEvent('on' + t, c);
+        }
+    }
+    var app = {};
+    var js_canvas_box_id = 'js_theme_christmas_2014_canvas_snow', j;
+    var christmas_2014 = function () {
+        function r(a) {
+            return a * Math.random()
+        }
 
-  <div class="nav">
-    <div class="w1200">
-      <div class="nav-wrapper">
-        <a href="index.php">首页</a>
-        <a href="#" class="car-pop">吉利车型</a>
-        <a href="#">云口碑</a>
-        <a href="financial_services-guide.php" class="fin-pop">金融服务</a>
-        <a href="#">车主服务</a>
-        <a href="#">走进吉利</a>
-        <a href="#">吉利热点</a>
-        <a href="#" style="margin-right: 0;">招商加盟</a>
-      </div>
-    </div>
-  </div>
+        function s() {
+            return document.createElement("canvas")
+        }
 
-  <div class="car-list" style="display: none;">
-    <div class="bg" style="display: none;"></div>
-    <div class="list-wrapper" style="display: none;">
-      <div class="list">
-        <div class="w1200">
-          <div class="wrapper car-hover">
-            <div class="block">
-              <div class="fl">
-                <a href="#" data-show="borui">
-                  <span class="img"><img src="images/car-list/borui.png" alt=""></span>
-                  <span class="name">博瑞 <i>></i></span>
-                </a>
-                <a href="#" data-show="dihao_rv">
-                  <span class="img"><img src="images/car-list/dihao_rv.png" alt=""></span>
-                  <span class="name">帝豪RV <i>></i></span>
-                </a>
-                <a href="#" data-show="newkingkong_cross">
-                  <span class="img"><img src="images/car-list/newkingkong_cross.png" alt=""></span>
-                  <span class="name">新金刚CROSS <i>></i></span>
-                </a>
-              </div>
-              <div class="fr borui">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr dihao_rv">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr newkingkong_cross">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-            <div class="block">
-              <div class="fl car-hover">
-                <a href="#" data-show="ec8">
-                  <span class="img"><img src="images/car-list/ec8.png" alt=""></span>
-                  <span class="name">EC8 <i>></i></span>
-                </a>
-                <a href="#" data-show="dihao_rs">
-                  <span class="img"><img src="images/car-list/dihao_rs.png" alt=""></span>
-                  <span class="name">帝豪RS <i>></i></span>
-                </a>
-                <a href="#" data-show="newpanda2015">
-                  <span class="img"><img src="images/car-list/newpanda2015.png" alt=""></span>
-                  <span class="name">2015款熊猫 <i>></i></span>
-                </a>
-              </div>
-              <div class="fr ec8">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr dihao_rs">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr newpanda2015">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-            <div class="block">
-              <div class="fl car-hover">
-                <a href="#" data-show="haoqing_suv">
-                  <span class="img"><img src="images/car-list/haoqing_suv.png" alt=""></span>
-                  <span class="name">豪情SUV <i>></i></span>
-                </a>
-                <a href="#" data-show="dihao_ev">
-                  <span class="img"><img src="images/car-list/dihao_ev.png" alt=""></span>
-                  <span class="name">帝豪EV <i>></i></span>
-                </a>
-                <a href="#" data-show="electric_kingkong">
-                  <span class="img"><img src="images/car-list/electric_kingkong.png" alt=""></span>
-                  <span class="name">吉利电动金刚 <i>></i></span>
-                </a>
-              </div>
-              <div class="fr haoqing_suv">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr dihao_ev">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr electric_kingkong">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-            <div class="block">
-              <div class="fl car-hover">
-                <a href="#" data-show="gx7">
-                  <span class="img"><img src="images/car-list/gx7.png" alt=""></span>
-                  <span class="name">GX7 <i>></i></span>
-                </a>
-                <a href="#" data-show="new_yuanjing">
-                  <span class="img"><img src="images/car-list/new_yuanjing.png" alt=""></span>
-                  <span class="name">新远景 <i>></i></span>
-                </a>
-                <a href="#" data-show="electric_panda">
-                  <span class="img"><img src="images/car-list/electric_panda.png" alt=""></span>
-                  <span class="name">吉利电动熊猫 <i>></i></span>
-                </a>
-              </div>
-              <div class="fr gx7">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr new_yuanjing">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr electric_panda">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-            <div class="block">
-              <div class="fl car-hover">
-                <a href="#" data-show="tx4">
-                  <span class="img"><img src="images/car-list/tx4.png" alt=""></span>
-                  <span class="name">TX4 <i>></i></span>
-                </a>
-                <a href="#" data-show="haijing2015">
-                  <span class="img"><img src="images/car-list/haijing2015.png" alt=""></span>
-                  <span class="name">2015款海景 <i>></i></span>
-                </a>
-                <a href="#" data-show="electric_gx2">
-                  <span class="img"><img src="images/car-list/electric_gx2.png" alt=""></span>
-                  <span class="name">吉利电动GX2 <i>></i></span>
-                </a>
-              </div>
-              <div class="fr tx4">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr haijing2015">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr electric_gx2">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-            <div class="block lastfix">
-              <div class="fl car-hover">
-                <a href="#" data-show="newkingkong3">
-                  <span class="img"><img src="images/car-list/newkingkong3.png" alt=""></span>
-                  <span class="name">新金刚三厢 <i>></i></span>
-                </a>
-                <a href="#" data-show="new_dihao">
-                  <span class="img"><img src="images/car-list/new_dihao.png" alt=""></span>
-                  <span class="name">吉利新帝豪 <i>></i></span>
-                </a>
-              </div>
-              <div class="fr newkingkong3">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr new_dihao">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-              <div class="fr start">
-                <a href="#"><img src="images/car-list/temp-big.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small1.jpg" alt=""></a>
-                <a href="#"><img src="images/car-list/temp-small2.jpg" alt=""></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="car-menu">
-        <div class="w1200">
-          <div class="menu ajax-menu3">
-            <a href="javascript:void(0);" class="cur" data-ajax="car_all">全部车型<span>|</span><span class="arrow"></span></a>
-            <a href="javascript:void(0);" data-ajax="car_all">轿车<span>|</span><span class="arrow"></span></a>
-            <a href="javascript:void(0);" data-ajax="car_all">SUV<span>|</span><span class="arrow"></span></a>
-            <a href="javascript:void(0);" data-ajax="car_all">电动车<span class="arrow"></span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        function t() {
+            var a;
+            for (var d = 0; d < m; d++)a = d < m * .6 ? 0 : d < m * .8 ? 1 : d < m * .9 ? 2 : d < m * .98 ? 3 : 4, o[d] = [r(b), r(c), a]
+        }
 
-  <div class="financial clearfix" style="display: none;">
-    <div class="fl">
-      <a href="#" class="cur"><span>></span> 车贷指南</a>
-      <a href="#"><span>></span> 车贷计算</a>
-      <a href="#"><span>></span> 车贷套餐</a>
-      <a href="#"><span>></span> 车贷申请</a>
-      <a href="#"><span>></span> 常见问题</a>
-    </div>
-    <div class="fr">
-      <img src="images/header-fimg.jpg" alt="">
-    </div>
-  </div>
-</div>
-<!-- end header -->
-<link rel="stylesheet" type="text/css" href="css/custom.css">
-<!-- <link rel="stylesheet" type="text/css" href="css/idangerous.swiper.css"> -->
+        function u() {
+            var a, d, e, f;
+            p += .01, d = Math.sin(p);
+            for (a = 0; a < m; a++) {
+                f = o[a], e = Math.sin(4 * p + a), f[1] += f[2] / 2 + (2 + e), f[0] += 6 * (d + e / 2) / (10 / f[2]), f[1] > c && (f[1] = -n, f[0] = r(b));
+                if (f[0] > b || f[0] < -n)d > 0 ? f[0] = -n : f[0] = b;
+                o[a] = f
+            }
+        }
 
+        function v() {
+            var a;
+            k.fillStyle = l, k.clearRect(0, 0, b, c), k.beginPath();
+            for (a = 0; a < m; a++) {
+                k.drawImage(i[o[a][2]], o[a][0], o[a][1]);
+            }
 
+            k.fill();
+            u();
+        }
 
+        function w(a) {
+            b = window.innerWidth,
+            c = window.innerHeight,
+            j !== undefined && (j.width = b, j.height = c, m = b * c / 6e3,
+            l = k.createLinearGradient(0, 0, 0, c), t())
+        }
 
+        function x() {
+            $(window).on('resize', function () {
+                christmas_2014.resizeHandler();
+            });
+            j = document.createElement("canvas");
 
+            j.style.position = "fixed";
+            j.style.top = "0px";
+            j.style.left = "0px";
+            j.style.pointerEvents = "none";
+            j.id = js_canvas_box_id;
+            document.querySelector(".animate-layer").appendChild(j);
 
+            k = j.getContext("2d");
+            k.strokeStyle = "none";
+            d = s(), e = s(), f = s(), g = s(), h = s(), i = [d, e, f, g, h];
 
-<style type="text/css">
-/* 全局样式 */
-.ct-area {overflow:hidden; width:1172px; margin-left:14px; margin-bottom:30px; position:relative;}
-.top-tit {position:relative; }
-.m-tit {color:#0067b2; font-size:30px;}
-.m-tline {border-bottom:2px solid #0067b2;}
-.news-tit {font-size:16px; font-weight:bold; color:#5a5657;}
-.news-txt {color:#807e7f; line-height:25px;}
+            y({
+                canvas: d,
+                width: n * .4,
+                height: n * .4,
+                color: "#FFF",
+                soft: .05
+            });
 
-.btn-more {font-size:14px; font-family:"宋体",Arial; margin-top:22px; }
-.btn-more a {color:#0067b2;}
-.btn-more a:hover,#yongche .ct-box a:hover {text-decoration:underline;}
+            y({canvas: e, width: n * .5, height: n * .5, color: "#FFF", soft: .05});
+            y({
+                canvas: f,
+                width: n * .6,
+                height: n * .6,
+                color: "#FFF",
+                soft: .3
+            });
+            y({canvas: g, width: n * .8, height: n * .8, color: "#FFF", soft: .2}), y({
+                canvas: h,
+                width: n,
+                height: n,
+                color: "#FFF",
+                soft: .05
+            });
 
-.sline {width:420px; height:1px; border-bottom:1px solid #c5c5c7; display:block; float:left; margin-top:14px;}
+            w(null);
 
-/* 局部区域样式 */
-#area1 .item-box {font-family:"宋体",Arial; width:522px; border-bottom:1px solid #c5c5c7;height:85px; margin-bottom:16px;}
-#area1 .item-box a {color:#807e7f;line-height:25px;}
+            app.snowTimer = setInterval(function () {
+                q(christmas_2014.draw)
+            }, 50);
+        }
 
-#ceping {width:800px;}
-#ceping .row-box {font-family:"宋体",Arial; width:800px; height:175px; position:relative; }
-#ceping .row-box a {color:#807e7f;}
-#ceping .row-box p {line-height:25px;}
-#ceping .btn-share {position:absolute; bottom:1px; left:270px;}
-#ceping .btn-share a {display:block; float:left; margin-right:5px;}
+        function y(a) {
+            var b, c, d, e, f, g, h, i, j;
+            d = a.width || 30,
+                e = a.height || 30,
+                f = d / 2, g = e / 2,
+                i = a.color || "#FFF",
+                h = a.soft || 0, b = a.canvas, b.width = d, b.height = d, c = b.getContext("2d"), c.clearRect(0, 0, d, e), j = c.createRadialGradient(f, g, 0, f, g, f), j.addColorStop(0, i), j.addColorStop(.1, i), j.addColorStop(.85, z(i, h)), j.addColorStop(1, z(i, 0)), c.fillStyle = j, c.fillRect(0, 0, d, e)
+        }
 
-#yongche {width:323px;}
-#yongche .ct-box {height:623px; background-color:#e4e4e4; position:relative; overflow:hidden;}
-#yongche .ct-box a {display:block; color:#fff; margin-left:14px; margin-top:14px;}
-#yongche .ct-box a .info {width:295px; height:30px; background-color:#252525; text-align:center; line-height:30px; font-family:"宋体",Arial;}
+        function z(a, b) {
+            var c, d, e;
+            return a = a.replace(/s*#|s*$/g, ""), a.length === 3 && (a = a.replace(/([0-9a-fA-F])/g, "$1$1")), d = parseInt(a.substr(2, 2), 16), e = parseInt(a.substr(4, 2), 16), c = parseInt(a.substr(0, 2), 16), "rgba(" + c + ", " + d + ", " + e + ", " + b + ")"
+        }
 
-#area3 .subnav {position:absolute; bottom:-6px; right:203px;}
-#area3 .subnav .arraw {width:11px; height:6px;}
-#area3 .subnav a {display:block; float:left; width:60px; height:37px; color:#807e7f; font-size:14px; font-family:"宋体",Arial; text-align:center; line-height:30px;}
-#area3 .subnav a:hover,#area3 .subnav .cur {background:url(images/praise/ykb-arraw1.png) no-repeat center top; color:#fff;}
-#area3 .img-box .img-page {width:1172px; height:442px; position:relative; float:left; display:block;}
-#area3 .img-box .pos {position:absolute; }
-#boxscroll {overflow:auto;}
-#boxscroll div {width:11720px;}
+        var b, c, d, e, f, g, h, i = [], j, k, l, m, n = 20, o = [], p = 0,
+            q = function () {
+                return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (a) {
+                    window.setTimeout(a, 62.5)
+                }
+            }();
+        return {
+            init: x,
+            draw: v,
+            stop: function () {
+                if (app.snowTimer) window.clearInterval(app.snowTimer);
+                if(j){
+                    j.parentNode.removeChild(j);
+                    j = false;
+                }
+            },
+            resizeHandler: w}
+    }();
 
-
-/*#zsgun{background:#FFFFFF;position:relative;height:446px;width:1172px;margin:auto;}*/
-/*a.hScrollPane_leftarrow{top:70px;cursor:pointer;display:block;width:25px;height:58px;background:url(../images/zsleftbar.gif) no-repeat left top;left:15px;position:absolute;}*/
-/*a.hScrollPane_leftarrow:hover{background:url(../images/zsleftbar.gif) no-repeat left -58px;}*/
-/*a.hScrollPane_rightarrow{top:70px;cursor:pointer;display:block;width:25px;height:58px;background:url(../images/zsrightbar.gif) no-repeat left top;right:15px;position:absolute;}*/
-/*a.hScrollPane_rightarrow:hover{background:url(../images/zsrightbar.gif) no-repeat left -58px;}*/
-/*.hScrollPane_dragbar{width:1172px;position:absolute;border-bottom:#83CC32 1px solid;left:15px;top:210px;z-index:1;padding:0 39px;}*/
-/*.hScrollPane_draghandle{position:absolute;width:180px;height:10px;overflow:hidden;background:url(../images/praise/ykb-scroll.png) no-repeat left top;_background:url(../images/gunbar.gif) no-repeat left top;bottom:-5px;cursor:pointer;margin:0 39px;left:0;}*/
-
-/*#scrolldiv {width:1172px; height:600px; position:relative;margin-left:55px;padding-top:22px;float:left;display:inline;overflow:hidden;}*/
-/*#scrolldiv ul{height:442px;position:absolute;width:10000px;}*/
-/*#scrolldiv li{width:1172px;height:442px;overflow:hidden;float:left; margin-right:2px; position:relative;}*/
-/*#scrolldiv li p{display:none;height:18px;line-height:18px;text-align:center;overflow:hidden;}*/
-/*#scrolldiv li p a:link,#scrolldiv li p a:visited{color:#53711C;font-size:12px;}*/
-/*#scrolldiv li.zslion p{display:block;}*/
-
-</style>
-
-<!-- start content -->
-<!-- start banner -->
-
-<div class="page-banner">
-  <div class="w1200">
-    <div class="banner-swiper swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"> <a href="#"><img src="images/financial/banner.jpg"></a> </div>
-        <div class="swiper-slide"> <a href="#"><img src="images/financial/banner.jpg"></a> </div>
-        <div class="swiper-slide"> <a href="#"><img src="images/financial/banner.jpg"></a> </div>
-        <div class="swiper-slide"> <a href="#"><img src="images/financial/banner.jpg"></a> </div>
-      </div>
-    </div>
-    <div class="banner-pagination pagination"></div>
-  </div>
-</div>
-
-
-<!-- end banner --><!-- start second_menu -->
-
-
-<div class="page-menu">
-  <div class="w1200">
-    <div class="financial">
-      <a href="#" class="">车贷指南</a>
-      <a href="#" class="">车贷计算</a>
-      <a href="#" class="">车贷套餐</a>
-      <a href="#" class="">车贷申请</a>
-      <a href="#" class="">常见问题</a>
-      <a href="#" class="">吉致金融</a>
-    </div>
-  </div>
-</div>
-
-
-<!-- end second_menu -->
-<div class="wrapper mt30" id="reputation">
-  <div class="w1200">
-    <!-- 区域1 -->
-    <div class="ct-area" id="area1">
-      <div class="top-tit mb40">
-        <div class="fl m-tit">资讯</div>
-        <div class="fr btn-more"><a href="#">更多>></a></div>
-        <div class="clearfix"></div>
-        <div class="m-tline"></div>
-      </div>
-      <div class="fl mr30">
-        <img src="images/ykb-demo1.jpg" alt="">
-        <!-- Swiper -->
-        <!-- <div class="device">
-          <a class="arrow-left" href="#"></a> 
-          <a class="arrow-right" href="#"></a>
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"> <img src="images/slider1-1.png"> </div>
-              <div class="swiper-slide"> <img src="img/slider1-2.png"> </div>
-              <div class="swiper-slide">
-                <div class="content-slide">
-                  <p class="title">Slide with HTML</p>
-                  <p>You can put any HTML inside of slide with any layout, not only images, even another Swiper!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="pagination"></div>
-        </div> -->
-        <!-- END swiper -->
-      </div>
-      <div class="fr">
-        <div class="item-box">
-          <a href="#">
-            <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-            <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术......</p>
-          </a>
-        </div>
-        <div class="cutline"></div>
-        <div class="item-box">
-          <a href="#">
-            <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-            <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术......</p>
-          </a>
-        </div>
-        <div class="cutline"></div>
-        <div class="item-box">
-          <a href="#">
-            <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-            <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术......</p>
-          </a>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-
-    <!-- 区域2 -->
-    <div class="ct-area" id="area2">
-      <div class="fl" id="ceping">
-        <div class="top-tit mb40">
-          <div class="fl m-tit">测评</div>
-          <div class="fr btn-more"><a href="#">更多>></a></div>
-          <div class="clearfix"></div>
-          <div class="m-tline"></div>
-        </div>
-
-        <div class="row-box mb30">
-          <a href="#">
-            <div class="fl mr20"><img src="images/ykb-demo2.jpg" alt=""></div>
-            <div class="fl tw500">
-              <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-              <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术，互联网与汽车工业不是谁颠覆谁的问题，而是相互融合的问题。互联网+汽车应该具备以下五大特征：与传统汽车驾驶完全不同的驾乘体验、零伤亡的智能安全、人机交互、多方互联以及自动驾驶系统。</p>
-            </div>
-          </a>
-          <div class="btn-share">
-            <div class="sline"></div>
-            <a href="#"><img src="images/praise/mtpc-ico1.png" alt=""></a>
-            <a href="#"><img src="images/praise/mtpc-ico2.png" alt=""></a>
-            <div class="fl gray3 lh30">10</div>
-          </div>
-        </div>
-
-        <div class="row-box mb30">
-          <a href="#">
-            <div class="fl mr20"><img src="images/ykb-demo2.jpg" alt=""></div>
-            <div class="fl tw500">
-              <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-              <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术，互联网与汽车工业不是谁颠覆谁的问题，而是相互融合的问题。互联网+汽车应该具备以下五大特征：与传统汽车驾驶完全不同的驾乘体验、零伤亡的智能安全、人机交互、多方互联以及自动驾驶系统。</p>
-            </div>
-          </a>
-          <div class="btn-share">
-            <div class="sline"></div>
-            <a href="#"><img src="images/praise/mtpc-ico1.png" alt=""></a>
-            <a href="#"><img src="images/praise/mtpc-ico2.png" alt=""></a>
-            <div class="fl gray3 lh30">10</div>
-          </div>
-        </div>
-
-        <div class="row-box">
-          <a href="#">
-            <div class="fl mr20"><img src="images/ykb-demo2.jpg" alt=""></div>
-            <div class="fl tw500">
-              <div class="news-tit">互联网+时代的新造车技术——李书福在新浪首届“C+峰会”上的演讲</div>
-              <p>由新浪网举办的主题为“未来商业模式”的首届“C+峰会”今天上午在北京正式开幕，吉利控股集团董事长李书福在大会现场发表了主题演讲。李书福表示，互联网+是新的技术颠覆传统技术，互联网与汽车工业不是谁颠覆谁的问题，而是相互融合的问题。互联网+汽车应该具备以下五大特征：与传统汽车驾驶完全不同的驾乘体验、零伤亡的智能安全、人机交互、多方互联以及自动驾驶系统。</p>
-            </div>
-          </a>
-          <div class="btn-share">
-            <div class="sline"></div>
-            <a href="#"><img src="images/praise/mtpc-ico1.png" alt=""></a>
-            <a href="#"><img src="images/praise/mtpc-ico2.png" alt=""></a>
-            <div class="fl gray3 lh30">10</div>
-          </div>
-        </div>
-
-      </div>
-      
-      <!-- 用车 -->
-      <div class="fr" id="yongche">
-        <div class="top-tit">
-          <div class="fl m-tit">用车</div>
-          <div class="fr btn-more"><a href="#">更多>></a></div>
-          <div class="clearfix"></div>
-          <div class="m-tline"></div>
-        </div>
-
-        <div class="ct-box">
-          <a href="#">
-            <img src="images/ykb-demo3.jpg" alt="">
-            <div class="info">吉利新金刚“一箱油穿越大兴安岭”漠北晋级赛</div>
-          </a>
-          <a href="#">
-            <img src="images/ykb-demo3.jpg" alt="">
-            <div class="info">吉利汽车2015上海车展</div>
-          </a>
-          <a href="#">
-            <img src="images/ykb-demo3.jpg" alt="">
-            <div class="info">吉利汽车2014北京车展</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="clearfix"></div>
-    </div>
-
-    <!-- 区域3 -->
-    <div class="ct-area" id="area3">
-      <div class="top-tit mb40">
-        <div class="fl m-tit">图片视频</div>
-        <div class="subnav">
-          <a class="cur" href="#">图片</a>
-          <a href="#">视频</a>
-        </div>
-        <div class="fr btn-more"><a href="#">更多>></a></div>
-        <div class="clearfix"></div>
-        <div class="m-tline"></div>
-      </div>
-      
-      <div class="img-pos">
-      <!-- img-box -->
-        <div class="img-box" id="boxscroll">
-          <div>
-            <div class="img-page" onmousedown="return false">
-              <div class="pos" style=""><a href=""><img src="images/ykb-demo-p1.jpg" alt=""></a></div>
-              <div class="pos" style="left:582px;"><a href=""><img src="images/ykb-demo-p2.jpg" alt=""></a></div>
-              <div class="pos" style="left:831px;"><a href=""><img src="images/ykb-demo-p3.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px"><a href=""><img src="images/ykb-demo-p4.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px;left:409px"><a href=""><img src="images/ykb-demo-p5.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px;left:746px"><a href=""><img src="images/ykb-demo-p6.jpg" alt=""></a></div>
-            </div>
-            <div class="img-page" onmousedown="return false">
-              <div class="pos" style=""><a href=""><img src="images/ykb-demo-p1.jpg" alt=""></a></div>
-              <div class="pos" style="left:582px;"><a href=""><img src="images/ykb-demo-p2.jpg" alt=""></a></div>
-              <div class="pos" style="left:831px;"><a href=""><img src="images/ykb-demo-p3.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px"><a href=""><img src="images/ykb-demo-p4.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px;left:409px"><a href=""><img src="images/ykb-demo-p5.jpg" alt=""></a></div>
-              <div class="pos" style="top:222px;left:746px"><a href=""><img src="images/ykb-demo-p6.jpg" alt=""></a></div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-
-    </div>
-    <!-- END -->
-  </div>
-</div>
-
-<!-- end content -->
-<!-- start scrollbar -->
-<div class="scrollbar">
-  <a href="#" class="a1" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a2" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a3" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a4" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a5" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a6" title="在线客服"><span class="v-h">在线客服</span></a>
-  <a href="#" class="a7" title="回到顶部"><span class="v-h">回到顶部</span></a>
-</div>
-<!-- end scrollbar -->
-
-<!-- start footer -->
-<div class="xq-footer">
-  <div class="w1200">
-    <div class="list-wrapper">
-      <dl class="car">
-        <dt>吉利车型</dt>
-        <dd>
-          <a href="#">博瑞</a>
-          <a href="#">EC8</a>
-          <a href="#">豪情SUV</a>
-          <a href="#">GX7</a>
-          <a href="#">TX4</a>
-          <a href="#">吉利新帝豪</a>
-          <a href="#">帝豪RV</a>
-          <a href="#">帝豪RS</a>
-          <a href="#">帝豪EV</a>
-          <a href="#">新远景</a>
-        </dd>
-        <dd>
-          <a href="#">2015款海景</a>
-          <a href="#">新自由舰</a>
-          <a href="#">新金刚三厢</a>
-          <a href="#">新金刚CROSS</a>
-          <a href="#">英伦C5三厢</a>
-          <a href="#">英伦C5两厢</a>
-          <a href="#">2015款熊猫</a>
-          <a href="#">吉利电动金刚</a>
-          <a href="#">吉利电动熊猫</a>
-          <a href="#">吉利电动GX2</a>
-        </dd>
-      </dl>
-      <dl class="dl1">
-        <dt>云口碑</dt>
-        <dd>
-          <a href="#">口碑总览</a>
-          <a href="#">最新资讯</a>
-          <a href="#">媒体评测</a>
-          <a href="#">用车体验</a>
-          <a href="#">车型图片</a>
-          <a href="#">车型视频</a>
-        </dd>
-      </dl>
-      <dl class="dl2">
-        <dt>金融服务</dt>
-        <dd>
-          <a href="#">车贷指南</a>
-          <a href="#">车贷计算</a>
-          <a href="#">金融特惠</a>
-          <a href="#">车贷套餐</a>
-          <a href="#">车贷申请</a>
-          <a href="#">常见问题</a>
-          <a href="#">吉致金融</a>
-        </dd>
-      </dl>
-      <dl class="dl2">
-        <dt>车主服务</dt>
-        <dd>
-          <a href="#">在线服务</a>
-          <a href="#">服务站查询</a>
-          <a href="#">服务活动</a>
-          <a href="#">纯正零件</a>
-          <a href="#">服务介绍</a>
-          <a href="#">质量调研</a>
-          <a href="#">G-Link自服务</a>
-        </dd>
-      </dl>
-      <dl class="dl2">
-        <dt>走进吉利</dt>
-        <dd>
-          <a href="#">集团概述</a>
-          <a href="#">企业文化</a>
-          <a href="#">科技创新</a>
-          <a href="#">社会责任</a>
-          <a href="#">人力资源</a>
-          <a href="#">吉利教育</a>
-          <a href="#">沃尔沃汽车</a>
-          <a href="#">伦敦出租车</a>
-        </dd>
-      </dl>
-      <dl class="dl2">
-        <dt>吉利热点</dt>
-        <dd>
-          <a href="#">吉利动态</a>
-          <a href="#">专题活动</a>
-          <a href="#">视频集锦</a>
-          <a href="#">吉利资源库</a>
-          <a href="#">吉利直播间</a>
-        </dd>
-      </dl>
-      <dl class="dl3">
-        <dt>关注我们</dt>
-        <div class="wx fl">
-          <p>官方微信</p>
-          <p><img src="images/ewm.png" alt=""></p>
-        </div>
-        <div class="wb fl">
-          <p>官方微博</p>
-          <p>
-            <a href="#"><img src="images/footer-xlwb.png" alt=""></a>
-            <a href="#"><img src="images/footer-txwb.png" alt=""></a>
-          </p>
-        </div>
-        <div class="clear"></div>
-        <dt>分享到</dt>
-        <dd>
-          <a href="#" class="xl"></a>
-          <a href="#" class="kx"></a>
-          <a href="#" class="qq"></a>
-          <a href="#" class="tx"></a>
-          <a href="#" class="db"></a>
-          <a href="#" class="rr"></a>
-          <a href="#" class="wy"></a>
-          <a href="#" class="sh"></a>
-        </dd>
-      </dl>
-    </div>
-  </div>
-  <div class="link-wrapper">
-    <div class="w1200">
-      <div class="fl">
-      <a href="#">网站地图</a>|<a href="#">法律声明</a>|<a href="#">媒体登录</a>|<a href="#">关注我们</a>|<a href="#">邮箱登陆</a>|<a href="#">招商加盟</a>|<a href="#">相关链接</a>|<a href="#"><img src="images/footer-m.png" alt=""></a>
-      </div>
-      <div class="fr">© 2013 浙江吉利控股集团 浙ICP备11045738号-8</div>
-    </div>
-  </div>
-</div>
-<!-- end footer -->
-
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/idangerous.swiper.js"></script>
-<script type="text/javascript" src="js/jquery.lazyload.js"></script>
-<script type="text/javascript" src="js/all_swiper.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
-
-<script src="js/jquery.nicescroll.js"></script>
-<script>
-$(document).ready(function() {
-  // var nicesx = $("#boxscroll").niceScroll("#boxscroll div", {
-  //   touchbehavior: true,
-  //   cursorcolor: "#FF00FF",
-  //   cursoropacitymax: 0.6,
-  //   cursorwidth: 24,
-  //   usetransition: true,
-  //   hwacceleration: true,
-  //   autohidemode: "hidden"
-  // });
-  // $("#boxscroll").niceScroll("#boxscroll div", {
-  //   touchbehavior: true,
-  //   cursorcolor: "#FF00FF",
-  //   cursoropacitymax: 0.6,
-  //   cursorwidth: 24,
-  //   usetransition: true,
-  //   hwacceleration: true,
-  //   autohidemode: "hidden"
-  // });
-
-  $("#boxscroll").niceScroll(); 
-});
+    if (!window['THEME_SCRIPT']) {
+        window['THEME_SCRIPT'] = {};
+    }
+    window['THEME_SCRIPT'].christmas_2014 = {
+        start: function () {
+            if($.browser.mozilla || $.browser.webkit || ($.browser.msie && $.browser.version > 9) || window.navigator.userAgent.indexOf('rv:11') != -1){
+                christmas_2014.init();
+            }
+        },
+        stop: function () {
+            if($.browser.mozilla || $.browser.webkit || ($.browser.msie && $.browser.version > 9) || window.navigator.userAgent.indexOf('rv:11') != -1){
+                christmas_2014.stop();
+            }
+        }
+    }
+    christmas_2014.init();
+})();
 </script>
+
 </body>
 </html>

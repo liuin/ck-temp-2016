@@ -16,6 +16,29 @@
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
   <title>website name</title>
+  <style type="text/css">
+    .mfp-preloader {
+  width: 30px;
+  height: 30px;
+  background-color: #FFF;
+  opacity: 0.65;
+  margin: 0 auto;
+  -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+  animation: rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes rotateplane {
+  0% { transform: perspective(120px) rotateX(0deg) rotateY(0deg) }
+  50% { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) }
+  100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg) }
+}  
+  </style>
 </head>
 <body class="yh">
   <noscript>
@@ -23,12 +46,12 @@
   </noscript>
   <div class="container">
      <div class="zoom-gallery">
-       <a href="http://mall.bydauto.com.cn/media/wysiwyg//20160317/720x246.jpg" data-source="" title="Into The Blue" style="width:193px;height:125px;">
+       <a href="http://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christmas_flood_1717.jpg/1280px-Christmas_flood_1717.jpg" data-source="" title="Into The Blue" style="width:193px;height:125px;">
          <img src="http://mall.bydauto.com.cn/media/wysiwyg/20160314/237x255.jpg" width="193" height="125" />
        </a>
-       <a href="http://farm3.staticflickr.com/2856/9207329420_7f2a668b06_o.jpg" data-source="" title="Light Sabre" style="width:82px;height:125px;">
+      <!--  <a href="http://farm3.staticflickr.com/2856/9207329420_7f2a668b06_o.jpg" data-source="" title="Light Sabre" style="width:82px;height:125px;">
          <img src="http://farm3.staticflickr.com/2856/9207329420_7f2a668b06_o.jpg" width="82px" height="125" />
-       </a>       
+       </a>        -->
      </div>
   </div>
   <script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
@@ -36,13 +59,15 @@
 
   <script type="text/javascript">
   <!--
-    $(document).ready(function() {      
+  
       $('.zoom-gallery').magnificPopup({
         delegate: 'a',
         type: 'image',
+        preloader: true,
         closeOnContentClick: false,
         closeBtnInside: false,
         mainClass: 'mfp-with-zoom mfp-img-mobile',
+        tLoading: '',
         image: {
           verticalFit: true,
           titleSrc: function(item) {
@@ -59,9 +84,23 @@
           opener: function(element) {
             return element.find('img');
           }
-        }       
+        },
+        callbacks: {
+          lazyLoad: function(item) {
+           
+            console.log(item); // Magnific Popup data object that should be loaded
+          },
+          beforeChange: function() {
+            this.items[0].src = this.items[0].src + '?=' + Math.random(); 
+          }
+        }
       });
-    })
+
+      
+
+      //$('.zoom-gallery').magnificPopup('open',0); 打开第1个
+    
+   
   //-->
   </script>
 </body>

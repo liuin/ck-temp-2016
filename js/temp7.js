@@ -23,7 +23,7 @@ window.Template7 = (function () {
     function isFunction(func) {
         return typeof func === 'function';
     }
-    var cache = {};
+    var cache = 'fdsfsdf';
     function helperToSlices(string) {
         var helperParts = string.replace(/[{}#}]/g, '').split(' ');
         var slices = [];
@@ -149,6 +149,7 @@ window.Template7 = (function () {
                                 helperContent += _blocks[j];
                                 if (foundElse) elseContent += _blocks[j];
                             }
+                            $(this)
                             else {
                                 shiftIndex = j;
                                 foundClosed = true;

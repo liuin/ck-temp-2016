@@ -23,6 +23,10 @@
 	<script type="text/javascript" src="../../scrollmagic/uncompressed/ScrollMagic.js"></script>
 	<script type="text/javascript" src="../../scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
 	<script type="text/javascript" src="../../scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
+  <style type="text/css">
+    #example-wrapper .scrollContent div {transform: translate(0,-30%); -webkit-transform: translate(0,-30%);}
+    .responsiveDuration .box1 {top: 0;}
+  </style>
 </head>
 <body>
 	<ul id="menu"></ul>
@@ -53,10 +57,18 @@
 						var controller = new ScrollMagic.Controller();
 
 						// build tween
-						var tween = TweenMax.to("#animate", 0.5, {scale: 1.3, repeat: 5, yoyo: true});
+          //  transform: translate(100%); -webkit-transform: translate(100%);
+						//var tween = TweenMax.to("#animate", 0.5, {scale: 1.3, repeat: 5, yoyo: true});
+            //var twwen1 = TweenMax.set("#animate", {y: "50%", repeat: 0, yoyo: true});
+
+						//var tween = TweenMax.to("#animate", 0.5, {y: "-100%", repeat: 0, yoyo: true});
+						var tween = TweenMax.fromTo("#animate", 0.5, {y: "500px"},{y: "0px", repeat: 0, yoyo: true});
+
 
 						// build scene and set duration to window height
-						var scene = new ScrollMagic.Scene({triggerElement: "#trigger", duration: "100%"})
+						//var scene = new ScrollMagic.Scene({triggerElement: "#trigger", duration: "100%"})
+						var scene = new ScrollMagic.Scene({triggerElement: "#trigger",triggerHook:'0.8', duration: "500"})
+										
 										.setTween(tween)
 										.addIndicators() // add indicators (requires plugin)
 										.addTo(controller);

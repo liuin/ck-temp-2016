@@ -32,7 +32,7 @@
     <h1>{{title}}</h1>
     <ul>
         {{each list as value i}}
-            <li>索引 {{i + 1}} ：{{value}}</li>
+          <li>索引 {{i + 1}} ：{{value}}</li>
         {{/each}}
     </ul>
   </script>        
@@ -43,11 +43,11 @@
     $(document).ready(function() {
       //渲染模板
       var data = {
-          title: '标签',
+          title: '标签1212',
           list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
       };
-      var html = template('inc', data);
-      $('#data-temp').html(html);
+      var temp = template('demo', data);
+      $('#data-temp').html(temp);
     })
   </script>
 

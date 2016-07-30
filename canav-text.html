@@ -50,11 +50,21 @@
     }
 
     canvas.addEventListener('click',function  (e) {
-      var pos = windowToCanvas(e.clientX,e.clientY);
-      console.log(console.log(pos));
+      var pos = windowToCanvas(e.clientX,e.clientY);     
     })
 
+    
+    canvas2d.beginPath();
+    canvas2d.moveTo(0,0);
+    canvas2d.strokeStyle = "blue";
+    canvas2d.lineWidth=5;
+    canvas2d.lineTo(100,100);
+    canvas2d.stroke();
 
+    console.log(canvas2d.isPointInPath(0,0));
+   
+
+    //ca-isPointInPath(0,0);
 
   </script>
 </body>

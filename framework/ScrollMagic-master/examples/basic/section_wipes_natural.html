@@ -39,7 +39,7 @@
 				<section class="demo" id="section-wipes">
 					<style type="text/css">
 						.panel {
-							height: 100%;
+							height: 1080px;
 							width: 100%;
 						}
 						.panel.green {
@@ -73,7 +73,8 @@
 							// create scene for every slide
 							for (var i=0; i<slides.length; i++) {
 								new ScrollMagic.Scene({
-										triggerElement: slides[i]
+										triggerElement: slides[i],
+                    offset:1080- $(window).height()
 									})
 									.setPin(slides[i])
 									.addIndicators() // add indicators (requires plugin)

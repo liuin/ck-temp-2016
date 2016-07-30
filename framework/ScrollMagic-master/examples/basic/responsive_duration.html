@@ -53,7 +53,7 @@
 						var controller = new ScrollMagic.Controller();
 
 						// build tween
-						var tween = TweenMax.to("#animate", 0.5, {scale: 1.3, repeat: 5, yoyo: true});
+						var tween = TweenMax.to("#animate", 0.5, {y: "-500px", repeat: 5, yoyo: true});
 
 						// build scene and set duration to window height
 						var scene = new ScrollMagic.Scene({triggerElement: "#trigger", duration: "100%"})

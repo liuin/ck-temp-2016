@@ -19,7 +19,7 @@
   <style type="text/css">
     * {margin: 0;padding: 0;}  
     .container {position:relative;padding-top: 100px;padding-left: 300px; }
-    .thord { width: 200px;position: absolute;-webkit-transform: rotate(40deg);transform: rotate(40deg);background-color: #f60;height: 75px;left: 358px;transform-origin: right center;}
+    .thord { width: 200px;position: absolute;-webkit-transform: rotate(0);transform: rotate(0deg);background-color: #f60;height: 75px;left: 351px;transform-origin: right center;top: 68px;    }
 
     .thord.in{-webkit-transform: rotate(-3deg);transform: rotate(-3deg);}
 
@@ -106,10 +106,11 @@
           //$('.egg1').height(eggheight*Math.max(parseInt(progress.toFixed(2)/(1/part))*(1/part),0));
           //$('.egg1').height(eggheight*(progress.toFixed(1)));
 
+            console.log(startTime);
 
           if (progress >= 1) {
-            if (typeof callback == 'function') {
-              startTime == null;
+            startTime = null;
+            if (typeof callback == 'function') {              
               callback()
             }
             return
@@ -166,25 +167,42 @@
 
     }
 
-    function chuiIn () {
+    function chuiStar () {
       anmatepro(function  (progress) {
-        var easeProgress = (1-Math.cos( progress * Math.PI/2 ));
+        var easeProgress = (Math.sin( progress * Math.PI/2 ));
 
         var style = {
-          '-webkit-transform': 'rotate('+ (40 - (parseInt(43*easeProgress))) +'deg)',
-          'transform': 'rotate(' + (40 - (parseInt(43*easeProgress))) + 'deg)'
+          '-webkit-transform': 'rotate('+ (parseInt(21*easeProgress)) +'deg)',
+          'transform': 'rotate(' + ((parseInt(21*easeProgress))) + 'deg)'
+        }
+       
+        $('.thord').css(style);
+      },function  () {
+        
+        chuiIn();
+      },'600')      
+    }
+
+    function chuiIn () {
+      anmatepro(function  (progress) {
+        
+        var easeProgress = (1-Math.cos( progress * Math.PI/2 ));
+        
+        var style = {
+          '-webkit-transform': 'rotate('+ (21 - (parseInt(35*easeProgress))) +'deg)',
+          'transform': 'rotate(' + (21 - (parseInt(35*easeProgress))) + 'deg)'
         }
        
         $('.thord').css(style);
       },function  () {
         $('.thord').fadeOut();
         openEgg();
-      },'800')
+      },'300')
     }
    
     
     $('#zdan').click(function  () {
-       chuiIn();
+       chuiStar();
 
        $.ajax({
            type: "GET",

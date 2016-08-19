@@ -41,6 +41,9 @@
     <div class="number" id="number1" data-numb="iop">123456</div>
     <div class="number" data-numb="iop1">123456</div>
     <div class="number">777777</div>
+
+    <div id="my-div" data-loop="true" data-animate-pages="false" data-index="0" data-hello="world">helloworld</div>
+
   </div>
 
   <script type="text/javascript">
@@ -167,7 +170,7 @@
             // Object
             for (prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
-                    callback(prop, obj[prop]);
+                  callback(prop, obj[prop]);
                 }
             }
         }
@@ -177,7 +180,7 @@
     $.unique = function (arr) {
         var unique = [];
         for (var i = 0; i < arr.length; i++) {
-            if (unique.indexOf(arr[i]) === -1) unique.push(arr[i]);
+          if (unique.indexOf(arr[i]) === -1) unique.push(arr[i]);
         }
         return unique;
     };
@@ -190,7 +193,7 @@
         parents = parents || [];
         var newParents;
         function var_name(name) {
-            if (parents.length > 0) {
+            if (parents.length > 0) { 
                 var _parents = '';
                 for (var j = 0; j < parents.length; j++) {
                     if (j === 0) _parents += parents[j];  
@@ -462,16 +465,11 @@
           }
           var classes = className.split(' ');
           for (var i = 0; i < classes.length; i++) {
-            for (var j = 0; j < this.length; j++) {
-              
+            for (var j = 0; j < this.length; j++) {              
               if (typeof this[j].classList !== 'undefined') this[j].classList.add(classes[i]);
             }
           }
           
-          if (typeof this[0].classList === 'undefined') {
-            alert('111222');
-          }
-
           return this;
       },
       removeClass: function (className) {
@@ -587,7 +585,7 @@
                   el.dom7ElementDataStorage[key] = null;
                   delete el.dom7ElementDataStorage[key];
               }
-          }
+          } 
       },
       dataset: function () {
           var el = this[0];
@@ -747,7 +745,7 @@
               if (e.target !== this) return;
               callback.call(this, e);
               for (i = 0; i < events.length; i++) {
-                  dom.off(events[i], fireCallBack);
+                dom.off(events[i], fireCallBack);
               }
           }
           if (callback) {
@@ -1031,7 +1029,7 @@
               }
           }
           return this;
-      },
+      }, 
       prependTo: function (parent) {
           $(parent).prepend(this);
           return this;
@@ -1203,9 +1201,6 @@
           }
           return dom;
       }
-
-
-
     }
 
 

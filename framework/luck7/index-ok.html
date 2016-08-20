@@ -20,9 +20,7 @@
   <![endif]-->
   <style type="text/css">
     .container {text-align:center; padding-top: 30px;}
-    .scollpic {margin: 0 auto; margin-bottom: 30px; height: 160px; padding-top: 30px; padding-bottom:30px;overflow:hidden;     transform: perspective(1000px) rotateY(0deg) rotateX(180deg);
-    transform-style: preserve-3d;
-    }
+    .scollpic {background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; margin: 0 auto; margin-bottom: 30px;}  
 
     .scollpic-view {}
 
@@ -32,23 +30,6 @@
         -moz-filter:blur(10px);
         -ms-filter:blur(10px);
     }
-
-    .scollpic .item{
-      background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; 
-      display:none;
-    }
-
-    .scollpic .item-1{background-position:0 0;margin-top:-160px; display:block;}
-    .scollpic .item-2{background-position:0 -160px;}
-    .scollpic .item-3{background-position:0 -320px;}
-    .scollpic .item-4{background-position:0 -480px;}
-    .scollpic .item-5{background-position:0 -640px;}
-    .scollpic .item-6{background-position:0 -800px;}
-    .scollpic .item-7{background-position:0 -960px;}
-    .scollpic .item-8{background-position:0 -1120px;}
-
-  .mui-pciker-list {position:absolute; height: 36px; line-height: 36px;    transform-style: preserve-3d; list-style-type:none; width: 300px;}
-  .mui-pciker-list li{position:absolute; height: 36px; }
 
   </style>
   <title>website name</title>
@@ -60,20 +41,9 @@
   <div class="container">
     <div class="scollpic-view">
       <div class="scollpic">
-        <div class="item-1 item" style="transform-origin: center center -89.5px;transform: translateZ(89.5px) rotateX(-120deg);"></div>
-        <div class="item-2 item"></div>
-        <div class="item-3 item" style="transform-origin: center center -89.5px;
-    transform: translateZ(89.5px) rotateX(-180deg);"></div>
-        <div class="item-4 item"></div>
-        <div class="item-5 item"></div>
-        <div class="item-6 item"></div>
-        <div class="item-7 item"></div>
-        <div class="item-8 item"></div>
+        
       </div>
-    </div>
-    
-<ul class="mui-pciker-list" style="transform: perspective(1000px) rotateY(0deg) rotateX(114deg); transition: 100ms ease-out;"><li class="visible" style="transform-origin: center center -89.5px; transform: translateZ(89.5px) rotateX(-179deg);">董事长 叶文洁</li></ul>
-
+    </div> 
     <button id="xzbtn">老司机</button>
   </div>
   <script type="text/javascript" src="../../js/jquery.js"></script>

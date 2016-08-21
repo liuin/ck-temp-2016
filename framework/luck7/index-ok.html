@@ -19,10 +19,13 @@
     </script>
   <![endif]-->
   <style type="text/css">
-    .container {text-align:center; padding-top: 30px;}
-    .scollpic {background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; margin: 0 auto; margin-bottom: 30px;}  
-
-    .scollpic-view {}
+    .container {text-align:center; padding-top: 30px; overflow:hidden;}
+    .scollpic {background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; margin: 0 auto; margin-bottom: 30px; width: 450px;float:left;}   
+/*
+    .scollpic-view {-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent); 
+    -webkit-mask-box-image: linear-gradient(top, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);
+    */
+   
 
 
     .scollpic.in {
@@ -39,11 +42,11 @@
     <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
   </noscript>
   <div class="container">
-    <div class="scollpic-view">
-      <div class="scollpic">
-        
-      </div>
-    </div> 
+    
+      <div class="scollpic scollpic-1"></div>
+      <div class="scollpic scollpic-2"></div>
+      <div class="scollpic scollpic-3"></div>
+    
     <button id="xzbtn">老司机</button>
   </div>
   <script type="text/javascript" src="../../js/jquery.js"></script>
@@ -317,12 +320,16 @@
       }, 10000 ,'rotor', startPos, movePos);
    }
 
-  var targetChoose1 = new targetChoose($('.scollpic'));
+  var targetChoose1 = new targetChoose($('.scollpic-1'));
+  var targetChoose2 = new targetChoose($('.scollpic-2'));
+  var targetChoose3 = new targetChoose($('.scollpic-3'));
   
 
   $(document).ready(function() {
     $('#xzbtn').on('click',function  () {
       targetChoose1.movego(1);
+      targetChoose2.movego(3);
+      targetChoose3.movego(5);
     })
 
   

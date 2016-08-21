@@ -20,9 +20,7 @@
   <![endif]-->
   <style type="text/css">
     .container {text-align:center; padding-top: 30px;}
-    .scollpic {margin: 0 auto; margin-bottom: 30px; height: 160px; padding-top: 30px; padding-bottom:30px;overflow:hidden;     transform: perspective(1000px) rotateY(0deg) rotateX(180deg);
-    transform-style: preserve-3d;
-    }
+    .scollpic { margin: 0 auto;margin-bottom: 30px;/* height: 160px; */padding-top: 30px;padding-bottom: 30px;transform: perspective(1000px) rotateY(0deg) rotateX(0) rotateZ(0deg);transform-style: preserve-3d;width: 500px;-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);-webkit-mask-box-image: linear-gradient(top, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);    }
 
     .scollpic-view {}
 
@@ -36,11 +34,13 @@
     .scollpic .item{
       background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; 
       display:none;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
 
-    .scollpic .item-1{background-position:0 0;margin-top:-160px; display:block;}
-    .scollpic .item-2{background-position:0 -160px;}
-    .scollpic .item-3{background-position:0 -320px;}
+    .scollpic .item-1{background-position:0 0;display:block; display:block;}
+    .scollpic .item-2{background-position:0 -160px; display:block;}
+    .scollpic .item-3{background-position:0 -320px; display:block;}
     .scollpic .item-4{background-position:0 -480px;}
     .scollpic .item-5{background-position:0 -640px;}
     .scollpic .item-6{background-position:0 -800px;}
@@ -60,10 +60,9 @@
   <div class="container">
     <div class="scollpic-view">
       <div class="scollpic">
-        <div class="item-1 item" style="transform-origin: center center -89.5px;transform: translateZ(89.5px) rotateX(-120deg);"></div>
-        <div class="item-2 item"></div>
-        <div class="item-3 item" style="transform-origin: center center -89.5px;
-    transform: translateZ(89.5px) rotateX(-180deg);"></div>
+        <div class="item-1 item" style=" transform-origin: center center -100px;transform: translateZ(100px) rotateX(37deg);background-size: 570px;"></div>
+        <div class="item-2 item" style="transform-origin: center center -100px;transform: translateZ(100px) rotateX(0deg);background-size: 570px;"></div>
+        <div class="item-3 item" style=" transform-origin: center center -100px;transform: translateZ(100px) rotateX(-31deg);background-size: 570px;"></div>
         <div class="item-4 item"></div>
         <div class="item-5 item"></div>
         <div class="item-6 item"></div>

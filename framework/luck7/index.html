@@ -238,18 +238,18 @@
      
      Tween1.animate(function  (pro) {             
 
-//      if (((($this.currentPos-1) * $this.liHeight) - (pro*long)%(($this.totle-1) * $this.liHeight)) > 0) {
+      if (((($this.currentPos-1) * $this.liHeight) - (pro*long)%(($this.totle-1) * $this.liHeight)) > 0) {
         longpro = (pro*long)%(($this.totle-1) * $this.liHeight) - (($this.currentPos-1) * $this.liHeight);
-//      }else {
- //       longpro = (pro*long)%(($this.totle-1) * $this.liHeight) 
-//      }
+      }else {
+        longpro = (pro*(long-(($this.currentPos-1) * $this.liHeight)))%(($this.totle-1) * $this.liHeight) 
+      }
 
 
       var style = {
         'background-position': '0 -' + longpro +'px'
       }
 
-      console.log(longpro);
+      console.log(pro,longpro);
      
       $this.obj.css(style);
 

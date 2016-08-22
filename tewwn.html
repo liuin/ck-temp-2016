@@ -218,103 +218,141 @@
      }
   }
 
-  //动画效果
-  function Tween() {
-  }
+   //Tween效果
+   var TweenType = { //线性以及二次方的缓动
+     linear: function(t, b, c, d) {
+         return c * t / d + b
+     },
+     easeIn: function(t, b, c, d) {
+         return c * (t /= d) * t + b
+     },
+     easeOut: function(t, b, c, d) {
+       // console.log(t,b,c,d);
+         //return c * Math.sin(t / d * (Math.PI / 2)) + b;
+       return -c * (t /= d) * (t - 2) + b
+     },
+     easeInOut: function(t, b, c, d) {
+         if ((t /= d / 2) < 1) return c / 2 * t * t + b
+         return -c / 2 * ((--t) * (t - 2) - 1) + b
+     },
+     rotor:function  (t, b, c, d) {
+         return -c * ((t=t/d-1)*t*t*t - 1) + b;
+     }
+   }
 
-  Tween.prototype.requestAnimationFrame = function  (callback) {
-    if (window.requestAnimationFrame) return window.requestAnimationFrame(callback);
-    else if (window.webkitRequestAnimationFrame) return window.webkitRequestAnimationFrame(callback);
-    else if (window.mozRequestAnimationFrame) return window.mozRequestAnimationFrame(callback);
-    else {
-       return window.setTimeout(callback, 1000 / 60);
-    }
-  }
+   //动画效果
+   var Tween = function() {}
 
-  Tween.prototype.animate = function  (pro,callback,timelong,type) {
-    var $this = this;
+   Tween.requestAnimationFrame = function  (callback) {
+     if (window.requestAnimationFrame) return window.requestAnimationFrame(callback);
+     else if (window.webkitRequestAnimationFrame) return window.webkitRequestAnimationFrame(callback);
+     else if (window.mozRequestAnimationFrame) return window.mozRequestAnimationFrame(callback);
+     else {
+        return window.setTimeout(callback, 1000 / 60);
+     }
+   }
 
-    if (typeof callback != 'function') {
-      timelong = callback;      
-    }
+   Tween.animate = function  (pro,callback,timelong,type,startPos,movePos) {
+     var $this = this;
 
-    if (typeof type != undefined) {
-      $this.type = TweenType[type];      
-    }else {
-      $this.type = TweenType['linear'];
-    }
-    
-    var startTime = null;
-    
-    function render (time) {
+     if (typeof callback != 'function') {
+       timelong = callback;      
+     }
 
-      var currentTime = new Date().getTime();
+     if (typeof type != 'undefined') {
+       $this.type = TweenType[type];      
+     }else {
+       $this.type = TweenType['linear'];
+     }
 
-      if (startTime == null) {
-        startTime = currentTime;
-      }
-    
-      var progress = TweenType[type]((currentTime - startTime)/timelong, 0, 1, 1);     
+     if (typeof startPos == 'undefined') {
+      startPos = 0;
+     }
 
-      if (typeof pro == 'function') {
-        //progress = (progress > 1)? 1 : progress;
-        pro(progress);
-      }
+     if (typeof movePos == 'undefined') {
+      movePos = 1;
+     }
 
+     
+     
+     
+     var startTime = null;
+     
+     function render (time) {
+       
+       //console.log(time);
+       
+       if (time === undefined) {
+         time = new Date().getTime();
+       }
+
+       
+       
+       if (startTime == null) {         
+         startTime = time;
+       }
+
+     
+       var progress = TweenType[type]((time-startTime), startPos, movePos, timelong);     
+       
+       
+
+       if (typeof pro == 'function') {
+         //progress = (progress > 1)? 1 : progress;
+         pro(progress);
+       }
+
+     
+
+           
+
+       if ((time - startTime) >= (timelong)) {        
       
 
-      if ((currentTime - startTime) >= timelong) {        
+         if (typeof pro == 'function') {
+           progress = (movePos + startPos);
+           pro(progress);
+         }
+         
+         
+         startTime = null;
+         if (typeof callback == 'function') {
+           callback()
+         }
+         return
+       }
+       $this.requestAnimationFrame(render);
+     }
+     $this.requestAnimationFrame(render);
+   }
 
 
-        if (typeof pro == 'function') {
-          progress = 1;
-          pro(progress);
+
+      /**
+       * 缓动函数
+       * @param eatingType {String} 缓动类型
+       * @param curTime {String} 当前时间
+       * @param startPos {String} 开始位置
+       * @param distance {String} 移动距离
+       * @param duration {String} 持续时间
+       */
+      function Tween(eatingType, curTime, startPos, distance, duration){
+        switch(eatingType){
+          case "linear":
+            return distance * curTime / duration + startPos
+          case "easeIn":
+            return distance * (curTime /= duration) * curTime + startPos
+          case "easeOut":
+            return -distance * (curTime /= duration) * (curTime - 2) + startPos
+          case "easeInOut":
+            if ((curTime /= duration / 2) < 1) {
+              return distance / 2 * curTime * curTime + startPos
+            } else{
+              return -distance / 2 * ((--curTime) * (curTime - 2) - 1) + startPos
+            }
+          default:break;
         }
-
-
-        startTime = null;
-        if (typeof callback == 'function') {
-          callback()
-        }
-        return
       }
-      $this.requestAnimationFrame(render);
-    }
-    render ();
-  }
-
-
-  var Tween1 = new Tween();
-
-
-
-   $(window).load(function  () {
-     Tween1.animate(function  (pro) {
-       $('.liner-linear').css('width', pro*100 + '%');       
-     },function  () {
-       //结束后回调
-     },'1000','linear');
-
-     Tween1.animate(function  (pro) {       
-       $('.liner-easeIn').css('width', pro*100 + '%');       
-     },function  () {
-       //结束后回调
-     },'1000','easeIn');
-
-     Tween1.animate(function  (pro) {       
-       $('.liner-easeOut').css('width', pro*100 + '%');       
-     },function  () {
-       //结束后回调
-     },'1000','easeOut');
-
-     Tween1.animate(function  (pro) {       
-       $('.liner-easeInOut').css('width', pro*100 + '%');    
-     },function  () {
-       //结束后回调
-     },'1000','easeInOutCirc');
-    
-   })
-
 
   </script>
 

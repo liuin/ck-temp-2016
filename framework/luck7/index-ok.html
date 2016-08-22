@@ -19,10 +19,13 @@
     </script>
   <![endif]-->
   <style type="text/css">
-    .container {text-align:center; padding-top: 30px;}
-    .scollpic { margin: 0 auto;margin-bottom: 30px;/* height: 160px; */padding-top: 30px;padding-bottom: 30px;transform: perspective(1000px) rotateY(0deg) rotateX(0) rotateZ(0deg);transform-style: preserve-3d;width: 500px;-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);-webkit-mask-box-image: linear-gradient(top, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);    }
-
-    .scollpic-view {}
+    .container {text-align:center; padding-top: 30px; overflow:hidden;}
+    .scollpic {background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; margin: 0 auto; margin-bottom: 30px; width: 450px;float:left;}   
+/*
+    .scollpic-view {-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent); 
+    -webkit-mask-box-image: linear-gradient(top, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);
+    */
+   
 
 
     .scollpic.in {
@@ -30,25 +33,6 @@
         -moz-filter:blur(10px);
         -ms-filter:blur(10px);
     }
-
-    .scollpic .item{
-      background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; 
-      display:none;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-    }
-
-    .scollpic .item-1{background-position:0 0;display:block; display:block;}
-    .scollpic .item-2{background-position:0 -160px; display:block;}
-    .scollpic .item-3{background-position:0 -320px; display:block;}
-    .scollpic .item-4{background-position:0 -480px;}
-    .scollpic .item-5{background-position:0 -640px;}
-    .scollpic .item-6{background-position:0 -800px;}
-    .scollpic .item-7{background-position:0 -960px;}
-    .scollpic .item-8{background-position:0 -1120px;}
-
-  .mui-pciker-list {position:absolute; height: 36px; line-height: 36px;    transform-style: preserve-3d; list-style-type:none; width: 300px;}
-  .mui-pciker-list li{position:absolute; height: 36px; }
 
   </style>
   <title>website name</title>
@@ -58,21 +42,11 @@
     <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
   </noscript>
   <div class="container">
-    <div class="scollpic-view">
-      <div class="scollpic">
-        <div class="item-1 item" style=" transform-origin: center center -100px;transform: translateZ(100px) rotateX(37deg);background-size: 570px;"></div>
-        <div class="item-2 item" style="transform-origin: center center -100px;transform: translateZ(100px) rotateX(0deg);background-size: 570px;"></div>
-        <div class="item-3 item" style=" transform-origin: center center -100px;transform: translateZ(100px) rotateX(-31deg);background-size: 570px;"></div>
-        <div class="item-4 item"></div>
-        <div class="item-5 item"></div>
-        <div class="item-6 item"></div>
-        <div class="item-7 item"></div>
-        <div class="item-8 item"></div>
-      </div>
-    </div>
     
-<ul class="mui-pciker-list" style="transform: perspective(1000px) rotateY(0deg) rotateX(114deg); transition: 100ms ease-out;"><li class="visible" style="transform-origin: center center -89.5px; transform: translateZ(89.5px) rotateX(-179deg);">董事长 叶文洁</li></ul>
-
+      <div class="scollpic scollpic-1"></div>
+      <div class="scollpic scollpic-2"></div>
+      <div class="scollpic scollpic-3"></div>
+    
     <button id="xzbtn">老司机</button>
   </div>
   <script type="text/javascript" src="../../js/jquery.js"></script>
@@ -346,12 +320,16 @@
       }, 10000 ,'rotor', startPos, movePos);
    }
 
-  var targetChoose1 = new targetChoose($('.scollpic'));
+  var targetChoose1 = new targetChoose($('.scollpic-1'));
+  var targetChoose2 = new targetChoose($('.scollpic-2'));
+  var targetChoose3 = new targetChoose($('.scollpic-3'));
   
 
   $(document).ready(function() {
     $('#xzbtn').on('click',function  () {
       targetChoose1.movego(1);
+      targetChoose2.movego(3);
+      targetChoose3.movego(5);
     })
 
   

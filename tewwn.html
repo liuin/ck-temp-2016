@@ -252,7 +252,7 @@
      }
    }
 
-   Tween.animate = function  (pro,callback,timelong,type,startPos,movePos) {
+   Tween.animate = function  (pro,callback,timelong,type,startPos,endPos) {
      var $this = this;
 
      if (typeof callback != 'function') {
@@ -269,14 +269,18 @@
       startPos = 0;
      }
 
-     if (typeof movePos == 'undefined') {
-      movePos = 1;
+     if (typeof endPos == 'undefined') {
+      endPos = 1;
      }
 
+
+    var movePos = endPos - startPos;
      
      
      
      var startTime = null;
+     var totelTime = 0;
+
      
      function render (time) {
        
@@ -292,11 +296,10 @@
          startTime = time;
        }
 
+       totelTime += ((time - startTime) < 20) ? (time - startTime) : 20;
      
-       var progress = TweenType[type]((time-startTime), startPos, movePos, timelong);     
-       
-       
-
+       var progress = TweenType[type](totelTime, startPos, movePos, timelong);
+              
        if (typeof pro == 'function') {
          //progress = (progress > 1)? 1 : progress;
          pro(progress);
@@ -306,9 +309,7 @@
 
            
 
-       if ((time - startTime) >= (timelong)) {        
-      
-
+       if ((totelTime) >= (timelong)) {
          if (typeof pro == 'function') {
            progress = (movePos + startPos);
            pro(progress);
@@ -327,6 +328,15 @@
    }
 
 
+   Tween.animate(function  (pro) {
+     console.log(pro);
+   },function  () {
+     //结束后回调
+
+   }, 2000 ,'linear',100,200);
+
+
+
 
       /**
        * 缓动函数
@@ -336,23 +346,23 @@
        * @param distance {String} 移动距离
        * @param duration {String} 持续时间
        */
-      function Tween(eatingType, curTime, startPos, distance, duration){
-        switch(eatingType){
-          case "linear":
-            return distance * curTime / duration + startPos
-          case "easeIn":
-            return distance * (curTime /= duration) * curTime + startPos
-          case "easeOut":
-            return -distance * (curTime /= duration) * (curTime - 2) + startPos
-          case "easeInOut":
-            if ((curTime /= duration / 2) < 1) {
-              return distance / 2 * curTime * curTime + startPos
-            } else{
-              return -distance / 2 * ((--curTime) * (curTime - 2) - 1) + startPos
-            }
-          default:break;
-        }
-      }
+//      function Tween(eatingType, curTime, startPos, distance, duration){
+//        switch(eatingType){
+//          case "linear":
+//            return distance * curTime / duration + startPos
+//          case "easeIn":
+//            return distance * (curTime /= duration) * curTime + startPos
+//          case "easeOut":
+//            return -distance * (curTime /= duration) * (curTime - 2) + startPos
+//          case "easeInOut":
+//            if ((curTime /= duration / 2) < 1) {
+//              return distance / 2 * curTime * curTime + startPos
+//            } else{
+//              return -distance / 2 * ((--curTime) * (curTime - 2) - 1) + startPos
+//            }
+//          default:break;
+//        }
+//      }
 
   </script>
 

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script type="text/javascript">
+    function browserRedirect() {
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+      var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+      var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+      var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+      var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+      var bIsAndroid = sUserAgent.match(/android/i) == "android";
+      var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+      var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        window.location.href = './wap/';
+      } else {
+        //window.location = 'index.html';
+      }
+    }
+
+    browserRedirect();
+  </script>
+  <script type="text/javascript">
+  (function(){
+    'use strict';
+    var Fixmobile = function  () {
+      this.viwep();
+    }
+
+    Fixmobile.width = 640;
+
+    Fixmobile.prototype.viwep = function  (e) {
+      var phoneWidth = parseInt(window.screen.width),
+      phoneScale = phoneWidth/Fixmobile.width,
+      ua = navigator.userAgent,
+      headmate;
+      if (/Android (\d+\.\d+)/.test(ua)){
+        var version = parseFloat(RegExp.$1);
+        // andriod 2.3
+        if(version > 2.3){
+          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', minimum-scale = ' + phoneScale + ', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+        // andriod 2.3以上
+        }else{
+          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', target-densitydpi=device-dpi">');
+        }
+        // 其他系统
+      } else {
+        document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', user-scalable=no, target-densitydpi=device-dpi">');
+      }
+    }
+    var newviewport = new Fixmobile();
+  })();
+  </script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="../../css/reset.css">
+  <!--[if lt IE 9]>
+  <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!--[if IE]>
+    <script type="text/javascript">
+       var console = { log: function() {} };
+    </script>
+  <![endif]-->
+  <style type="text/css">
+      /*-- counttime --*/
+      .counttime { font-size: 30px;color: #fff;width: 369px;overflow: hidden;margin: 0 auto;margin-top: 21px;}
+      .counttime .item {background:red;  color: #fff; font-size: 17px;float:left;    font-weight: bold;transform: perspective(100px);}
+      .counttime .item span{font-size: 53px;color: #fff;display: block;text-align: center;height: 88px;width: 85px;line-height: 88px;padding-right: 3px; font-weight:normal;    transform: rotateX(59deg);
+    background: rebeccapurple;
+    transform-origin: center bottom;}
+      .counttime .sp {color: #4968ff; font-size: 17px;float:left;height: 88px; line-height: 88px;display:none;}      
+  </style>
+
+  <title>website name</title>
+</head>
+<body class="yh">
+  <noscript>
+    <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
+  </noscript>
+  <div class="container">
+       <div class="counttime" countTime="2015/05/18 14:40:53,2015/05/08 11:00:00">
+         <span class="item"><span  countDay ></span></span>
+         <span class="item"><span countHour ></span></span>
+         <span class="item"><span countMin ></span></span>
+         <span class="item"><span countSec ></span></span>
+       </div>    
+  </div>
+  <script type="text/javascript" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript">
+  +(function() {
+        'use strict';
+      
+        var selectString = '[countTime]';
+      
+        function CountTime (startTime,endTime,obj) {
+          this.startTime = startTime;
+          this.endTime = endTime;
+          this.sbTime = Math.floor((this.endTime - this.startTime) / 1e3);
+          this.second = obj.find('[countSec]');
+          this.minite = obj.find('[countMin]');
+          this.hour = obj.find('[countHour]');
+          this.day = obj.find('[countDay]');
+          this.el = obj;
+        }
+      
+          CountTime.prototype.countPro = function  () {
+            var $this = this;
+            this.el.trigger('countPro');
+            var getSbTime = this.sbTime;
+      
+            this.second.html((Math.floor(getSbTime % 60).toString().length < 2)? '0'+ Math.floor(getSbTime % 60).toString() :Math.floor(getSbTime % 60));
+            this.minite.html((Math.floor(getSbTime / 60 % 60).toString().length < 2)? '0'+ Math.floor(getSbTime / 60 % 60).toString() : Math.floor(getSbTime / 60 % 60));
+            this.hour.html((Math.floor(getSbTime / 3600 % 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 % 24).toString() :Math.floor(getSbTime / 3600 % 24));
+            this.day.html((Math.floor(getSbTime / 3600 / 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 / 24).toString() : Math.floor(getSbTime / 3600 / 24));
+      
+      
+      
+            if (this.sbTime <= 0) {
+              this.el.trigger('countEnd');
+      
+              return;
+            }
+      
+              //this.el.trigger('countEnd');
+      
+              this.sbTime--;
+      
+              
+      
+      
+      
+              setTimeout(
+                function(){
+                  $this.countPro();
+              }, 1e3)
+      
+      
+          }
+      
+          CountTime.prototype.end = function  () {
+            this.el.trigger('countEnd');
+            this.second.html(0);
+            this.minite.html(0);
+            this.hour.html(0);
+            this.day.html(0);
+          }
+      
+          CountTime.prototype.init = function  () {
+            if (this.sbTime <= 0) {
+              this.end();
+            }else {
+              var $this = this;
+              $this.countPro();
+      
+            }
+          }
+      
+        $(selectString).each(function () {
+          var attrpro = $(this).attr('countTime').split(',');
+          for (var i = 0;  i<attrpro.length ; i++) {
+            if (attrpro[i] == 'now') {
+              attrpro[i] = new Date().getTime();
+            }else {
+              attrpro[i] = new Date(attrpro[i]).getTime();
+            }
+          }
+          var timmer = new CountTime(attrpro[0],attrpro[1],$(this));
+          timmer.init();
+        })
+      })(jQuery);    
+  </script>
+
+</body>
+</html>

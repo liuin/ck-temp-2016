@@ -490,14 +490,17 @@
     }
     
     var startTime = null;
+    var lastTime = null;
+    var totoleTime = 0;
     
     function render (time) {
       
-      //console.log(time);
+     
 
       if (time === undefined) {
         time = new Date().getTime();
       }
+
 
       
       
@@ -507,8 +510,13 @@
       }
 
       //console.log(currentTime,startTime);
+      totoleTime+=((time - startTime) < 20)?  (time - startTime) : 20;
+      
     
-      var progress = TweenType[type]((time - startTime)/timelong, 0, 1, 1);     
+      var progress = TweenType[type](totoleTime, 0, 1, timelong);   
+      
+      
+      startTime = time;
 
       if (typeof pro == 'function') {
         //progress = (progress > 1)? 1 : progress;
@@ -517,7 +525,7 @@
 
       
 
-      if ((time - startTime) >= timelong) {        
+      if (totoleTime >= timelong) {        
 
 
         if (typeof pro == 'function') {

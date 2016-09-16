@@ -21,12 +21,10 @@
   <style type="text/css">
     .container {text-align:center; padding-top: 30px; overflow:hidden;}
     .scollpic {background:url("images/carrun.png") 0 0 no-repeat; width: 570px; height: 160px; margin: 0 auto; margin-bottom: 30px; width: 450px;float:left;}   
-/*
+    /*
     .scollpic-view {-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent); 
     -webkit-mask-box-image: linear-gradient(top, transparent, transparent 5%, #fff 20%, #fff 80%, transparent 95%, transparent);
     */
-   
-
 
     .scollpic.in {
         -webkit-filter:blur(10px);
@@ -44,8 +42,8 @@
   <div class="container">
     
       <div class="scollpic scollpic-1"></div>
-      <div class="scollpic scollpic-2"></div>
-      <div class="scollpic scollpic-3"></div>
+      <!-- <div class="scollpic scollpic-2"></div> -->
+      <!-- <div class="scollpic scollpic-3"></div> -->
     
     <button id="xzbtn">老司机</button>
   </div>
@@ -248,7 +246,7 @@
     $this.obj.css('background-position', '0 ' + -($this.currentPos-1)*$this.liHeight +'px');
    }
 
-   targetChoose.prototype.movego = function  (gocount) { 
+   targetChoose.prototype.movego = function  (gocount,callback) { 
      var $this = this;
 
      if ($this.anplay == true) {
@@ -260,6 +258,10 @@
      if (gocount <= 0) {
       gocount = 1;
      }
+
+
+
+
 
     var randomscoll = 5;    
     var long = 0;
@@ -298,9 +300,7 @@
         if (filter < 0) {
           filter = 0;
         }
-
         //console.log(filter.toFixed(0),pro);
-
         longpro = pro%(($this.totle-1) * $this.liHeight);
 
         var style = {
@@ -317,25 +317,40 @@
         //结束后回调       
         $this.currentPos = gocount;
         $this.anplay = false;
+
       }, 10000 ,'rotor', startPos, movePos);
    }
 
   var targetChoose1 = new targetChoose($('.scollpic-1'));
-  var targetChoose2 = new targetChoose($('.scollpic-2'));
-  var targetChoose3 = new targetChoose($('.scollpic-3'));
+  //var targetChoose2 = new targetChoose($('.scollpic-2'));
+  //var targetChoose3 = new targetChoose($('.scollpic-3'));
   
 
   $(document).ready(function() {
     $('#xzbtn').on('click',function  () {
-      targetChoose1.movego(1);
-      targetChoose2.movego(3);
-      targetChoose3.movego(5);
+      targetChoose1.movego(1);                
+      //targetChoose2.movego(3);
+      //targetChoose3.movego(5);
     })
 
-  
-
-
   })
+
+
+  //数字转编码
+  function trunNumber (str) {
+    str = str.replace(/\s/g, ""); //去掉全部空格
+    str = encodeURIComponent(str);
+    var totoleNumber = 0;
+    for (var i = 0;  i<str.length ; i++) {
+      totoleNumber += str.charCodeAt(i);
+    }
+
+    return totoleNumber;
+  }
+
+  var str ="黄dsfkja冠"; var k =  trunNumber(str);
+
+
   </script>
 </body>
 </html>

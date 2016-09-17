@@ -8,6 +8,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <script type="text/javascript" src="../../js/modernizr-custom.js"></script>
+
   <link rel="stylesheet" href="../../css/reset.css">
   <!--[if lt IE 9]>
   <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -38,9 +41,9 @@
       .counttime .item.min {
       
           transform: perspective(800px);
-    perspective-origin: 50% 50%;
-    -webkit-perspective-origin: 50% 50%;
-    -webkit-perspective-origin: 50% 50%;
+/*    perspective-origin: 50% 50%;*/
+/*    -webkit-perspective-origin: 50% 50%;*/
+/*    -webkit-perspective-origin: 50% 50%;*/
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
     position: relative;
@@ -51,7 +54,7 @@
 
       .counttime .item.min .changebk1{
       transform: rotateX(-108deg);
-      -webkit-transform: rotateX(-108deg);
+      -webkit-transform: rotateX(-130deg);
     background: transparent;
     transform-origin: center bottom;
     -webkit-transform-origin: center bottom;
@@ -64,7 +67,7 @@
     }
 
     .counttime .item.min .changebk1 .sp1{
-    height: 88px;
+    height: 44px;
     width: 85px;
     position: absolute;
     top: 0;
@@ -73,11 +76,11 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
         text-align:center;
-
+      overflow:hidden;
 }
     .counttime .item.min .changebk1 .sp2{
     
-        height: 88px;
+        height: 44px;
     width: 85px;
     text-align:center;
     position: absolute;
@@ -87,12 +90,24 @@
     z-index: 5;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    overflow:hidden;
     }
 
-    .prevtime { position: absolute;width: 85px;height: 44px;font-size: 53px;color: #fff;line-height: 88px;text-align: center;font-weight: normal;top: 44px;overflow: hidden;}
+    .counttime .item.min .changebk1 .sp2 .ins { position:relative;top:-44px;}
+
+    .prevtime { position: absolute;width: 85px;height: 44px;font-size: 53px;color: #fff;line-height: 88px;text-align: center;font-weight: normal;top: 44px;overflow: hidden;
+    
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    
+    }
     .prevtime .ins {position:relative;top:-44px;}
 
-    .nexttime { position: absolute;width: 85px;height: 44px;font-size: 53px;color: #fff;line-height: 88px;text-align: center;font-weight: normal;z-index: 3;overflow: hidden;}
+    .nexttime { position: absolute;width: 85px;height: 44px;font-size: 53px;color: #fff;line-height: 88px;text-align: center;font-weight: normal;z-index: 30;overflow: hidden;
+    
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    }
 
 
   </style>
@@ -116,7 +131,7 @@
          <span class="item"><span counthour="">0</span></span>
          <span class="item"><span countmin="">0</span></span>
          <span class="item min"><div class="changebk1">
-           <span countsec="" class="sp1">0</span><span class="sp2" countsec="">1</span>
+           <span countsec="" class="sp1">0</span><span class="sp2" countsec=""><div class="ins">1</div></span>
          </div>
          
          <div class="prevtime"><span class="ins">0</span></div>
@@ -210,6 +225,15 @@
           timmer.init();
         })
       })(jQuery);    
+
+if (Modernizr.console.log(result);) {
+  // supported
+} else {
+  // not-supported
+  alert('不支持3D模式');
+}
+      
+
   </script>
 
 </body>

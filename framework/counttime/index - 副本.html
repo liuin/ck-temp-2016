@@ -129,10 +129,10 @@
 <!--          <span class="item min"><span countSec ></span></span> -->
 <!--        </div>     -->
 
-<div class="counttime" countTime="2015/05/18 13:58:53,2015/05/18 15:00:00">
+<div class="counttime" countTime>
       <div class="item" countday></div>
       <div class="item" counthour></div>
-      <div class="item mintime" countmin></div>
+      <div class="item" countmin></div>
       <div class="item" countSec></div>
       
 <!-- 
@@ -166,7 +166,6 @@
               this.obj = '';
               this.build();
               this.callNextNumber = callNextNumber;
-              this.proin = false;
 
               this.tweenMax = '';
 
@@ -208,80 +207,51 @@
               
             }
 
-            countBox.prototype.resetNumber = function  (getval) {
-              var $this = this;
-             
-              $this.number = getval;
-
-
-              if ($this.proin == true) {
-                return;
-              }
-
-              
-              $this.appendObj.find('.nexttime').html(getval);              
-              $this.obj.parent().find('.changebk1 .sp1').html(getval);
-              $this.obj.parent().find('.changebk1 .sp2 .ins').html( ((getval - 1 ) < 0)? ($this.callNextNumber - 1) : (getval - 1 ));
-              $this.obj.parent().find('.prevtime .ins').html( getval );
-              //$this.obj.parent().find('.nexttime .ins').html( getval );              
-            }
-
             countBox.prototype.countNext = function  (callback) { //跳转下一页 
 
               var $this = this;
-              //$this.number--;
-
-              var getNumber = $this.number;
-
-              $this.proin = true;
+              $this.number--;
               
+              $this.obj.parent().find('.nexttime').html($this.number);
 
               if (Modernizr.preserve3d) {
                 // supported
-               
-                  
-                  
-                  $this.obj.parent().find('.nexttime').html(((getNumber - 1 ) < 0)? ($this.callNextNumber - 1) : (getNumber - 1 ));                   
-                 
-                  
-                  
-                  //return  
-                 
+                
                 //TweenMax.ticker.useRAF(false);
-                TweenMax.to($this.obj.parent().find('.changebk1'),1, {
+                TweenMax.to($this.obj.parent().find('.changebk1'), 1,{
                   //useFrames: true,
                   ease: Power0.easeNone,
                   //ease:SlowMo.ease.config(0.7, 0.7, false),
                   rotationX:-180,
                   immediateRender:true,
+                  onUpdate:function  (obj) {
+                    
+                    console.log(obj.time());
+                  },
                   onUpdateParams:["{self}"],
                   onComplete:function  () {
                     //debugger;
-                    $this.number--;
-                    $this.proin = false;
+                    $this.obj.parent().find('.changebk1 .sp1').html($this.number);
+                    $this.obj.parent().find('.changebk1 .sp2 .ins').html( (($this.number - 1 ) < 0)? "59" : ($this.number - 1 ));
+                    $this.obj.parent().find('.prevtime .ins').html( $this.number );
 
-                    $this.resetNumber($this.number);
-                   
-                      
+                    
                     //if (type == 'sec') {
-                    TweenMax.set($this.appendObj.find('.changebk1')[0], {
-                        transformStyle:'preserve-3d',
-                        rotationX:-1,
-                        transformOrigin:"center bottom"
+                      TweenMax.set($this.appendObj.find('.changebk1')[0], {
+                          transformStyle:'preserve-3d',
+                          rotationX:-1,
+                          transformOrigin:"center bottom"
+                        }
+                      );      
+
+
+                      if ($this.number == 0 && $this.callNextNumber) {
+                        $this.number = $this.callNextNumber;
+                        $this.callNextObj();
                       }
-                    );      
 
                     
-                    
-
-                    if ($this.number == 0 && $this.callNextNumber) {
-                      
-                      $this.number = $this.callNextNumber - 1;
-                      $this.callNextObj();
-                    }
-
-                    
-                    if (callback) {
+                    if (callback) {                      
                       callback($this);
                     }
 
@@ -301,10 +271,9 @@
         function CountTime (startTime,endTime,obj) {
           this.startTime = startTime;
           this.endTime = endTime;
-          
-          this.sbTime = Math.floor((this.endTime - this.startTime) / 1e3);
+//          this.sbTime = Math.floor((this.endTime - this.startTime) / 1e3);
 
-          //this.sbTime = 970;
+          this.sbTime = 970;
 
           this.secondObj = obj.find('[countSec]');
           this.miniteObj = obj.find('[countMin]');
@@ -317,42 +286,38 @@
           this.hour = 0;
           this.day = 0;
 
-          this.countBoxSecond = null;
-          this.countBoxMin = null;
-          this.countBoxHour = null;
-          this.countBoxDay = null;
-
         }
       
           CountTime.prototype.build = function  () {
             var $this = this;
             
-            var getSbTime = this.sbTime;                  
+            var getSbTime = this.sbTime;
+                  
 
-            this.second = Math.floor(getSbTime % 60);
+            this.second = (Math.floor(getSbTime % 60).toString().length < 2)? '0'+ Math.floor(getSbTime % 60).toString() :Math.floor(getSbTime % 60);
 
-            $this.countBoxSecond = new countBox($this.second, $this.secondObj,60);
+            var countBoxSecond = new countBox($this.second, $this.secondObj,60);
 
-            this.min = Math.floor(getSbTime / 60 % 60);
+            this.min = (Math.floor(getSbTime / 60 % 60).toString().length < 2)? '0'+ Math.floor(getSbTime / 60 % 60).toString() : Math.floor(getSbTime / 60 % 60);
 
-            $this.countBoxMin = new countBox($this.min, $this.miniteObj,60);
-            
-            this.hour = Math.floor(getSbTime / 3600 % 24);
+            var countBoxMin = new countBox($this.min, $this.miniteObj,60);
 
-            $this.countBoxHour = new countBox($this.hour, $this.hourObj,24);
             
 
 
-            this.day = Math.floor(getSbTime / 3600 / 24);
+            this.hour = (Math.floor(getSbTime / 3600 % 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 % 24).toString() :Math.floor(getSbTime / 3600 % 24);
 
-            $this.countBoxDay = new countBox($this.day, $this.dayObj);
+            var countBoxHour = new countBox($this.hour, $this.hourObj,24);
+            
+
+
+            this.day = (Math.floor(getSbTime / 3600 / 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 / 24).toString() : Math.floor(getSbTime / 3600 / 24);
+
+            var countBoxDay = new countBox($this.day, $this.dayObj);
 
             //秒回调
-            $this.countBoxSecond.callNextObj = function  () {
-              
-
-              $this.countBoxMin.countNext(function  (obj) {  
-                $this.checkTime();  
+            countBoxSecond.callNextObj = function  () {
+              countBoxMin.countNext(function  (obj) {
                 TweenMax.set(obj.appendObj.find('.changebk1')[0], {
                     transformStyle:'preserve-3d',
                     rotationX:2,
@@ -361,47 +326,67 @@
                 ); 
               });
             }
-            
-            //TweenMax.ticker.fps(5);
 
+
+
+//             TweenMax.ticker.addEventListener("tick", myFunction, this, false, 1);
+//             TweenMax.ticker.useRAF(false);
+//             TweenMax.ticker.fps(100);
+//             function myFunction (obj) {
+//              console.log(arguments);
+//             }
+            
+            //秒计算
+//            countBoxSecond.callNextObj = function  () {
+//              countBoxMin.countNext(function  (obj) {
+//                TweenMax.set(countBoxMin.appendObj.find('.changebk1')[0], {
+//                    transformStyle:'preserve-3d',
+//                    rotationX:2,
+//                    transformOrigin:"center bottom"
+//                  }
+//                );
+//              });
+//            }
 
             function  countInto() {
-              $this.countBoxSecond.countNext(function  (obj) {
-                  $this.checkTime();
-
-                  if ($this.sbTime == -1) {
-                    return
-                  }
+              countBoxSecond.countNext(function  (obj) {
 //                if (obj.number == 0) {
 //                  obj.number = 60;
 //                  countBoxSecond.callNextObj();
 //                }
+
+
                 countInto();
               })
             }
 
-            //开始啦
-            setTimeout(
-              function(){
-                
-                $this.checkTime();
-                
-                
-                countInto(); 
-                
+
+            countInto();
+
+            
 
 
-                setInterval(
-                  function(){
-                    if ($this.sbTime > 0) {
-                      $this.sbTime--;                  
-                    }else {
-                      $this.sbTime = -1;
-                    }             
-                  },1000
-                )
 
-              }, 1000);
+      
+      
+      
+            if (this.sbTime <= 0) {
+              this.el.trigger('countEnd');
+      
+              return;
+            }
+  
+              //this.el.trigger('countEnd');
+      
+              this.sbTime--;
+      
+      
+              setTimeout(
+                function(){
+                 // $this.countPro();
+              }, 1e3)
+      
+      
           }
       
           CountTime.prototype.end = function  () {
@@ -411,22 +396,14 @@
             this.hour.html(0);
             this.day.html(0);
           }
-
-          CountTime.prototype.checkTime = function  () {
-            var $this = this;
-            var getSbTime = $this.sbTime;
-            $this.countBoxSecond.resetNumber(Math.floor(getSbTime % 60));
-            //(Math.floor(getSbTime % 60).toString().length < 2)? '0'+ Math.floor(getSbTime % 60).toString() :Math.floor(getSbTime % 60);
-
-            $this.countBoxMin.resetNumber(Math.floor(getSbTime / 60 % 60));
-            //(Math.floor(getSbTime / 60 % 60).toString().length < 2)? '0'+ Math.floor(getSbTime / 60 % 60).toString() :
-
-           // $this.countBoxHour.number = Math.floor(getSbTime / 3600 % 24);
-            //(Math.floor(getSbTime / 3600 % 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 % 24).toString()
-
-           // $this.countBoxDay.number = Math.floor(getSbTime / 3600 / 24);
-            //(Math.floor(getSbTime / 3600 / 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 / 24).toString() : 
-
+      
+          CountTime.prototype.init = function  () {
+            if (this.sbTime <= 0) {
+              this.end();
+            }else {
+              var $this = this;
+              //$this.countPro();     
+            }
           }
       
         $(selectString).each(function () {
@@ -438,7 +415,6 @@
               attrpro[i] = new Date(attrpro[i]).getTime();
             }
           }
-          
           var timmer = new CountTime(attrpro[0],attrpro[1],$(this));
           timmer.build();
         })

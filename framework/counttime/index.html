@@ -129,7 +129,7 @@
 <!--          <span class="item min"><span countSec ></span></span> -->
 <!--        </div>     -->
 
-<div class="counttime" countTime="2015/05/18 13:58:53,2015/05/18 15:00:00">
+<div class="counttime" countTime="2015/05/18 15:00:00,2015/05/19 15:00:10">
       <div class="item" countday></div>
       <div class="item" counthour></div>
       <div class="item mintime" countmin></div>
@@ -198,9 +198,6 @@
                   }
                 );
 
-
-                
-
               }else {
                 $this.appendObj.append($this.number);
               }
@@ -211,12 +208,15 @@
             countBox.prototype.resetNumber = function  (getval) {
               var $this = this;
              
+
+              if ($this.proin == true) {
+               // return;
+              }
+
               $this.number = getval;
 
 
-              if ($this.proin == true) {
-                return;
-              }
+              
 
               
               $this.appendObj.find('.nexttime').html(getval);              
@@ -235,16 +235,17 @@
 
               $this.proin = true;
               
+              if ($this.number == 0 && $this.callNextNumber) {                                   
+                //$this.number = $this.callNextNumber - 1;
+                $this.callNextObj();
+              }
 
               if (Modernizr.preserve3d) {
-                // supported
-               
-                  
-                  
-                  $this.obj.parent().find('.nexttime').html(((getNumber - 1 ) < 0)? ($this.callNextNumber - 1) : (getNumber - 1 ));                   
-                 
-                  
-                  
+                // supported            
+                  setTimeout(
+                    function(){
+                      $this.obj.parent().find('.nexttime').html(((getNumber - 1 ) < 0)? ($this.callNextNumber - 1) : (getNumber - 1 ));
+                    }, 200)
                   //return  
                  
                 //TweenMax.ticker.useRAF(false);
@@ -257,33 +258,26 @@
                   onUpdateParams:["{self}"],
                   onComplete:function  () {
                     //debugger;
+
                     $this.number--;
-                    $this.proin = false;
-
                     $this.resetNumber($this.number);
-                   
-                      
-                    //if (type == 'sec') {
+
                     TweenMax.set($this.appendObj.find('.changebk1')[0], {
-                        transformStyle:'preserve-3d',
-                        rotationX:-1,
-                        transformOrigin:"center bottom"
+                      transformStyle:'preserve-3d',
+                      rotationX:2,
+                      transformOrigin:"center bottom",
+                      onComplete:function  () {
+                        
                       }
-                    );      
-
-                    
-                    
-
-                    if ($this.number == 0 && $this.callNextNumber) {
-                      
-                      $this.number = $this.callNextNumber - 1;
-                      $this.callNextObj();
-                    }
+                      }
+                    )
 
                     
                     if (callback) {
                       callback($this);
                     }
+
+                    $this.proin = false;
 
                   }}
                 );
@@ -339,7 +333,7 @@
             
             this.hour = Math.floor(getSbTime / 3600 % 24);
 
-            $this.countBoxHour = new countBox($this.hour, $this.hourObj,24);
+            $this.countBoxHour = new countBox($this.hour, $this.hourObj, 24);
             
 
 
@@ -348,27 +342,31 @@
             $this.countBoxDay = new countBox($this.day, $this.dayObj);
 
             //秒回调
-            $this.countBoxSecond.callNextObj = function  () {
-              
-
+            $this.countBoxSecond.callNextObj = function  (obj) {      
               $this.countBoxMin.countNext(function  (obj) {  
-                $this.checkTime();  
-                TweenMax.set(obj.appendObj.find('.changebk1')[0], {
-                    transformStyle:'preserve-3d',
-                    rotationX:2,
-                    transformOrigin:"center bottom"
-                  }
-                ); 
+          
+              });
+            }
+
+            //分回调
+            $this.countBoxMin.callNextObj = function  () {              
+              $this.countBoxHour.countNext(function  (obj) {  
               });
             }
             
-            //TweenMax.ticker.fps(5);
+            //时回调
+            $this.countBoxHour.callNextObj = function  () {              
+              $this.countBoxDay.countNext(function  (obj) {  
+                           
+              });
+            }
 
+
+            //TweenMax.ticker.fps(5);
 
             function  countInto() {
               $this.countBoxSecond.countNext(function  (obj) {
                   $this.checkTime();
-
                   if ($this.sbTime == -1) {
                     return
                   }
@@ -384,7 +382,7 @@
             setTimeout(
               function(){
                 
-                $this.checkTime();
+                //$this.checkTime();
                 
                 
                 countInto(); 
@@ -421,10 +419,10 @@
             $this.countBoxMin.resetNumber(Math.floor(getSbTime / 60 % 60));
             //(Math.floor(getSbTime / 60 % 60).toString().length < 2)? '0'+ Math.floor(getSbTime / 60 % 60).toString() :
 
-           // $this.countBoxHour.number = Math.floor(getSbTime / 3600 % 24);
+            $this.countBoxHour.resetNumber(Math.floor(getSbTime / 3600 % 24));
             //(Math.floor(getSbTime / 3600 % 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 % 24).toString()
 
-           // $this.countBoxDay.number = Math.floor(getSbTime / 3600 / 24);
+            $this.countBoxDay.resetNumber(Math.floor(getSbTime / 3600 / 24));
             //(Math.floor(getSbTime / 3600 / 24).toString().length < 2)? '0' + Math.floor(getSbTime / 3600 / 24).toString() : 
 
           }

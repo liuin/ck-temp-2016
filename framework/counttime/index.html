@@ -26,10 +26,11 @@
       /*-- counttime --*/
       .counttime { font-size: 30px;color: #fff;width: 369px;overflow: hidden;margin: 0 auto;margin-top: 21px;}
       .counttime .item {background:red;  color: #fff; font-size: 17px;float:left;    font-weight: bold;
-
-
-    
-
+        height: 88px;
+        line-height:88px;
+        width: 85px;
+        text-align:center;
+        font-size: 53px;
       }
 
 
@@ -129,7 +130,7 @@
 <!--          <span class="item min"><span countSec ></span></span> -->
 <!--        </div>     -->
 
-<div class="counttime" countTime="2015/05/18 15:00:00,2015/05/19 15:00:10">
+<div class="counttime" countTime="2015/05/18 15:00:00,2015/05/18 15:00:10">
       <div class="item" countday></div>
       <div class="item" counthour></div>
       <div class="item mintime" countmin></div>
@@ -207,23 +208,21 @@
 
             countBox.prototype.resetNumber = function  (getval) {
               var $this = this;
-             
 
-              if ($this.proin == true) {
-               // return;
+              if (Modernizr.preserve3d) {
+                $this.number = getval;              
+                $this.appendObj.find('.nexttime').html(getval);              
+                $this.obj.parent().find('.changebk1 .sp1').html(getval);
+                $this.obj.parent().find('.changebk1 .sp2 .ins').html( ((getval - 1 ) < 0)? ($this.callNextNumber - 1) : (getval - 1 ));
+                $this.obj.parent().find('.prevtime .ins').html( getval );
+                //$this.obj.parent().find('.nexttime .ins').html( getval );                      
+              }else {
+                
+                $this.appendObj.html(getval);
               }
+           
 
-              $this.number = getval;
-
-
-              
-
-              
-              $this.appendObj.find('.nexttime').html(getval);              
-              $this.obj.parent().find('.changebk1 .sp1').html(getval);
-              $this.obj.parent().find('.changebk1 .sp2 .ins').html( ((getval - 1 ) < 0)? ($this.callNextNumber - 1) : (getval - 1 ));
-              $this.obj.parent().find('.prevtime .ins').html( getval );
-              //$this.obj.parent().find('.nexttime .ins').html( getval );              
+                 
             }
 
             countBox.prototype.countNext = function  (callback) { //跳转下一页 
@@ -282,6 +281,9 @@
                   }}
                 );
                 
+              }else {
+                $this.number--;
+                $this.resetNumber($this.number);
               }
             }
 
@@ -299,6 +301,7 @@
           this.sbTime = Math.floor((this.endTime - this.startTime) / 1e3);
 
           //this.sbTime = 970;
+          this.obj = obj;
 
           this.secondObj = obj.find('[countSec]');
           this.miniteObj = obj.find('[countMin]');
@@ -365,36 +368,56 @@
             //TweenMax.ticker.fps(5);
 
             function  countInto() {
-              $this.countBoxSecond.countNext(function  (obj) {
-                  $this.checkTime();
-                  if ($this.sbTime == -1) {
-                    return
-                  }
-//                if (obj.number == 0) {
-//                  obj.number = 60;
-//                  countBoxSecond.callNextObj();
-//                }
-                countInto();
-              })
+
+
+             
+                $this.countBoxSecond.countNext(function  (obj) {
+                    $this.checkTime();
+                    if ($this.sbTime == 0) {
+                      $this.obj.trigger('countEnd');
+                      return
+                    }
+                  countInto();
+                })
+              
             }
 
             //开始啦
             setTimeout(
               function(){
-                
+               
                 //$this.checkTime();
                 
                 
-                countInto(); 
                 
+                
+                if (!Modernizr.preserve3d) {
+                  
+                  $this.checkTime();
+                   
+                }else {
+                  countInto(); 
+                }
 
-
-                setInterval(
+                var timerinter = setInterval(
                   function(){
+                    
                     if ($this.sbTime > 0) {
-                      $this.sbTime--;                  
-                    }else {
-                      $this.sbTime = -1;
+                      $this.sbTime--;   
+                      
+                      if (!Modernizr.preserve3d) {
+                          $this.checkTime();
+                      }
+
+
+                    }else {                      
+                      $this.sbTime = 0;
+                      if (!Modernizr.preserve3d) {
+                        $this.obj.trigger('countEnd');
+                      }
+
+                      clearInterval(timerinter);
+                      
                     }             
                   },1000
                 )
@@ -402,14 +425,6 @@
               }, 1000);
           }
       
-          CountTime.prototype.end = function  () {
-            this.el.trigger('countEnd');
-            this.second.html(0);
-            this.minite.html(0);
-            this.hour.html(0);
-            this.day.html(0);
-          }
-
           CountTime.prototype.checkTime = function  () {
             var $this = this;
             var getSbTime = $this.sbTime;
@@ -446,6 +461,10 @@
     
 
       })(jQuery);
+
+      $('.counttime').on('countEnd',function  () {
+        alert('倒计时结束');
+      })
       
 
 

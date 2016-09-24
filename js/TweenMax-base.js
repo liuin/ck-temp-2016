@@ -6247,7 +6247,6 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
           _lastUpdate = _getTime() - _lagThreshold + 5;
         }
         _req = (_fps === 0) ? _emptyFunc : (!_useRAF || !_reqAnimFrame) ? function(f) { return setTimeout(f, ((_nextTime - _self.time) * 1000 + 1) | 0); } : _reqAnimFrame;
-        
         if (_self === _ticker) {
           _tickerActive = true;
         }

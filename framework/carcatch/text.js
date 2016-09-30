@@ -12,6 +12,8 @@ Block.prototype.ckPointReset = function  () {
   this.ckPoint = ckp; 
 }
 
+var golabEnd = false; 
+
 var blocklist = [];
 
 var buildlist= [
@@ -159,16 +161,33 @@ function searchBlock(formnumber, tonumber ){
   checkBlock(startblock);
 
   
+  
+
   function checkRoot(root) {
     
+
+
 
     var item = root[(root.length-1)];
     
     if ((item != "end") && (item != toblock.number)) {
+
       
-      
+    if ((item == startblock.number) && (blocklist[startblock.number].ckPoint.length == 0) ) {      
+      console.log('search end');
+      golabEnd = true;
+      return;        
+    }
+     
       
       for (var i = 0;  i<blocklist[item].ckPoint.length ; i++) {
+        
+        if (golabEnd == true) {
+          break;
+        }
+
+      
+
         
         if (blocklist[item].ckPoint[i] > -1) {
           console.log(root,item,blocklist[item].ckPoint);

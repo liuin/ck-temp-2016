@@ -1,59 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <script type="text/javascript">
-    function browserRedirect() {
-      var sUserAgent = navigator.userAgent.toLowerCase();
-      var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-      var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-      var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-      var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-      var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-      var bIsAndroid = sUserAgent.match(/android/i) == "android";
-      var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-      var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-
-      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-        window.location.href = './wap/';
-      } else {
-        //window.location = 'index.html';
-      }
-    }
-
-    browserRedirect();
-  </script>
-  <script type="text/javascript">
-  (function(){
-    'use strict';
-    var Fixmobile = function  () {
-      this.viwep();
-    }
-
-    Fixmobile.width = 640;
-
-    Fixmobile.prototype.viwep = function  (e) {
-      var phoneWidth = parseInt(window.screen.width),
-      phoneScale = phoneWidth/Fixmobile.width,
-      ua = navigator.userAgent,
-      headmate;
-      if (/Android (\d+\.\d+)/.test(ua)){
-        var version = parseFloat(RegExp.$1);
-        // andriod 2.3
-        if(version > 2.3){
-          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', minimum-scale = ' + phoneScale + ', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
-        // andriod 2.3以上
-        }else{
-          document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', target-densitydpi=device-dpi">');
-        }
-        // 其他系统
-      } else {
-        document.write('<meta name="viewport" content="width=' + Fixmobile.width + ', user-scalable=no, target-densitydpi=device-dpi">');
-      }
-    }
-    var newviewport = new Fixmobile();
-  })();
-  </script>
-
+<head>  
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="renderer" content="webkit">
@@ -69,13 +16,23 @@
   <![endif]-->
 
   <title>website name</title>
+  <style type="text/css">
+    * {margin: 0; padding: 0; border: 0;  }  
+    #catrun {position:relative;left:100px; top:100px;}
+    #catrun .item {background-color:#999; border-radius:50%; text-align: center;font-size: 24px; cursor:pointer;}
+    #catrun .item.current {background:green; color: #fff;}
+    #catrun .item.stop {background:#f60; color: #000;}
+  </style>
 </head>
 <body class="yh">
   <noscript>
     <strong>你的浏览器似乎禁用了 JavaScript。</strong><br />您必须在浏览器中启用JavaScript才能使用本网站的功能。
   </noscript>
   <div class="container">
-    
+    <div id="catrun">
+      
+    </div>
   </div>
+  <script type="text/javascript" src="../../js/jquery.js"></script>
   <script type="text/javascript" src="text.js"></script>
 </body>

@@ -27,9 +27,6 @@ function Block(number, point, pos) {
   this.posShow = {};
   this.space = 10;
   this.pos = pos;
-  this.baseDistance = "N";
-  this.baseDistancePrevBlock = "N";
-  this.range = 1;
 
   this.posShow.x = pos.y * this.size;
   this.posShow.y = pos.x * this.size;  
@@ -85,11 +82,12 @@ function carCatch(row,col) {
   this.lastCount = 12;
   this.proCount = 0; 
   this.proCountEnd = 1000; //执行的最大量后释放内存,原来电脑也需要休息的
-  this.checkRoot = []; 
-  this.baseMaxDistance = 0;
-  this.baseMaxDistanceBlock = 0;
+  this.baseRoot = []; 
+  this.baseLongRoot = [];
   this.currentPos = Math.floor(row/2).toString() + '-' + Math.floor(col/2).toString();
   this.bdMap(this.row,this.col);
+
+  
 
   this.currentBlock = this.blocklist[this.currentPos];
 
@@ -169,23 +167,7 @@ carCatch.prototype.searchBlock = function  () {
   
 
   this.getroot.push(this.currentBlock.number);
-
-  this.currentBlock.baseDistance = 0;
   this.checkBlock(this.currentBlock);    
-}
-
-carCatch.prototype.checkReset = function  () {
-  for (var i in this.blocklist) {
-    this.blocklist[i].baseDistance = "N";
-    this.blocklist[i].baseDistancePrevBlock = "N";
-    if (this.blocklist[i].check == true) {
-      this.blocklist[i].check = false;
-    }
-  }
-
-  this.baseMaxDistance = 0;
-  this.baseMaxDistanceBlock = 0;
-
 }
 
 carCatch.prototype.randomStopBlock = function  (count) {
@@ -214,102 +196,304 @@ carCatch.prototype.setStopBlock = function  (number) {
 }
 
 
-carCatch.prototype.checkBlock = function  (ckBlock) {  //最短路径算法
+carCatch.prototype.checkBlockClose = function  (ckBlock) {  //最长路径算法
 
   var $this = this;
+  this.proCount++;
 
+  var getVal;
+
+  
+   
+  if (ckBlock.close == true) {    
+    this.getroot.splice(this.getroot.indexOf(ckBlock.number));
+    this.checkRoot(this.getroot);
+    return
+  }
+
+
+
+  
+
+
+
+
+  
+  if (ckBlock.ckPoint.length > 0 && (this.getroot.length < 4)) {
+    ckBlock.check = true;
+   
+    getVal = ckBlock.ckPoint.shift();
+
+
+    var ifRepeat = 0; //check if repeat
+    var getValBlock = this.blocklist[getVal];
+
+    if (getValBlock.point.indexOf("-1") > -1) {
+      this.checkRoot(this.getroot);
+      return            
+    }
+        
+    for (var i = 0;  i<getValBlock.point.length ; i++) {     
+      if ((this.blocklist[getValBlock.point[i]].check == true)) {
+        ifRepeat++;
+      }
+    }
+
+    if (ifRepeat > 1) {
+     this.checkRoot(this.getroot);
+     return      
+    }
+
+
+
+    if (this.blocklist[getVal].check != true) {
+      this.getroot.push(getVal);
+      ckBlock.ckPointRoot.push(getVal);
+      if (this.getroot.length > this.baseLongRoot.length) {
+         this.baseLongRoot = this.getroot.slice(0);
+      }
+    } else {
+      this.checkRoot(this.getroot);
+      return
+    }
+
+  
+    if (this.proCount > this.proCountEnd) {
+     this.proCount = 0;       
+     setTimeout(
+       function(){
+        return $this.checkBlockClose($this.blocklist[getVal]);
+       }, 10)       
+     }else {
+       return $this.checkBlockClose($this.blocklist[getVal]);       
+     }
+
+   } else {
+
+    
+   
+     this.getroot.push("end");
+     //this.baseLongRoot = this.getroot.slice(0);
+     //this.lastCount = (this.lastCount > this.getroot.length)? (this.getroot.length - 1)  : (this.lastCount - 1);
+     //this.lastCount = (this.lastCount > this.getroot.length)? (this.getroot.length)  : (this.lastCount);
+
+     if (this.getroot.length > this.baseLongRoot.length) {
+        this.baseLongRoot = this.getroot.slice(0);
+     }     
+
+ 
+
+     console.log(this.getroot);   
+     
+
+     this.getroot.pop();
+     this.getroot.pop();
+     this.checkRoot(this.getroot); 
+
+   }
+
+}
+
+carCatch.prototype.checkBlock = function  (ckBlock) {  //最短路径算法
+
+  if (this.isClose == true) {
+    return this.checkBlockClose(ckBlock);
+  }
+
+
+
+  var $this = this;
+  this.proCount++;
+
+  var getVal;
+  
+ 
+  if (ckBlock.close == true) {
+    this.getroot.splice(this.getroot.indexOf(ckBlock.number));
+    this.checkRoot(this.getroot);
+    return
+  }
+  
+  
   ckBlock.check = true;
 
 
-  for (var i = 0;  i<ckBlock.point.length ; i++) {
 
   
-    if ((ckBlock.point[i] != "-1")) {
+  if (ckBlock.point.indexOf("-1") < 0) {
 
-      var bk = $this.blocklist[ckBlock.point[i]];
+    var ifRepeat = 0;
 
-      if (bk.close != true) {        
-        //判断最短路径
-        var distance = ckBlock.baseDistance + ckBlock.range;
-
-
-        if ( (bk.baseDistance == "N") || (distance < bk.baseDistance) ) {
-          bk.baseDistance = distance;
-          bk.baseDistancePrevBlock = ckBlock.number;
-        }else if ( ckBlock.baseDistance > bk.baseDistance ) {
-          ckBlock.baseDistance = bk.baseDistance + 1; 
-          ckBlock.baseDistancePrevBlock = bk.number;
-        }
-
-        if (bk.baseDistance > $this.baseMaxDistance ) {
-          $this.baseMaxDistance = bk.baseDistance;
-          $this.baseMaxDistanceBlock = bk;
-        }
-
-        if ((bk.check != true) && ($this.checkRoot.indexOf(ckBlock.point[i]) < 0)) {
-          $this.checkRoot.push(ckBlock.point[i]);
-        }
+    
+    for (var i = 0;  i<ckBlock.point.length ; i++) {
+      if (this.blocklist[ckBlock.point[i]].check == true) {
+        ifRepeat++;
       }
+    }
+
+    if (ifRepeat > 1) {
+      ckBlock.check = false;
+      this.getroot.splice(this.getroot.indexOf(ckBlock.number));
+      //console.log(this.getroot,ckBlock);
+      this.checkRoot(this.getroot);
+      return
+    }   
+
+
+    getVal = ckBlock.ckPoint.shift();
+    
+
+    if (this.blocklist[getVal].check != true && (ckBlock.ckPointRoot.indexOf(getVal) < 0)) {
+
+      this.getroot.push(getVal);
+      ckBlock.ckPointRoot.push(getVal);
+
+
+      if (this.lastCount <= this.getroot.length) {
+        var item = this.getroot.splice(this.lastCount - 1);   
+        return this.checkRoot(this.getroot);
+      }
+      
+      
+     
+
+      if (this.proCount > this.proCountEnd) {
+       this.proCount = 0;       
+       setTimeout(
+         function(){
+          return $this.checkBlock($this.blocklist[getVal]);
+         }, 10)       
+       }else {
+         return $this.checkBlock($this.blocklist[getVal]);       
+       }
+
+
     }else {
       
 
+      if (ckBlock.ckPoint.length > 0) {
+        return this.checkBlock(ckBlock);
+      } else {     
+        var item = this.getroot.pop();  
+        this.blocklist[item].ckPointReset();
+        this.checkRoot(this.getroot);
+      }
 
-      $this.findRoot(ckBlock);
+    }
+    
+  } else {   
+
+    this.getroot.push("end");
+    this.baseRoot = this.getroot.slice(0);
+    this.lastCount = (this.lastCount > this.getroot.length)? (this.getroot.length - 1)  : (this.lastCount - 1);
+    //this.lastCount = (this.lastCount > this.getroot.length)? (this.getroot.length)  : (this.lastCount);
+    console.log(this.getroot);
+    ckBlock.ckPointReset();
+    this.checkRoot(this.getroot);    
+
+  }
+}
+
+carCatch.prototype.checkRoot = function  (root) {
+
+  if (this.baseLongRoot.length > 5 && this.isClose == true) {
+    return this.moveBlock();
+  }
+
+
+  if (root.length < 1) {
+
+    if (this.isClose == true) {
+      return this.moveBlock();
+    }    
+
+    //console.log(this.blocklist);  
+    if (this.baseRoot.length == 0) {
+
+      console.log('没有最佳路径,已经被堵住了');
+      //alert('恭喜你赢了');
+      this.isClose = true;
+
+      this.searchBlock();
 
       return
+    }else {
+      console.log('检查完成,最短路径之一:' + this.baseRoot);
     }
-  }
-
-  if ($this.checkRoot.length > 0) {
-    var getBlock = $this.blocklist[$this.checkRoot.shift()];
+    //this.baseRoot = [];
+    this.lastCount = 12;
     
-    $this.checkBlock(getBlock);
-  }else {
-    //console.log($this.baseMaxDistanceBlock);
-    //$this.checkReset();
-    $this.findRoot($this.baseMaxDistanceBlock);
+    this.moveBlock();
+
+    return;
   }
 
-}
+  var item = root[(root.length-1)];  
+ // console.log(item,this.blocklist[item]);
+      
+  //console.log(item,this.blocklist[item]);
+  if (item != "end" && this.blocklist[item].point.indexOf("-1") < 0) {
 
-carCatch.prototype.findRoot = function  (obj) {
-  var $this = this;
-  if ($this.blocklist[obj.baseDistancePrevBlock].baseDistance != 0) {
-    $this.findRoot($this.blocklist[obj.baseDistancePrevBlock]);
+
+    if (this.blocklist[item].ckPoint.length > 0) {
+      this.checkBlock(this.blocklist[item]);
+    }else {
+      this.blocklist[item].ckPointReset();
+
+      root.pop();
+      this.checkRoot(root);        
+    }
   }else {
-    //移动路径          
-    $this.moveBlock(obj);          
-  }  
+    root.pop();
+    this.checkRoot(root);
+  }
 }
-
 
 carCatch.prototype.resetCurrentPos = function  (number) {
-  var $this = this;
-  $this.moveBlock(this.blocklist[number]);
-}
-
-carCatch.prototype.moveBlock = function  (obj) {
-  var $this = this;
-
-  $this.checkReset();
-
+    
   var prevCurrentPos = this.currentPos;
   this.blocklist[prevCurrentPos].pos.current = false;
-  $this.checkRoot.length = 0;
 
   $('[data-number="'+ prevCurrentPos +'"]').removeClass('current');
 
-  this.currentPos = obj.number;
-  this.currentBlock = obj;
- 
-  this.currentBlock.pos.current = true;
-  $('[data-number="'+ obj.number +'"]').addClass('current');
+  this.currentPos = number;
+  this.currentBlock = this.blocklist[number];
 
-  if (this.currentBlock.point.indexOf('-1') > -1) {
-    alert('你输了');
-  }
+  
+
+  this.currentBlock.pos.current = true;
+
+  $('[data-number="'+ number +'"]').addClass('current');
 
 }
+
+carCatch.prototype.moveBlock = function  () {
+
+  if (this.isClose == true) {
+    var getPos = this.baseLongRoot[1];
+    
+    this.resetCurrentPos(getPos);
+    this.baseLongRoot = [];    
+
+  }else {
+
+    var getPos = this.baseRoot[1];
+    
+    this.resetCurrentPos(getPos);
+
+    this.baseRoot = [];
+
+    if (this.blocklist[getPos].point.indexOf('-1') > -1) {
+      alert('你输了');
+    }
+
+  }
+
+
+
+
+}
+
 
 var carCatch1 = new carCatch(9,9);
 
@@ -331,7 +515,7 @@ var carCatch1 = new carCatch(9,9);
 var getCurrent = Math.floor(carCatch1.row/2).toString() + '-' + Math.floor(carCatch1.col/2).toString() ;
 
 carCatch1.resetCurrentPos(getCurrent);
-carCatch1.randomStopBlock(20);
+//carCatch1.randomStopBlock(20);
 
 
 //var stoparr = ["2-1","3-0","4-0","5-0","6-1","2-2","2-3","2-4","2-5","2-6","2-7","3-7","4-7","5-7","6-7","6-6","6-5","6-4","6-3","6-2"];

@@ -52,9 +52,9 @@
       skewX:-14,
       skewY:-14,
       backgroundColor:'green', 
-      ease:Power1.easeIn,
+      //ease:Power1.easeIn,
       //ease:Expo.easeOut,
-      //ease:SteppedEase.config(12),
+      ease:SteppedEase.config(12),
       delay:0, //延迟
       repeat:0,
       repeatDelay:0,
@@ -71,7 +71,7 @@
         //console.log(obj.progress());进度条0-1
         //console.log(obj.time(),obj.progress());        
         //console.log(obj.ratio); //当前的进度变量
-        console.log(obj.ratio*(300-50)+50); //当前的进度变量
+        //console.log(obj.ratio*(300-50)+50); //当前的进度变量
       },
       onUpdateScope:{width:"200px"},
       onUpdateParams:["{self}"]

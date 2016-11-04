@@ -58,7 +58,7 @@ Map.planObjs = function  () {
   }
 
   for (var i = 0;  i<Map.viewObjs.length ; i++) {
-    console.log(Map.viewObjs[i].zIndex);
+    //console.log(Map.viewObjs[i].zIndex);
     Map.viewObjs[i].update();
     
     
@@ -87,14 +87,32 @@ Map.checkClick = function  (pos) {
   var posX = pos.x;
   var posY = pos.y;
 
+  var clickObj = null;
+  var clickObjIndex = null;
+
   for (var i = 0;  i<Map.viewObjs.length; i++) {
     var obj = Map.viewObjs[i];
    
-    if ( posX > (obj.position.x - obj.size.width/2) && posX < (obj.position.x + obj.size.width/2) && posY > (obj.position.y - obj.size.height/2) && posY < (obj.position.y + obj.size.height/2) ) {
-      obj.clickEvent(pos,i);
-      return true
+    if ( posX > (obj.position.x - obj.size.width/2) && posX < (obj.position.x + obj.size.width/2) && posY > (obj.position.y - obj.size.height) && posY < (obj.position.y)) {            
+      if (clickObj != null) {        
+        if (clickObj.zIndex < Map.viewObjs[i].zIndex) {
+          clickObj = Map.viewObjs[i];
+          clickObjIndex = i;
+        }
+      }else {
+        clickObj = Map.viewObjs[i];  
+        clickObjIndex = i;
+      }
+
+      //return true
     }
   }
+  
+  if (clickObj != null) {
+    clickObj.clickEvent(pos, clickObjIndex); 
+    return true
+  }
+
 
   return false;
 }
@@ -123,6 +141,7 @@ function Hero () {
   },
 
   this.moveSpeed = 150,
+  this.bgColor = "f60";
   this.moveSpeedX = this.moveSpeed || 1.5;
   this.moveSpeedY = this.moveSpeed || 1.5;
   this.moveX = null;
@@ -131,6 +150,9 @@ function Hero () {
   this.moveYDir = 1;
   this.zIndex = 1;
   this.attackSpeed = 1.5,
+  this.attackInTime = 0.7,
+  this.attackDistance = 50,
+  this.direction = "left",
   this.normalPhysicsAttack = 20,
   this.normalMagicAttack = 20,
   this.physicsDefense = 0,
@@ -142,7 +164,7 @@ function Hero () {
     x: 10,
     y: 10
   }
-  this.plan();
+  //this.plan();
 
   //将此加入场景
   Map.viewObjs.push(this);
@@ -150,7 +172,6 @@ function Hero () {
 }
 
 Hero.prototype.clickEvent = function  (pos,number) {
-  
   Map.objResetSelect();
   this.selected = true; 
 
@@ -159,26 +180,62 @@ Hero.prototype.clickEvent = function  (pos,number) {
   }else{
     Map.viewObjsCurrent = this;
     
-    for (var i = 0;  i<Map.viewObjs.length ; i++) {
-      Map.viewObjs[i].zIndex = 1;
-    }
-
-    Map.viewObjsCurrent.zIndex = 99;
+//    for (var i = 0;  i<Map.viewObjs.length ; i++) {
+//      Map.viewObjs[i].zIndex = 1;
+//    }
+//
+//    Map.viewObjsCurrent.zIndex = 99;
 
   }
 }
 
-Hero.prototype.plan = function  () {
+Hero.prototype.planMove = function  () {
   var $this = this;
   var ca = Map.ctx;
-  ca.fillStyle="#f60";
+  ca.fillStyle= this.bgColor;
+
+  ca.save();
+  ca.translate($this.position.x,$this.position.y);
+
+  if (this.moveXDir == -1) {
+    ca.scale(-1, 1);    
+  }
+
  
   if (this.selected == true) {
     ca.strokeStyle = "blue";
-    ca.strokeRect(($this.position.x - $this.size.width/2), ($this.position.y - $this.size.height/2), ($this.size.width), ($this.size.height));
+    ca.strokeRect(-($this.size.width/2), (-$this.size.height), ($this.size.width), ($this.size.height));
   }
 
-  ca.fillRect(($this.position.x - $this.size.width/2), ($this.position.y - $this.size.height/2), ($this.size.width), ($this.size.height));
+  ca.fillRect((-$this.size.width/2), (-$this.size.height), ($this.size.width), ($this.size.height));
+
+  ca.fillStyle = "#fff";
+  ca.fillRect(($this.size.width/4), (-$this.size.height/1.1), ($this.size.width/5), ($this.size.height/5));
+
+  ca.beginPath();
+  ca.arc(0,0,10,0,Math.PI*2,true);
+  ca.closePath();
+  ca.fillStyle="#000";
+  ca.fill();
+
+  ca.restore();
+
+}
+
+
+
+Hero.prototype.planWaiter = function  () {  //目前和planMove一样
+  var $this = this;
+  var ca = Map.ctx;
+  ca.fillStyle= this.bgColor;
+ 
+  if (this.selected == true) {
+    ca.strokeStyle = "blue";
+    ca.strokeRect(($this.position.x - $this.size.width/2), ($this.position.y - $this.size.height), ($this.size.width), ($this.size.height));
+  }
+
+  ca.fillRect(($this.position.x - $this.size.width/2), ($this.position.y - $this.size.height), ($this.size.width), ($this.size.height));
+
 
   ca.beginPath();
   ca.arc($this.position.x,$this.position.y,10,0,Math.PI*2,true);
@@ -241,8 +298,10 @@ Hero.prototype.moveToPro = function  (fps) {
     this.position.x += (this.moveSpeedX / fps);
     this.position.y += (this.moveSpeedY / fps);    
   }
+
+  this.zIndex = Math.floor(this.position.y);
   
-  this.plan();
+  this.planMove();
 
 }
 
@@ -254,11 +313,11 @@ Hero.prototype.update = function  () {
   break
 
   case 'attack':
-
+    $this.attackPro(Engine.fps);
   break
 
   case 'waiter':
-    this.plan();
+    this.planMove();
   break
 
   default:
@@ -267,7 +326,14 @@ Hero.prototype.update = function  () {
 
 
 Hero.prototype.attack = function  (enemy) {
-  var enemy = enemy;
+
+  if (typeof enemy == "undefined") {
+    this.status = "waiter";  
+    return
+  }
+
+  this.status = "attack";
+
   var measure = (this.normalPhysicsAttack > this.normalMagicAttack) ? this.normalPhysicsAttack : this.normalMagicAttack;
 
   var type = this.type;
@@ -280,23 +346,81 @@ Hero.prototype.attack = function  (enemy) {
       measure -= enemy.magicDefense;
     break
     default:
-  } 
-  enemy.life -= measure;
-
-  if (enemy.life < 0) {
-    this.dead();
   }
+
+  this.attackMeasure = measure;
+  this.enemy = enemy;
+  this.enemyMeasure = measure;
+  this.attackInOut = false;
+
+  //this.attackStart = new Date().getTime();
+
+  //enemy.life -= measure;
+
+
+  //if (enemy.life < 0) {
+  //  this.dead();
+  //}
 }
+
+Hero.prototype.attackPro = function  (fps) {
+  var $this = this;
+  var speed = $this.attackSpeed / fps;
+
+  ($this.attackProTime === undefined) ? $this.attackProTime = speed : $this.attackProTime += speed;
+  
+  //前摆
+  this.planMove();
+
+  
+
+
+
+  if ($this.attackProTime > $this.attackInTime && ($this.attackInOut == false)) {  
+    console.log($this.attackProTime,$this.attackInTime,$this.attackSpeed);
+    $this.enemy.lift -= $this.enemyMeasure;
+    $this.attackInOut = true;
+  }
+
+  //后摆
+  this.planMove();
+
+  if ($this.attackProTime > $this.attackSpeed) {
+    $this.status = "waiter";
+  }
+
+
+}
+
 
 Hero.prototype.dead = function  () {
   console.log('dead');
 }
 
+
+function Attack() {
+  this.power = null;
+}
+
+
+
+
 var hero1 = new Hero();
 var hero2 = new Hero();
 
-hero1.moveTo(100,100);
-hero2.moveTo(300,200);
+hero1.position.x = -200;
+hero1.position.y = 200;
+hero1.bgColor = "#f64";
+
+hero1.moveTo(200,200);
+
+hero2.position.x = Map.obj.width + 200;
+hero2.position.y = 200;
+hero2.bgColor = "green";
+
+hero2.moveSpeed = 300;
+
+hero2.moveTo(Map.obj.width - 200,200);
 
 
 
@@ -312,7 +436,10 @@ Engine.fps = 60;
 
 Engine.getFps = function  () {
   if ((this.now - this.lastTime) > 1000) {
-    this.fps = (1000/(this.now - this.lastTime)).toFixed(2) * 100;
+    this.fps = ((this.now - this.lastTime)/1000).toFixed(2) * 100;
+    if (this.fps < 30) {
+      this.fps = 30;
+    }
     $('#fps').html(this.fps);
     this.lastTime = this.now;
   }

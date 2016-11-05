@@ -246,8 +246,8 @@
      
      
      
-     var startTime = null;
-     var totelTime = 0;
+      var startTime = null;
+      var totelTime = 0;
 
      
      function render (time) {
@@ -287,6 +287,8 @@
          }
          return
        }
+
+       startTime = time;
        $this.requestAnimationFrame(render);
      }
      $this.requestAnimationFrame(render);
